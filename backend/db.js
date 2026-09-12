@@ -15,10 +15,24 @@ if (isPostgres) {
 
   let poolConfig = {};
   if (process.env.DATABASE_URL) {
-    poolConfig = {
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false }
-    };
+    try {
+      const parsed = new URL(process.env.DATABASE_URL);
+      poolConfig = {
+        host: parsed.hostname,
+        port: parseInt(parsed.port) || 5432,
+        user: parsed.username,
+        password: decodeURIComponent(parsed.password),
+        database: parsed.pathname.replace(/^\//, '') || 'defaultdb',
+        ssl: {
+          rejectUnauthorized: false
+        }
+      };
+    } catch (e) {
+      poolConfig = {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      };
+    }
   } else {
     poolConfig = {
       host: process.env.DB_HOST || '127.0.0.1',
@@ -77,7 +91,7 @@ if (isPostgres) {
   pool.connect()
     .then(client => {
       console.log('✅ Conectado a la base de datos PostgreSQL (Aiven/Cloud)');
-      console.log(`   DB: ${poolConfig.database || 'defaultdb'}`);
+      console.log(`   Host: ${poolConfig.host || 'Cloud'} | DB: ${poolConfig.database || 'defaultdb'}`);
       client.release();
     })
     .catch(err => {

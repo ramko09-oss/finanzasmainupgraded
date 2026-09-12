@@ -11,10 +11,24 @@ dotenv.config();
 
 function getPoolConfig() {
   if (process.env.DATABASE_URL) {
-    return {
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false }
-    };
+    try {
+      const parsed = new URL(process.env.DATABASE_URL);
+      return {
+        host: parsed.hostname,
+        port: parseInt(parsed.port) || 5432,
+        user: parsed.username,
+        password: decodeURIComponent(parsed.password),
+        database: parsed.pathname.replace(/^\//, '') || 'defaultdb',
+        ssl: {
+          rejectUnauthorized: false
+        }
+      };
+    } catch (e) {
+      return {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      };
+    }
   }
 
   return {
@@ -23,7 +37,7 @@ function getPoolConfig() {
     user: process.env.DB_USER || 'avnadmin',
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || 'defaultdb',
-    ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false }
+    ssl: { rejectUnauthorized: false }
   };
 }
 
@@ -33,7 +47,7 @@ async function initPostgresDB() {
 
   try {
     const client = await pool.connect();
-    console.log('✅ Conexión establecida con el servidor PostgreSQL');
+    console.log('✅ Conexión establecida con el servidor PostgreSQL de Aiven');
 
     // 1. Tabla usuarios
     await client.query(`
