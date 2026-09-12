@@ -10,7 +10,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Estilos -->
@@ -29,7 +29,7 @@
                 </div>
                 <div class="auth-header">
                     <h2>Sistema de Gestión Financiera</h2>
-                    <p>Controla tus finanzas personales</p>
+                    <p>Controla tus finanzas personales de forma inteligente</p>
                 </div>
                 
                 <div class="auth-tabs">
@@ -47,7 +47,7 @@
                         <label for="login-password">Contraseña</label>
                         <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Entrar al Sistema</button>
                 </form>
 
                 <!-- Formulario de Registro -->
@@ -88,7 +88,7 @@
     <!-- APP PRINCIPAL (Header Móvil + Sidebar + Contenido + Barra Inferior Móvil) -->
     <div id="app-container" class="hidden">
         
-        <!-- Header Móvil (visible solo en pantallas pequeñas) -->
+        <!-- Header Móvil (visible en pantallas pequeñas) -->
         <header class="mobile-header">
             <div class="mobile-brand">
                 <span class="mobile-brand-icon">💰</span>
@@ -102,36 +102,58 @@
 
         <!-- Sidebar Desktop -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3 id="user-greeting">Hola, Usuario 👋</h3>
+            <div class="sidebar-user-card">
+                <div class="user-avatar" id="user-avatar">👤</div>
+                <div class="user-info">
+                    <h3 id="user-greeting">Hola 👋</h3>
+                    <span class="user-status-pill">● En línea</span>
+                </div>
             </div>
-            <hr>
+
             <nav class="sidebar-nav">
-                <h4>📌 Navegación</h4>
-                <a href="#dashboard" class="nav-item active" data-view="dashboard">📊 Dashboard</a>
-                <a href="#registrar" class="nav-item" data-view="registrar">✍️ Registrar</a>
-                <a href="#historial" class="nav-item" data-view="historial">📜 Historial</a>
-                <a href="#resumen" class="nav-item" data-view="resumen">📅 Resumen Mensual</a>
-                <a href="#graficas" class="nav-item" data-view="graficas">📈 Gráficas</a>
+                <div class="nav-section-title">MENÚ PRINCIPAL</div>
+                <a href="#dashboard" class="nav-item active" data-view="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="#registrar" class="nav-item" data-view="registrar">
+                    <span class="nav-icon">✍️</span>
+                    <span class="nav-text">Registrar</span>
+                </a>
+                <a href="#historial" class="nav-item" data-view="historial">
+                    <span class="nav-icon">📜</span>
+                    <span class="nav-text">Historial</span>
+                </a>
+                <a href="#resumen" class="nav-item" data-view="resumen">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">Resumen Mensual</span>
+                </a>
+                <a href="#graficas" class="nav-item" data-view="graficas">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Gráficas</span>
+                </a>
             </nav>
-            <hr>
-            <div class="sidebar-settings">
-                <h4>💱 Moneda</h4>
-                <select id="currency-selector" class="input-select">
-                    <option value="USD">Dólar (USD)</option>
-                    <option value="EUR">Euro (EUR)</option>
-                    <option value="PEN">Sol (PEN)</option>
-                    <option value="MXN">Peso Mexicano (MXN)</option>
-                </select>
+
+            <div class="sidebar-footer-card">
+                <div class="sidebar-control-group">
+                    <label for="currency-selector" class="control-label">💱 Moneda</label>
+                    <select id="currency-selector" class="input-select">
+                        <option value="USD">Dólar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="PEN">Sol (PEN)</option>
+                        <option value="MXN">Peso Mexicano (MXN)</option>
+                    </select>
+                </div>
+                
+                <div class="sidebar-control-group">
+                    <label class="control-label">🎨 Apariencia</label>
+                    <button type="button" id="theme-toggle-sidebar" class="theme-toggle-btn">
+                        <span class="theme-icon">🌙</span> <span class="theme-text">Modo Oscuro</span>
+                    </button>
+                </div>
+
+                <button id="btn-logout" class="btn btn-block btn-logout">🚪 Cerrar Sesión</button>
             </div>
-            <div class="sidebar-settings mt-3">
-                <h4>🎨 Apariencia</h4>
-                <button type="button" id="theme-toggle-sidebar" class="theme-toggle-btn">
-                    <span class="theme-icon">🌙</span> <span class="theme-text">Modo Oscuro</span>
-                </button>
-            </div>
-            <hr>
-            <button id="btn-logout" class="btn btn-block btn-logout">🚪 Cerrar Sesión</button>
         </aside>
 
         <!-- Contenido Principal -->
@@ -139,58 +161,57 @@
             
             <!-- VISTA: DASHBOARD -->
             <section id="view-dashboard" class="view">
-                <div class="header-row">
-                    <h2>📊 Dashboard</h2>
-                    <div class="month-selector">
+                <div class="view-header">
+                    <div>
+                        <h2>📊 Dashboard Principal</h2>
+                        <p class="view-subtitle">Resumen global y métricas clave de tus finanzas</p>
+                    </div>
+                    <div class="month-selector-wrapper">
                         <select id="dashboard-month-selector" class="input-select"></select>
                     </div>
                 </div>
                 
-                <hr>
-                
-                <!-- Métricas -->
+                <!-- Métricas Principales -->
                 <div class="metrics-grid">
-                    <div class="metric-card">
+                    <div class="metric-card metric-primary">
                         <div class="metric-title">💰 Saldo Total</div>
                         <div class="metric-value" id="dash-saldo">--</div>
                         <div class="metric-delta" id="dash-saldo-delta">--</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-title">📈 Ingresos (Mes)</div>
+                    <div class="metric-card metric-income">
+                        <div class="metric-title">📈 Ingresos del Mes</div>
                         <div class="metric-value" id="dash-ingresos">--</div>
                         <div class="metric-delta delta-positive" id="dash-ingresos-delta">--</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-title">📉 Gastos (Mes)</div>
+                    <div class="metric-card metric-expense">
+                        <div class="metric-title">📉 Gastos del Mes</div>
                         <div class="metric-value" id="dash-gastos">--</div>
                         <div class="metric-delta delta-inverse" id="dash-gastos-delta">--</div>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-neutral">
                         <div class="metric-title">📋 Transacciones</div>
                         <div class="metric-value" id="dash-transacciones">--</div>
                         <div class="metric-delta" id="dash-transacciones-delta">--</div>
                     </div>
                 </div>
 
-                <hr>
-
                 <!-- Gráficos y Análisis -->
                 <div class="dashboard-grid">
                     <div class="chart-card">
                         <h3>📈 Evolución del Saldo</h3>
-                        <div class="chart-container" style="position: relative; height:300px;">
+                        <div class="chart-container" style="position: relative; height:290px;">
                             <canvas id="chart-evolution"></canvas>
                         </div>
                     </div>
                     <div class="chart-card donut-card">
                         <h3>🍩 Distribución del Mes</h3>
-                        <div class="chart-container" style="position: relative; height:300px;">
+                        <div class="chart-container" style="position: relative; height:290px;">
                             <canvas id="chart-donut"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div class="chart-card mt-4">
+                <div class="chart-card">
                     <h3>📊 Análisis Financiero</h3>
                     <div id="analysis-content" class="analysis-card">
                         <!-- Generado dinámicamente -->
@@ -200,110 +221,264 @@
 
             <!-- VISTA: REGISTRAR -->
             <section id="view-registrar" class="view hidden">
-                <h2>✍️ Registrar Nueva Transacción</h2>
-                <div class="form-card">
-                    <form id="form-transaction">
-                        <div class="form-row">
-                            <div class="form-group half">
-                                <label for="tx-tipo">Tipo</label>
-                                <select id="tx-tipo" required class="input-select">
-                                    <option value="Ingreso">Ingreso</option>
-                                    <option value="Gasto">Gasto</option>
-                                </select>
+                <div class="view-header">
+                    <div>
+                        <h2>✍️ Registrar Transacción</h2>
+                        <p class="view-subtitle">Añade un ingreso o gasto a tu registro contable</p>
+                    </div>
+                </div>
+
+                <div class="registrar-container">
+                    <div class="card registrar-card">
+                        <form id="form-transaction">
+                            <div class="form-group">
+                                <label class="label-heading">Tipo de Operación</label>
+                                <div class="type-selector-segmented">
+                                    <button type="button" class="type-btn active" data-type="Ingreso" id="btn-type-ingreso">
+                                        <span class="type-icon">📈</span>
+                                        <span class="type-name">Ingreso</span>
+                                    </button>
+                                    <button type="button" class="type-btn" data-type="Gasto" id="btn-type-gasto">
+                                        <span class="type-icon">📉</span>
+                                        <span class="type-name">Gasto</span>
+                                    </button>
+                                    <input type="hidden" id="tx-tipo" value="Ingreso">
+                                </div>
                             </div>
-                            <div class="form-group half">
-                                <label for="tx-monto">Monto (<span id="tx-currency-symbol">$</span>)</label>
-                                <input type="number" id="tx-monto" min="0.01" step="0.01" placeholder="0.00" required>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="tx-monto">Monto (<span id="tx-currency-symbol">$</span>)</label>
+                                    <div class="input-currency-wrapper">
+                                        <input type="number" id="tx-monto" min="0.01" step="0.01" placeholder="0.00" required class="input-lg">
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="tx-fecha">Fecha</label>
+                                    <input type="date" id="tx-fecha" required class="input-lg">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tx-desc">Descripción</label>
-                            <input type="text" id="tx-desc" placeholder="Ej. Sueldo, Almuerzo, Transporte" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tx-fecha">Fecha</label>
-                            <input type="date" id="tx-fecha" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Registrar Transacción</button>
-                    </form>
+
+                            <div class="form-group">
+                                <label for="tx-desc">Descripción o Concepto</label>
+                                <input type="text" id="tx-desc" placeholder="Ej. Sueldo, Almuerzo, Transporte, Servicios" required class="input-lg">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">
+                                💾 Guardar Transacción en Base de Datos
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </section>
 
             <!-- VISTA: HISTORIAL -->
             <section id="view-historial" class="view hidden">
-                <h2>📜 Historial de Transacciones</h2>
-                <div class="table-actions">
-                    <button id="btn-delete-selected" class="btn btn-danger">🗑️ Eliminar Seleccionados</button>
+                <div class="view-header">
+                    <div>
+                        <h2>📜 Historial de Transacciones</h2>
+                        <p class="view-subtitle">Consulta, filtra y administra todas tus operaciones registradas</p>
+                    </div>
                 </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>🗑️</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historial-tbody">
-                            <!-- Filas dinámicas -->
-                        </tbody>
-                    </table>
+
+                <!-- Resumen rápido del historial (4 KPIs balanceados) -->
+                <div class="historial-summary-grid">
+                    <div class="mini-kpi-card">
+                        <span class="mini-kpi-icon">📋</span>
+                        <div>
+                            <div class="mini-kpi-label">Total Operaciones</div>
+                            <div class="mini-kpi-val" id="historial-kpi-count">0</div>
+                        </div>
+                    </div>
+                    <div class="mini-kpi-card mini-kpi-income">
+                        <span class="mini-kpi-icon">📈</span>
+                        <div>
+                            <div class="mini-kpi-label">Total Ingresos</div>
+                            <div class="mini-kpi-val text-income" id="historial-kpi-ingresos">--</div>
+                        </div>
+                    </div>
+                    <div class="mini-kpi-card mini-kpi-expense">
+                        <span class="mini-kpi-icon">📉</span>
+                        <div>
+                            <div class="mini-kpi-label">Total Gastos</div>
+                            <div class="mini-kpi-val text-expense" id="historial-kpi-gastos">--</div>
+                        </div>
+                    </div>
+                    <div class="mini-kpi-card mini-kpi-balance">
+                        <span class="mini-kpi-icon">💰</span>
+                        <div>
+                            <div class="mini-kpi-label">Balance Neto</div>
+                            <div class="mini-kpi-val" id="historial-kpi-balance">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Principal de la Tabla -->
+                <div class="card table-card">
+                    <div class="table-toolbar">
+                        <div class="search-box">
+                            <input type="text" id="historial-search" placeholder="🔍 Buscar por concepto, monto o fecha..." class="input-search">
+                        </div>
+                        <div class="filter-box">
+                            <select id="historial-filter-type" class="input-select-compact">
+                                <option value="ALL">Todas las operaciones</option>
+                                <option value="Ingreso">Solo Ingresos (📈)</option>
+                                <option value="Gasto">Solo Gastos (📉)</option>
+                            </select>
+                        </div>
+                        <div class="toolbar-actions">
+                            <button id="btn-delete-selected" class="btn btn-danger btn-compact" disabled title="Selecciona al menos una casilla para eliminar">
+                                🗑️ Eliminar Seleccionados (<span id="delete-count">0</span>)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 44px; text-align: center;">
+                                        <input type="checkbox" id="select-all-tx" title="Seleccionar todos">
+                                    </th>
+                                    <th style="width: 120px;">Fecha</th>
+                                    <th>Descripción</th>
+                                    <th style="width: 120px; text-align: center;">Tipo</th>
+                                    <th style="width: 140px; text-align: right;">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historial-tbody">
+                                <!-- Filas dinámicas -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer">
+                        <span id="historial-footer-info">Cargando transacciones...</span>
+                        <span id="historial-footer-balance" class="footer-balance-badge"></span>
+                    </div>
                 </div>
             </section>
 
             <!-- VISTA: RESUMEN -->
             <section id="view-resumen" class="view hidden">
-                <h2>📅 Resumen Mensual</h2>
-                <div class="month-selector mb-4">
-                    <select id="resumen-month-selector" class="input-select"></select>
+                <div class="view-header">
+                    <div>
+                        <h2>📅 Resumen Mensual</h2>
+                        <p class="view-subtitle">Análisis detallado de distribución y balance del periodo</p>
+                    </div>
+                    <div class="month-selector-wrapper">
+                        <select id="resumen-month-selector" class="input-select"></select>
+                    </div>
                 </div>
                 
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-title">Ingresos del Mes</div>
-                        <div class="metric-value" id="resumen-ingresos">--</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-title">Gastos del Mes</div>
-                        <div class="metric-value" id="resumen-gastos">--</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-title">Balance del Mes</div>
-                        <div class="metric-value" id="resumen-balance">--</div>
-                    </div>
-                </div>
+                <!-- Grid Balanceado 2 Columnas (evita espacios vacíos laterales) -->
+                <div class="resumen-dashboard-grid">
+                    
+                    <!-- Columna Izquierda: Tarjetas de Métricas y Diagnóstico -->
+                    <div class="resumen-left-col">
+                        <div class="resumen-metrics-row">
+                            <div class="metric-card metric-income">
+                                <div class="metric-title">📈 Ingresos del Mes</div>
+                                <div class="metric-value" id="resumen-ingresos">--</div>
+                            </div>
+                            <div class="metric-card metric-expense">
+                                <div class="metric-title">📉 Gastos del Mes</div>
+                                <div class="metric-value" id="resumen-gastos">--</div>
+                            </div>
+                            <div class="metric-card metric-primary">
+                                <div class="metric-title">💰 Balance Neto</div>
+                                <div class="metric-value" id="resumen-balance">--</div>
+                            </div>
+                        </div>
 
-                <div class="chart-card mt-4" style="max-width: 500px; margin: 20px auto;">
-                    <div class="chart-container" style="position: relative; height:350px;">
-                        <canvas id="chart-resumen-donut"></canvas>
+                        <!-- Card de Diagnóstico y Salud Financiera -->
+                        <div class="card diagnostic-card">
+                            <div class="card-header-simple">
+                                <h3>📊 Diagnóstico Financiero</h3>
+                                <span id="resumen-health-pill" class="health-pill">--</span>
+                            </div>
+                            
+                            <div class="savings-rate-block">
+                                <div class="savings-rate-header">
+                                    <span>Tasa de Ahorro</span>
+                                    <strong id="resumen-savings-pct">--%</strong>
+                                </div>
+                                <div class="progress-bar-track">
+                                    <div id="resumen-savings-bar" class="progress-bar-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="diagnostic-advice-box" id="resumen-advice-box">
+                                <span class="advice-icon">💡</span>
+                                <span class="advice-text" id="resumen-advice-text">Calculando métricas del mes seleccionado...</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Columna Derecha: Gráfico Donut de Proporción -->
+                    <div class="resumen-right-col">
+                        <div class="card chart-donut-card">
+                            <div class="card-header-simple">
+                                <h3>🍩 Distribución de Gastos vs Ingresos</h3>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 280px;">
+                                <canvas id="chart-resumen-donut"></canvas>
+                            </div>
+                            <div class="donut-legend-breakdown" id="donut-legend-breakdown">
+                                <div class="breakdown-tag income-tag">
+                                    <span class="tag-dot"></span>
+                                    <span class="tag-label">Ingresos</span>
+                                    <strong id="donut-income-pct">--%</strong>
+                                </div>
+                                <div class="breakdown-tag expense-tag">
+                                    <span class="tag-dot"></span>
+                                    <span class="tag-label">Gastos</span>
+                                    <strong id="donut-expense-pct">--%</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
             <!-- VISTA: GRÁFICAS -->
             <section id="view-graficas" class="view hidden">
-                <h2>📈 Gráficas de Evolución</h2>
+                <div class="view-header">
+                    <div>
+                        <h2>📈 Gráficas y Tendencias</h2>
+                        <p class="view-subtitle">Visualización analítica de evolución, gastos y balance</p>
+                    </div>
+                </div>
                 
-                <div class="chart-card mt-4">
-                    <h3>💰 Evolución del Saldo</h3>
-                    <div class="chart-container" style="position: relative; height:320px;">
+                <!-- Gráfico Principal Evolución -->
+                <div class="card chart-card mb-4">
+                    <div class="card-header-simple">
+                        <h3>💰 Evolución Histórica del Saldo</h3>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 320px;">
                         <canvas id="chart-full-evolution"></canvas>
                     </div>
                 </div>
 
-                <div class="chart-card mt-4">
-                    <h3>📊 Ingresos vs Gastos por Mes</h3>
-                    <div class="chart-container" style="position: relative; height:320px;">
-                        <canvas id="chart-bars"></canvas>
+                <!-- Grilla 2 Columnas de Gráficos Secundarios -->
+                <div class="graficas-grid">
+                    <div class="card chart-card">
+                        <div class="card-header-simple">
+                            <h3>📊 Ingresos vs Gastos por Mes</h3>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 290px;">
+                            <canvas id="chart-bars"></canvas>
+                        </div>
                     </div>
-                </div>
 
-                <div class="chart-card mt-4">
-                    <h3>📈 Balance Mensual</h3>
-                    <div class="chart-container" style="position: relative; height:280px;">
-                        <canvas id="chart-balance"></canvas>
+                    <div class="card chart-card">
+                        <div class="card-header-simple">
+                            <h3>📈 Balance Mensual Neto</h3>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 290px;">
+                            <canvas id="chart-balance"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>

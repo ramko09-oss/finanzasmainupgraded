@@ -6,6 +6,7 @@
 let donutChartInst = null;
 let resumenDonutChartInst = null;
 let evoChartInst = null;
+let dashEvoChartInst = null;
 let barsChartInst = null;
 let balanceChartInst = null;
 
@@ -91,6 +92,70 @@ export function renderDashboardDonut(ingresos, gastos, formatFn) {
 
 export function renderResumenDonut(ingresos, gastos, formatFn) {
   resumenDonutChartInst = renderDonut('chart-resumen-donut', resumenDonutChartInst, ingresos, gastos, formatFn);
+}
+
+// ─── Gráfico de Evolución para Dashboard ────────────────────────────────────
+export function renderDashboardEvolution(monthlyData, formatFn, currencyRate) {
+  const ctx = document.getElementById('chart-evolution');
+  if (!ctx) return;
+
+  if (dashEvoChartInst) dashEvoChartInst.destroy();
+
+  const labels = monthlyData.map(d => d.mes);
+  const colors = getThemeColors();
+  const saldoArray = [];
+  let currentSaldo = 0;
+  monthlyData.forEach(d => {
+    currentSaldo += (d.Ingreso - d.Gasto) * currencyRate;
+    saldoArray.push(currentSaldo);
+  });
+
+  dashEvoChartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Saldo Acumulado',
+        data: saldoArray,
+        borderColor: colors.accent,
+        backgroundColor: colors.accentAlpha,
+        borderWidth: 2.5,
+        pointBackgroundColor: colors.accent,
+        pointBorderColor: colors.bg,
+        pointRadius: 4,
+        fill: true,
+        tension: 0.35
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: { color: colors.grid },
+          ticks: { color: colors.text, font: { family: "'Inter', sans-serif" } }
+        },
+        y: { 
+          grid: { color: colors.grid }, 
+          ticks: { 
+            color: colors.text,
+            font: { family: "'Inter', sans-serif" },
+            callback: function(value) { return formatFn(value / currencyRate); }
+          } 
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: colors.tooltipBg,
+          titleColor: '#ffffff',
+          bodyColor: '#f8fafc',
+          cornerRadius: 8,
+          padding: 10
+        }
+      }
+    }
+  });
 }
 
 // ─── Gráficos de Evolución ──────────────────────────────────────────────────

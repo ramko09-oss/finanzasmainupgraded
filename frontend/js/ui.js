@@ -16,6 +16,7 @@ import {
 import { 
   renderDashboardDonut, 
   renderResumenDonut, 
+  renderDashboardEvolution,
   renderEvolutionCharts 
 } from './charts.js';
 
@@ -88,8 +89,16 @@ export function showToast(message, type = 'success') {
 
 // ─── Inicialización UI Principal ────────────────────────────────────────────
 export function initUI(user, logoutCb) {
-  // Configurar usuario
-  document.getElementById('user-greeting').textContent = `Hola, ${user.username || 'Usuario'} 👋`;
+  // Configurar usuario y avatar
+  const username = user.username || 'Usuario';
+  const greetingEl = document.getElementById('user-greeting');
+  if (greetingEl) greetingEl.textContent = `Hola, ${username} 👋`;
+
+  const avatarEl = document.getElementById('user-avatar');
+  if (avatarEl) {
+    const initial = username.trim().charAt(0).toUpperCase() || '👤';
+    avatarEl.textContent = initial;
+  }
   
   // Configurar Moneda
   currencySelector.value = currentCurrency;
@@ -109,6 +118,44 @@ export function initUI(user, logoutCb) {
   // Selectores de mes eventos
   dashMonthSelector.addEventListener('change', () => renderDashboard(allTransactions));
   resumenMonthSelector.addEventListener('change', () => renderResumen(allTransactions));
+
+  // Botones segmentados de Registrar (Ingreso / Gasto)
+  const btnIngreso = document.getElementById('btn-type-ingreso');
+  const btnGasto = document.getElementById('btn-type-gasto');
+  const inputTipo = document.getElementById('tx-tipo');
+
+  if (btnIngreso && btnGasto && inputTipo) {
+    btnIngreso.onclick = () => {
+      btnIngreso.classList.add('active');
+      btnGasto.classList.remove('active');
+      inputTipo.value = 'Ingreso';
+    };
+    btnGasto.onclick = () => {
+      btnGasto.classList.add('active');
+      btnIngreso.classList.remove('active');
+      inputTipo.value = 'Gasto';
+    };
+  }
+
+  // Controles de búsqueda y filtros en Historial
+  const searchInput = document.getElementById('historial-search');
+  if (searchInput) {
+    searchInput.oninput = () => filterAndRenderHistorialTable();
+  }
+
+  const typeFilter = document.getElementById('historial-filter-type');
+  if (typeFilter) {
+    typeFilter.onchange = () => filterAndRenderHistorialTable();
+  }
+
+  const selectAllCb = document.getElementById('select-all-tx');
+  if (selectAllCb) {
+    selectAllCb.onchange = (e) => {
+      const checkboxes = document.querySelectorAll('.tx-checkbox');
+      checkboxes.forEach(cb => { cb.checked = e.target.checked; });
+      updateDeleteButtonState();
+    };
+  }
 
   // Ocultar Auth, Mostrar App
   viewAuth.classList.add('hidden');
@@ -255,7 +302,7 @@ function renderDashboard(transactions) {
   // Gráficos
   const monthlyData = groupByMonth(transactions);
   const currencyRate = CURRENCIES[currentCurrency].rate;
-  renderEvolutionCharts(monthlyData, fmt, currencyRate); // Usa el canvas de full-evolution temporalmente o lo ignora
+  renderDashboardEvolution(monthlyData, fmt, currencyRate);
   renderDashboardDonut(metricsCurr.totalIngresos * currencyRate, metricsCurr.totalGastos * currencyRate, fmt);
 
   // Análisis Salud Financiera
@@ -329,30 +376,160 @@ export async function handleTransactionSubmit(e) {
   }
 }
 
-// ─── Render: Historial ──────────────────────────────────────────────────────
-function renderHistorial(transactions) {
-  const tbody = el('historial-tbody');
-  
-  if (transactions.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay transacciones para mostrar.</td></tr>';
-    return;
+// ─── Helpers para Historial ────────────────────────────────────────────────
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function updateDeleteButtonState() {
+  const selected = document.querySelectorAll('.tx-checkbox:checked');
+  const countSpan = el('delete-count');
+  const deleteBtn = el('btn-delete-selected');
+  const count = selected.length;
+
+  if (countSpan) countSpan.textContent = count;
+  if (deleteBtn) {
+    deleteBtn.disabled = count === 0;
+    if (count > 0) {
+      deleteBtn.removeAttribute('disabled');
+      deleteBtn.title = `Eliminar ${count} transacción(es) seleccionada(s)`;
+    } else {
+      deleteBtn.setAttribute('disabled', 'true');
+      deleteBtn.title = 'Selecciona al menos una casilla para eliminar';
+    }
   }
 
+  const allCbs = document.querySelectorAll('.tx-checkbox');
+  const selectAllCb = el('select-all-tx');
+  if (selectAllCb && allCbs.length > 0) {
+    selectAllCb.checked = count === allCbs.length;
+  }
+}
+
+function filterAndRenderHistorialTable() {
+  const tbody = el('historial-tbody');
+  if (!tbody) return;
+
+  const searchTerm = (el('historial-search')?.value || '').trim().toLowerCase();
+  const filterType = el('historial-filter-type')?.value || 'ALL';
   const fmt = (val) => formatCurrency(val, currentCurrency);
 
-  tbody.innerHTML = transactions.map(t => {
-    // Formatear fecha local
-    const dateStr = t.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    return `
-      <tr>
-        <td><input type="checkbox" class="tx-checkbox" data-id="${t.id}"></td>
-        <td>${dateStr}</td>
-        <td>${t.descripcion}</td>
-        <td><span style="color: ${t.tipo === 'Ingreso' ? 'var(--color-income)' : 'var(--color-expense)'}">${t.tipo}</span></td>
-        <td>${fmt(t.monto)}</td>
-      </tr>
-    `;
-  }).join('');
+  const filtered = allTransactions.filter(t => {
+    if (filterType !== 'ALL' && t.tipo !== filterType) return false;
+    if (!searchTerm) return true;
+
+    const dateStr = t.fecha ? t.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
+    const desc = (t.descripcion || '').toLowerCase();
+    const amountStr = String(t.monto);
+    const tipo = (t.tipo || '').toLowerCase();
+    return desc.includes(searchTerm) || amountStr.includes(searchTerm) || tipo.includes(searchTerm) || dateStr.includes(searchTerm);
+  });
+
+  if (filtered.length === 0) {
+    if (allTransactions.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding: 48px 16px; color: var(--text-muted);">
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">📝</div>
+            <strong style="font-size: 1rem; color: var(--text-color);">No hay transacciones registradas aún</strong>
+            <p style="font-size: 0.85rem; margin-top: 6px;">Comienza registrando tu primer ingreso o gasto en el menú "Registrar".</p>
+          </td>
+        </tr>
+      `;
+    } else {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding: 40px 16px; color: var(--text-muted);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+            <strong style="font-size: 0.95rem; color: var(--text-color);">No se encontraron coincidencias</strong>
+            <p style="font-size: 0.85rem; margin-top: 4px;">Intenta con otro término de búsqueda o cambia el filtro de tipo.</p>
+          </td>
+        </tr>
+      `;
+    }
+  } else {
+    tbody.innerHTML = filtered.map(t => {
+      const dateStr = t.fecha ? t.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '--';
+      const isIngreso = t.tipo === 'Ingreso';
+      const badgeClass = isIngreso ? 'badge-income' : 'badge-expense';
+      const badgeIcon = isIngreso ? '📈 Ingreso' : '📉 Gasto';
+      const amountSign = isIngreso ? '+' : '-';
+      const amountColor = isIngreso ? 'var(--color-income)' : 'var(--color-expense)';
+
+      return `
+        <tr>
+          <td style="text-align: center;">
+            <input type="checkbox" class="tx-checkbox" data-id="${t.id}">
+          </td>
+          <td style="font-weight: 500;">${dateStr}</td>
+          <td style="font-weight: 600; color: var(--text-color);">${escapeHtml(t.descripcion)}</td>
+          <td style="text-align: center;">
+            <span class="badge ${badgeClass}">${badgeIcon}</span>
+          </td>
+          <td style="text-align: right; font-weight: 700; color: ${amountColor};">
+            ${amountSign} ${fmt(t.monto)}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Listener para cada casilla
+  const checkboxes = tbody.querySelectorAll('.tx-checkbox');
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', updateDeleteButtonState);
+  });
+
+  const selectAllCb = el('select-all-tx');
+  if (selectAllCb) selectAllCb.checked = false;
+  updateDeleteButtonState();
+
+  // Footer totales
+  let visibleIncome = 0;
+  let visibleExpense = 0;
+  filtered.forEach(t => {
+    if (t.tipo === 'Ingreso') visibleIncome += t.monto;
+    else visibleExpense += t.monto;
+  });
+  const visibleBalance = visibleIncome - visibleExpense;
+
+  if (el('historial-footer-info')) {
+    el('historial-footer-info').textContent = `Mostrando ${filtered.length} de ${allTransactions.length} operaciones`;
+  }
+  if (el('historial-footer-balance')) {
+    el('historial-footer-balance').textContent = `Balance de lista: ${fmt(visibleBalance)}`;
+    el('historial-footer-balance').style.color = visibleBalance >= 0 ? 'var(--color-income)' : 'var(--color-expense)';
+  }
+}
+
+// ─── Render: Historial ──────────────────────────────────────────────────────
+function renderHistorial(transactions) {
+  const fmt = (val) => formatCurrency(val, currentCurrency);
+  
+  // Calcular los 4 KPIs del historial completo
+  const count = transactions.length;
+  let totalIngresos = 0;
+  let totalGastos = 0;
+  transactions.forEach(t => {
+    if (t.tipo === 'Ingreso') totalIngresos += t.monto;
+    else totalGastos += t.monto;
+  });
+  const netBalance = totalIngresos - totalGastos;
+
+  if (el('historial-kpi-count')) el('historial-kpi-count').textContent = count;
+  if (el('historial-kpi-ingresos')) el('historial-kpi-ingresos').textContent = fmt(totalIngresos);
+  if (el('historial-kpi-gastos')) el('historial-kpi-gastos').textContent = fmt(totalGastos);
+  if (el('historial-kpi-balance')) {
+    el('historial-kpi-balance').textContent = fmt(netBalance);
+    el('historial-kpi-balance').style.color = netBalance >= 0 ? 'var(--color-income)' : 'var(--color-expense)';
+  }
+
+  filterAndRenderHistorialTable();
 }
 
 export async function handleDeleteSelected() {
@@ -362,11 +539,14 @@ export async function handleDeleteSelected() {
     return;
   }
 
+  const confirmMsg = `¿Deseas eliminar las ${checkboxes.length} transacciones seleccionadas?`;
+  if (!confirm(confirmMsg)) return;
+
   try {
     for (let cb of checkboxes) {
       await db.deleteTransaction(cb.dataset.id);
     }
-    showToast(`${checkboxes.length} transacciones eliminadas.`);
+    showToast(`✅ ${checkboxes.length} transacciones eliminadas con éxito.`);
     renderActiveView(); // Refrescar tabla
   } catch(err) {
     showToast('Error al eliminar: ' + err.message, 'error');
@@ -382,12 +562,52 @@ function renderResumen(transactions) {
   const currentTxs = filterByMonth(transactions, parseInt(y), parseInt(m) - 1);
   const metrics = calcMetrics(currentTxs);
   const fmt = (val) => formatCurrency(val, currentCurrency);
+  const currencyRate = CURRENCIES[currentCurrency].rate;
 
   el('resumen-ingresos').textContent = fmt(metrics.totalIngresos);
   el('resumen-gastos').textContent = fmt(metrics.totalGastos);
   el('resumen-balance').textContent = fmt(metrics.saldoTotal);
+  el('resumen-balance').style.color = metrics.saldoTotal >= 0 ? 'var(--color-income)' : 'var(--color-expense)';
 
-  const currencyRate = CURRENCIES[currentCurrency].rate;
+  // Diagnóstico y salud financiera
+  const health = calcHealthStatus(metrics.totalIngresos, metrics.totalGastos);
+  const healthPill = el('resumen-health-pill');
+  if (healthPill) {
+    healthPill.textContent = `${health.icon} ${health.text}`;
+    healthPill.className = `health-pill badge-${health.color === 'income' ? 'income' : (health.color === 'expense' ? 'expense' : 'warning')}`;
+  }
+
+  const savingsPct = el('resumen-savings-pct');
+  if (savingsPct) {
+    savingsPct.textContent = `${health.savingsRate.toFixed(1)}%`;
+  }
+
+  const savingsBar = el('resumen-savings-bar');
+  if (savingsBar) {
+    const clampedRate = Math.max(0, Math.min(100, health.savingsRate));
+    savingsBar.style.width = `${clampedRate}%`;
+  }
+
+  const adviceText = el('resumen-advice-text');
+  if (adviceText) {
+    adviceText.textContent = health.msg;
+  }
+
+  // Tags breakdown del Donut
+  const totalPeriodo = metrics.totalIngresos + metrics.totalGastos;
+  const incomePctEl = el('donut-income-pct');
+  const expensePctEl = el('donut-expense-pct');
+
+  if (totalPeriodo > 0) {
+    const ingPct = ((metrics.totalIngresos / totalPeriodo) * 100).toFixed(1);
+    const gasPct = ((metrics.totalGastos / totalPeriodo) * 100).toFixed(1);
+    if (incomePctEl) incomePctEl.textContent = `${ingPct}%`;
+    if (expensePctEl) expensePctEl.textContent = `${gasPct}%`;
+  } else {
+    if (incomePctEl) incomePctEl.textContent = '0%';
+    if (expensePctEl) expensePctEl.textContent = '0%';
+  }
+
   renderResumenDonut(metrics.totalIngresos * currencyRate, metrics.totalGastos * currencyRate, fmt);
 }
 
