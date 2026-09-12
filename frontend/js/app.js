@@ -20,38 +20,72 @@ authTabs.forEach(tab => {
     
     // Activar seleccionada
     e.target.classList.add('active');
-    document.getElementById(e.target.dataset.target).classList.add('active');
+    const targetForm = document.getElementById(e.target.dataset.target);
+    if (targetForm) targetForm.classList.add('active');
   });
 });
 
 // Submit Login
 formLogin.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = document.getElementById('login-email').value;
-  const pass = document.getElementById('login-password').value;
+  const emailInput = document.getElementById('login-email');
+  const passInput = document.getElementById('login-password');
+  const submitBtn = formLogin.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Verificando...';
   
   try {
-    const user = await auth.login(email, pass);
-    ui.showToast('¡Bienvenido de nuevo!');
+    const user = await auth.login(emailInput.value, passInput.value);
+    ui.showToast(`¡Bienvenido de nuevo, ${user.username || 'Usuario'}! 👋`);
     initializeApp(user);
   } catch(err) {
-    ui.showToast(err.message, 'error');
+    ui.showToast(err.message || 'Credenciales inválidas', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
   }
 });
 
-// Submit Registro
+// Submit Registro (Guarda en la base de datos y redirige a login para verificar credenciales)
 formRegister.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById('reg-name').value;
-  const email = document.getElementById('reg-email').value;
-  const pass = document.getElementById('reg-password').value;
+  const nameInput = document.getElementById('reg-name');
+  const emailInput = document.getElementById('reg-email');
+  const passInput = document.getElementById('reg-password');
+  const submitBtn = formRegister.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  const registeredEmail = emailInput.value.trim().toLowerCase();
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Registrando en BD...';
   
   try {
-    const user = await auth.register(email, pass, name);
-    ui.showToast('¡Cuenta creada y logueado!');
-    initializeApp(user);
+    await auth.register(registeredEmail, passInput.value, nameInput.value);
+    ui.showToast('✅ ¡Cuenta creada con éxito en la base de datos! Inicia sesión para continuar.');
+    
+    // Limpiar formulario de registro
+    formRegister.reset();
+
+    // Cambiar automáticamente a la pestaña de Login
+    const loginTab = document.querySelector('.auth-tab[data-target="form-login"]');
+    if (loginTab) loginTab.click();
+
+    // Pre-llenar el correo en el formulario de Login y enfocar contraseña
+    const loginEmail = document.getElementById('login-email');
+    const loginPass = document.getElementById('login-password');
+    if (loginEmail) loginEmail.value = registeredEmail;
+    if (loginPass) {
+      loginPass.value = '';
+      loginPass.focus();
+    }
   } catch(err) {
-    ui.showToast(err.message, 'error');
+    ui.showToast(err.message || 'Error al registrar usuario', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
   }
 });
 
@@ -59,6 +93,7 @@ formRegister.addEventListener('submit', async (e) => {
 async function handleLogout() {
   auth.logout();
   ui.showAuthView();
+  ui.showToast('Has cerrado sesión correctamente');
 }
 
 
@@ -77,9 +112,13 @@ function initializeApp(user) {
   ui.initUI(user, handleLogout);
 }
 
-// Comprobar sesión al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-  const user = auth.getCurrentUser();
+// Comprobar sesión y tema al cargar la página
+window.addEventListener('DOMContentLoaded', async () => {
+  // 1. Inicializar tema visual guardado
+  ui.initTheme();
+
+  // 2. Verificar sesión activa con el backend
+  const user = await auth.verifySession();
   
   if (user) {
     initializeApp(user);

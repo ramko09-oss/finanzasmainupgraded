@@ -23,7 +23,7 @@ import {
 const appContainer = document.getElementById('app-container');
 const viewAuth = document.getElementById('view-auth');
 const views = document.querySelectorAll('.view');
-const navItems = document.querySelectorAll('.nav-item');
+const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item');
 const currencySelector = document.getElementById('currency-selector');
 const toastContainer = document.getElementById('toast-container');
 
@@ -34,6 +34,44 @@ const resumenMonthSelector = document.getElementById('resumen-month-selector');
 // Estado local de la UI
 let currentCurrency = localStorage.getItem('finanzas_currency') || 'USD';
 let allTransactions = [];
+
+// ─── Modo Oscuro / Tema ─────────────────────────────────────────────────────
+export function initTheme() {
+  const savedTheme = localStorage.getItem('finanzas_theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+  applyTheme(initialTheme);
+
+  document.querySelectorAll('.theme-toggle-btn, .theme-toggle-btn-compact').forEach(btn => {
+    btn.removeEventListener('click', toggleTheme);
+    btn.addEventListener('click', toggleTheme);
+  });
+}
+
+export function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = current === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  localStorage.setItem('finanzas_theme', newTheme);
+  
+  // Si estamos en vistas con gráficos, redibujar con los colores del tema
+  const hash = window.location.hash || '#dashboard';
+  if (hash === '#dashboard' || hash === '#graficas' || hash === '#resumen') {
+    renderActiveView();
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const isDark = theme === 'dark';
+  document.querySelectorAll('.theme-toggle-btn, .theme-toggle-btn-compact').forEach(btn => {
+    const icon = btn.querySelector('.theme-icon');
+    const text = btn.querySelector('.theme-text');
+    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+    if (text) text.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
+    if (!icon && !text) btn.textContent = isDark ? '☀️' : '🌙';
+  });
+}
 
 // ─── Toasts ────────────────────────────────────────────────────────────────
 export function showToast(message, type = 'success') {
@@ -61,8 +99,9 @@ export function initUI(user, logoutCb) {
     renderActiveView(); // Re-renderizar todo
   });
 
-  // Botón Logout
-  document.getElementById('btn-logout').addEventListener('click', logoutCb);
+  // Botones Logout (Desktop y Móvil)
+  document.getElementById('btn-logout')?.addEventListener('click', logoutCb);
+  document.getElementById('btn-logout-mobile')?.addEventListener('click', logoutCb);
 
   // Router basado en Hash
   window.addEventListener('hashchange', handleHashChange);
@@ -75,6 +114,9 @@ export function initUI(user, logoutCb) {
   viewAuth.classList.add('hidden');
   viewAuth.classList.remove('view-active');
   appContainer.classList.remove('hidden');
+
+  // Asegurar listeners de tema activos
+  initTheme();
 
   // Trigger inicial
   if (!window.location.hash || window.location.hash === '#auth') {

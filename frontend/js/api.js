@@ -59,9 +59,10 @@ async function fetchAPI(endpoint, options = {}) {
 // ─── Auth ──────────────────────────────────────────────────────────────────
 export const auth = {
   async login(email, password) {
+    const cleanEmail = email.trim().toLowerCase();
     const data = await fetchAPI('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email: cleanEmail, password })
     });
     localStorage.setItem('finanzas_jwt', data.token);
     localStorage.setItem('finanzas_user', JSON.stringify(data.user));
@@ -69,12 +70,26 @@ export const auth = {
   },
 
   async register(email, password, username) {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanUsername = username.trim();
     const data = await fetchAPI('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ email, password, username })
+      body: JSON.stringify({ email: cleanEmail, password, username: cleanUsername })
     });
-    // Autologin después de registro exitoso
-    return this.login(email, password);
+    return data;
+  },
+
+  async verifySession() {
+    const token = getToken();
+    if (!token) return null;
+    try {
+      const data = await fetchAPI('/api/auth/me');
+      localStorage.setItem('finanzas_user', JSON.stringify(data.user));
+      return data.user;
+    } catch (e) {
+      this.logout();
+      return null;
+    }
   },
 
   logout() {

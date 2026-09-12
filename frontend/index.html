@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2f6fab">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Gestión Financiera</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,25 +24,28 @@
     <div id="view-auth" class="view view-active">
         <div class="auth-container">
             <div class="auth-box">
+                <div class="auth-top-actions">
+                    <button type="button" id="theme-toggle-auth" class="theme-toggle-btn-compact" title="Cambiar tema">🌙</button>
+                </div>
                 <div class="auth-header">
                     <h2>Sistema de Gestión Financiera</h2>
                     <p>Controla tus finanzas personales</p>
                 </div>
                 
                 <div class="auth-tabs">
-                    <button class="auth-tab active" data-target="form-login">Iniciar Sesión</button>
-                    <button class="auth-tab" data-target="form-register">Registrar</button>
+                    <button type="button" class="auth-tab active" data-target="form-login">Iniciar Sesión</button>
+                    <button type="button" class="auth-tab" data-target="form-register">Registrar</button>
                 </div>
 
                 <!-- Formulario de Login -->
                 <form id="form-login" class="auth-form active">
                     <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" placeholder="tu@email.com" required>
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false">
                     </div>
                     <div class="form-group">
                         <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" placeholder="••••••••" required>
+                        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                 </form>
@@ -47,18 +53,18 @@
                 <!-- Formulario de Registro -->
                 <form id="form-register" class="auth-form">
                     <div class="form-group">
-                        <label for="reg-name">Nombre</label>
-                        <input type="text" id="reg-name" placeholder="Tu nombre" required>
+                        <label for="reg-name">Nombre de Usuario</label>
+                        <input type="text" id="reg-name" placeholder="Tu nombre o apodo" required autocomplete="name">
                     </div>
                     <div class="form-group">
-                        <label for="reg-email">Email</label>
-                        <input type="email" id="reg-email" placeholder="tu@email.com" required>
+                        <label for="reg-email">Correo Electrónico</label>
+                        <input type="email" id="reg-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false">
                     </div>
                     <div class="form-group">
-                        <label for="reg-password">Contraseña</label>
-                        <input type="password" id="reg-password" placeholder="Mín. 6 caracteres" minlength="6" required>
+                        <label for="reg-password">Contraseña (mínimo 6 caracteres)</label>
+                        <input type="password" id="reg-password" placeholder="Mín. 6 caracteres" minlength="6" required autocomplete="new-password">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                    <button type="submit" class="btn btn-primary btn-block">Registrarse en la Base de Datos</button>
                 </form>
             </div>
             
@@ -66,21 +72,35 @@
                 <div class="auth-visual-content">
                     <div class="icon-large">💰</div>
                     <h3>Gestiona tu dinero</h3>
-                    <p>Registra ingresos y gastos, visualiza gráficos interactivos y mantén el control de tus finanzas.</p>
+                    <p>Registra ingresos y gastos, visualiza gráficos interactivos y mantén el control total de tus finanzas.</p>
                     <ul class="auth-features">
+                        <li>✓ Base de Datos Cloud (PostgreSQL / Aiven)</li>
+                        <li>✓ Modo Oscuro y Claro a tu elección</li>
+                        <li>✓ Optimizado para teléfonos móviles</li>
                         <li>✓ Multi-moneda (USD, EUR, PEN, MXN)</li>
-                        <li>✓ Gráficos de evolución</li>
-                        <li>✓ Análisis de salud financiera</li>
-                        <li>✓ Sincronización en tu BD local</li>
+                        <li>✓ Gráficos y Balance en tiempo real</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- APP PRINCIPAL (Sidebar + Contenido) -->
+    <!-- APP PRINCIPAL (Header Móvil + Sidebar + Contenido + Barra Inferior Móvil) -->
     <div id="app-container" class="hidden">
-        <!-- Sidebar -->
+        
+        <!-- Header Móvil (visible solo en pantallas pequeñas) -->
+        <header class="mobile-header">
+            <div class="mobile-brand">
+                <span class="mobile-brand-icon">💰</span>
+                <span class="mobile-brand-title">Finanzas Web</span>
+            </div>
+            <div class="mobile-actions">
+                <button type="button" id="theme-toggle-mobile" class="theme-toggle-btn-compact" title="Cambiar tema">🌙</button>
+                <button type="button" id="btn-logout-mobile" class="btn-logout-compact" title="Cerrar sesión">🚪</button>
+            </div>
+        </header>
+
+        <!-- Sidebar Desktop -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h3 id="user-greeting">Hola, Usuario 👋</h3>
@@ -104,8 +124,14 @@
                     <option value="MXN">Peso Mexicano (MXN)</option>
                 </select>
             </div>
+            <div class="sidebar-settings mt-3">
+                <h4>🎨 Apariencia</h4>
+                <button type="button" id="theme-toggle-sidebar" class="theme-toggle-btn">
+                    <span class="theme-icon">🌙</span> <span class="theme-text">Modo Oscuro</span>
+                </button>
+            </div>
             <hr>
-            <button id="btn-logout" class="btn btn-block">🚪 Cerrar Sesión</button>
+            <button id="btn-logout" class="btn btn-block btn-logout">🚪 Cerrar Sesión</button>
         </aside>
 
         <!-- Contenido Principal -->
@@ -164,9 +190,7 @@
                     </div>
                 </div>
 
-                <hr>
-
-                <div class="analysis-section">
+                <div class="chart-card mt-4">
                     <h3>📊 Análisis Financiero</h3>
                     <div id="analysis-content" class="analysis-card">
                         <!-- Generado dinámicamente -->
@@ -189,12 +213,12 @@
                             </div>
                             <div class="form-group half">
                                 <label for="tx-monto">Monto (<span id="tx-currency-symbol">$</span>)</label>
-                                <input type="number" id="tx-monto" min="0.01" step="0.01" required>
+                                <input type="number" id="tx-monto" min="0.01" step="0.01" placeholder="0.00" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="tx-desc">Descripción</label>
-                            <input type="text" id="tx-desc" required>
+                            <input type="text" id="tx-desc" placeholder="Ej. Sueldo, Almuerzo, Transporte" required>
                         </div>
                         <div class="form-group">
                             <label for="tx-fecha">Fecha</label>
@@ -209,7 +233,7 @@
             <section id="view-historial" class="view hidden">
                 <h2>📜 Historial de Transacciones</h2>
                 <div class="table-actions">
-                    <button id="btn-delete-selected" class="btn btn-danger">Eliminar Seleccionados</button>
+                    <button id="btn-delete-selected" class="btn btn-danger">🗑️ Eliminar Seleccionados</button>
                 </div>
                 <div class="table-container">
                     <table class="data-table">
@@ -252,7 +276,7 @@
                 </div>
 
                 <div class="chart-card mt-4" style="max-width: 500px; margin: 20px auto;">
-                    <div class="chart-container" style="position: relative; height:400px;">
+                    <div class="chart-container" style="position: relative; height:350px;">
                         <canvas id="chart-resumen-donut"></canvas>
                     </div>
                 </div>
@@ -264,27 +288,51 @@
                 
                 <div class="chart-card mt-4">
                     <h3>💰 Evolución del Saldo</h3>
-                    <div class="chart-container" style="position: relative; height:350px;">
+                    <div class="chart-container" style="position: relative; height:320px;">
                         <canvas id="chart-full-evolution"></canvas>
                     </div>
                 </div>
 
                 <div class="chart-card mt-4">
                     <h3>📊 Ingresos vs Gastos por Mes</h3>
-                    <div class="chart-container" style="position: relative; height:350px;">
+                    <div class="chart-container" style="position: relative; height:320px;">
                         <canvas id="chart-bars"></canvas>
                     </div>
                 </div>
 
                 <div class="chart-card mt-4">
                     <h3>📈 Balance Mensual</h3>
-                    <div class="chart-container" style="position: relative; height:300px;">
+                    <div class="chart-container" style="position: relative; height:280px;">
                         <canvas id="chart-balance"></canvas>
                     </div>
                 </div>
             </section>
 
         </main>
+
+        <!-- Barra de Navegación Móvil Inferior (Bottom Nav) -->
+        <nav class="mobile-bottom-nav" aria-label="Navegación Móvil">
+            <a href="#dashboard" class="bottom-nav-item active" data-view="dashboard">
+                <span class="bottom-nav-icon">📊</span>
+                <span class="bottom-nav-label">Dashboard</span>
+            </a>
+            <a href="#registrar" class="bottom-nav-item" data-view="registrar">
+                <span class="bottom-nav-icon">✍️</span>
+                <span class="bottom-nav-label">Registrar</span>
+            </a>
+            <a href="#historial" class="bottom-nav-item" data-view="historial">
+                <span class="bottom-nav-icon">📜</span>
+                <span class="bottom-nav-label">Historial</span>
+            </a>
+            <a href="#resumen" class="bottom-nav-item" data-view="resumen">
+                <span class="bottom-nav-icon">📅</span>
+                <span class="bottom-nav-label">Resumen</span>
+            </a>
+            <a href="#graficas" class="bottom-nav-item" data-view="graficas">
+                <span class="bottom-nav-icon">📈</span>
+                <span class="bottom-nav-label">Gráficas</span>
+            </a>
+        </nav>
     </div>
 
     <!-- Scripts -->
