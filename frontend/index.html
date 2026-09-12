@@ -20,69 +20,176 @@
     <!-- NOTIFICACIONES (Toast) -->
     <div id="toast-container"></div>
 
-    <!-- VISTA: AUTENTICACIÓN (Login / Registro) -->
-    <div id="view-auth" class="view view-active">
-        <div class="auth-container">
-            <div class="auth-box">
-                <div class="auth-top-actions">
-                    <button type="button" id="theme-toggle-auth" class="theme-toggle-btn-compact" title="Cambiar tema">🌙</button>
-                </div>
-                <div class="auth-header">
-                    <h2>Sistema de Gestión Financiera</h2>
-                    <p>Controla tus finanzas personales de forma inteligente</p>
-                </div>
-                
-                <div class="auth-tabs">
-                    <button type="button" class="auth-tab active" data-target="form-login">Iniciar Sesión</button>
-                    <button type="button" class="auth-tab" data-target="form-register">Registrar</button>
+    <!-- VISTA: AUTENTICACIÓN (Split Screen estilo Wallet/BudgetBakers con Identidad SIDAA) -->
+    <div id="view-auth" class="view view-active auth-split-layout">
+        
+        <!-- Columna Izquierda: Hero de Marca SIDAA -->
+        <div class="auth-hero-panel">
+            <div class="auth-hero-content">
+                <h1 class="auth-hero-title">
+                    Tus finanzas<br>
+                    <span class="auth-hero-title-accent">en un solo lugar</span>
+                </h1>
+
+                <!-- Mockup de Dispositivos (Laptop + Smartphone con gráficos) -->
+                <div class="auth-devices-mockup" aria-hidden="true">
+                    <!-- Laptop Mockup -->
+                    <div class="mockup-laptop">
+                        <div class="mockup-laptop-camera"></div>
+                        <div class="mockup-laptop-screen">
+                            <div class="screen-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="screen-title">SIDAA Finanzas • Dashboard</span>
+                            </div>
+                            <div class="screen-body">
+                                <div class="mock-kpi-row">
+                                    <div class="mock-kpi"><span>Saldo Total</span><strong>S/ 12,450</strong></div>
+                                    <div class="mock-kpi green"><span>Ingresos</span><strong>+S/ 4,800</strong></div>
+                                    <div class="mock-kpi red"><span>Gastos</span><strong>-S/ 1,220</strong></div>
+                                </div>
+                                <div class="mock-chart-row">
+                                    <div class="mock-line-chart">
+                                        <svg viewBox="0 0 100 35" class="mock-svg-chart">
+                                            <defs>
+                                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
+                                                    <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,28 Q15,22 30,25 T60,12 T85,18 T100,6 L100,35 L0,35 Z" fill="url(#chartGrad)"/>
+                                            <path d="M0,28 Q15,22 30,25 T60,12 T85,18 T100,6" fill="none" stroke="#38bdf8" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="mock-donut">
+                                        <svg viewBox="0 0 36 36" class="mock-svg-donut">
+                                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3.8"/>
+                                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#10b981" stroke-width="3.8" stroke-dasharray="75, 100"/>
+                                            <path d="M18 33.9155 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f87171" stroke-width="3.8" stroke-dasharray="25, 100"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mockup-laptop-base"></div>
+                    </div>
+
+                    <!-- Smartphone Mockup -->
+                    <div class="mockup-phone">
+                        <div class="mockup-phone-notch"></div>
+                        <div class="mockup-phone-screen">
+                            <div class="phone-app-bar">
+                                <span>SIDAA Mobile</span>
+                                <span class="phone-status-dot"></span>
+                            </div>
+                            <div class="phone-balance">
+                                <small>Balance Total</small>
+                                <strong>S/ 12,450.00</strong>
+                            </div>
+                            <div class="phone-mini-tx">
+                                <div class="tx-row"><span>Sueldo</span><strong class="text-green">+S/ 3,500</strong></div>
+                                <div class="tx-row"><span>Servicios</span><strong class="text-red">-S/ 180</strong></div>
+                                <div class="tx-row"><span>Ahorros</span><strong class="text-green">+S/ 800</strong></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Formulario de Login -->
-                <form id="form-login" class="auth-form active">
-                    <div class="form-group">
-                        <label for="login-email">Correo Electrónico</label>
-                        <input type="email" id="login-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false">
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Entrar al Sistema</button>
-                </form>
+                <p class="auth-hero-desc">
+                    Sumérgete en informes, crea presupuestos, sincroniza tus registros en la nube y disfruta del control financiero automatizado.
+                </p>
 
-                <!-- Formulario de Registro -->
-                <form id="form-register" class="auth-form">
-                    <div class="form-group">
-                        <label for="reg-name">Nombre de Usuario</label>
-                        <input type="text" id="reg-name" placeholder="Tu nombre o apodo" required autocomplete="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-email">Correo Electrónico</label>
-                        <input type="email" id="reg-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-password">Contraseña (mínimo 6 caracteres)</label>
-                        <input type="password" id="reg-password" placeholder="Mín. 6 caracteres" minlength="6" required autocomplete="new-password">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Registrarse en la Base de Datos</button>
-                </form>
-            </div>
-            
-            <div class="auth-visual">
-                <div class="auth-visual-content">
-                    <div class="icon-large">💰</div>
-                    <h3>Gestiona tu dinero</h3>
-                    <p>Registra ingresos y gastos, visualiza gráficos interactivos y mantén el control total de tus finanzas.</p>
-                    <ul class="auth-features">
-                        <li>✓ Base de Datos Cloud (PostgreSQL / Aiven)</li>
-                        <li>✓ Modo Oscuro y Claro a tu elección</li>
-                        <li>✓ Optimizado para teléfonos móviles</li>
-                        <li>✓ Multi-moneda (USD, EUR, PEN, MXN)</li>
-                        <li>✓ Gráficos y Balance en tiempo real</li>
-                    </ul>
+                <!-- Logo de Marca Oficial SIDAA -->
+                <div class="auth-hero-brand">
+                    <img src="img/sidaa-logo.png" alt="Logo SIDAA" class="auth-sidaa-logo-img">
+                </div>
+
+                <!-- Badges de Tecnología y Plataforma -->
+                <div class="auth-hero-badges">
+                    <span class="hero-tech-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-badge-svg"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        PostgreSQL Cloud
+                    </span>
+                    <span class="hero-tech-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-badge-svg"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        Web & Móvil
+                    </span>
+                    <span class="hero-tech-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-badge-svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Seguridad SSL
+                    </span>
                 </div>
             </div>
         </div>
+
+        <!-- Columna Derecha: Formulario de Autenticación -->
+        <div class="auth-form-panel">
+            <div class="auth-form-top-bar">
+                <button type="button" id="theme-toggle-auth" class="theme-toggle-btn-compact" title="Cambiar tema visual" aria-label="Cambiar tema">
+                    <span class="theme-icon-slot">
+                        <svg class="theme-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </span>
+                </button>
+            </div>
+
+            <div class="auth-form-box">
+                <!-- Logo compacto en móvil -->
+                <div class="auth-mobile-logo">
+                    <img src="img/sidaa-logo.png" alt="SIDAA Logo" class="auth-mobile-logo-img">
+                </div>
+
+                <div class="auth-form-header">
+                    <h2 id="auth-title-text">Iniciar sesión</h2>
+                    <p class="auth-subtitle-text">Ingresa a tu panel financiero en SIDAA</p>
+                </div>
+
+                <!-- Tabs de Navegación Login / Registro -->
+                <div class="auth-tabs-segmented">
+                    <button type="button" class="auth-tab auth-tab-pill active" data-target="form-login">Iniciar Sesión</button>
+                    <button type="button" class="auth-tab auth-tab-pill" data-target="form-register">Crear Cuenta</button>
+                </div>
+
+                <!-- Formulario Login -->
+                <form id="form-login" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <input type="email" id="login-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false" class="input-auth">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" class="input-auth">
+                    </div>
+                    <button type="submit" class="btn btn-auth-primary btn-block">
+                        Iniciar sesión
+                    </button>
+                </form>
+
+                <!-- Formulario Registro -->
+                <form id="form-register" class="auth-form">
+                    <div class="form-group">
+                        <label for="reg-name">Nombre de usuario</label>
+                        <input type="text" id="reg-name" placeholder="Tu nombre" required autocomplete="name" class="input-auth">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Correo electrónico</label>
+                        <input type="email" id="reg-email" placeholder="tu@email.com" required autocomplete="email" autocapitalize="none" spellcheck="false" class="input-auth">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Contraseña (mín. 6 caracteres)</label>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" minlength="6" required autocomplete="new-password" class="input-auth">
+                    </div>
+                    <button type="submit" class="btn btn-auth-primary btn-block">
+                        Crear cuenta en SIDAA
+                    </button>
+                </form>
+
+                <p class="auth-legal-notice">
+                    Al registrarte o iniciar sesión aceptas nuestros Términos de servicio y reconoces nuestra Política de privacidad para el manejo seguro de tus datos financieros.
+                </p>
+            </div>
+        </div>
+
     </div>
 
     <!-- APP PRINCIPAL (Header Móvil + Sidebar + Contenido + Barra Inferior Móvil) -->
@@ -91,19 +198,33 @@
         <!-- Header Móvil (visible en pantallas pequeñas) -->
         <header class="mobile-header">
             <div class="mobile-brand">
-                <span class="mobile-brand-icon">💰</span>
-                <span class="mobile-brand-title">Finanzas Web</span>
+                <img src="img/sidaa-logo.png" alt="SIDAA" class="mobile-logo-img">
+                <span class="mobile-brand-title">SIDAA</span>
             </div>
             <div class="mobile-actions">
-                <button type="button" id="theme-toggle-mobile" class="theme-toggle-btn-compact" title="Cambiar tema">🌙</button>
-                <button type="button" id="btn-logout-mobile" class="btn-logout-compact" title="Cerrar sesión">🚪</button>
+                <button type="button" id="theme-toggle-mobile" class="theme-toggle-btn-compact" title="Cambiar tema" aria-label="Cambiar tema">
+                    <span class="theme-icon-slot">
+                        <svg class="theme-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </span>
+                </button>
+                <button type="button" id="btn-logout-mobile" class="btn-logout-compact" title="Cerrar sesión" aria-label="Cerrar sesión">
+                    <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </button>
             </div>
         </header>
 
         <!-- Sidebar Desktop -->
         <aside class="sidebar">
+            <div class="sidebar-brand-card">
+                <img src="img/sidaa-logo.png" alt="SIDAA" class="sidebar-brand-logo">
+                <div class="sidebar-brand-meta">
+                    <span class="sidebar-brand-name">SIDAA</span>
+                    <span class="sidebar-brand-sub">Finanzas</span>
+                </div>
+            </div>
+
             <div class="sidebar-user-card">
-                <div class="user-avatar" id="user-avatar">👤</div>
+                <div class="user-avatar" id="user-avatar">U</div>
                 <div class="user-info">
                     <h3 id="user-greeting">Hola 👋</h3>
                     <span class="user-status-pill">● En línea</span>
@@ -112,31 +233,69 @@
 
             <nav class="sidebar-nav">
                 <div class="nav-section-title">MENÚ PRINCIPAL</div>
+                
                 <a href="#dashboard" class="nav-item active" data-view="dashboard">
-                    <span class="nav-icon">📊</span>
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9" rx="1"/>
+                        <rect x="14" y="3" width="7" height="5" rx="1"/>
+                        <rect x="14" y="12" width="7" height="9" rx="1"/>
+                        <rect x="3" y="16" width="7" height="5" rx="1"/>
+                    </svg>
                     <span class="nav-text">Dashboard</span>
                 </a>
+
                 <a href="#registrar" class="nav-item" data-view="registrar">
-                    <span class="nav-icon">✍️</span>
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
                     <span class="nav-text">Registrar</span>
                 </a>
+
                 <a href="#historial" class="nav-item" data-view="historial">
-                    <span class="nav-icon">📜</span>
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
                     <span class="nav-text">Historial</span>
                 </a>
+
                 <a href="#resumen" class="nav-item" data-view="resumen">
-                    <span class="nav-icon">📅</span>
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
                     <span class="nav-text">Resumen Mensual</span>
                 </a>
+
                 <a href="#graficas" class="nav-item" data-view="graficas">
-                    <span class="nav-icon">📈</span>
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                        <line x1="2" y1="20" x2="22" y2="20"/>
+                    </svg>
                     <span class="nav-text">Gráficas</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer-card">
                 <div class="sidebar-control-group">
-                    <label for="currency-selector" class="control-label">💱 Moneda</label>
+                    <label for="currency-selector" class="control-label">
+                        <svg class="control-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                            <line x1="12" y1="6" x2="12" y2="8"/>
+                            <line x1="12" y1="16" x2="12" y2="18"/>
+                        </svg>
+                        Moneda
+                    </label>
                     <select id="currency-selector" class="input-select">
                         <option value="USD">Dólar (USD)</option>
                         <option value="EUR">Euro (EUR)</option>
@@ -146,13 +305,29 @@
                 </div>
                 
                 <div class="sidebar-control-group">
-                    <label class="control-label">🎨 Apariencia</label>
+                    <label class="control-label">
+                        <svg class="control-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                        </svg>
+                        Apariencia
+                    </label>
                     <button type="button" id="theme-toggle-sidebar" class="theme-toggle-btn">
-                        <span class="theme-icon">🌙</span> <span class="theme-text">Modo Oscuro</span>
+                        <span class="theme-icon-slot">
+                            <svg class="theme-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </span>
+                        <span class="theme-text">Modo Oscuro</span>
                     </button>
                 </div>
 
-                <button id="btn-logout" class="btn btn-block btn-logout">🚪 Cerrar Sesión</button>
+                <button id="btn-logout" class="btn btn-block btn-logout">
+                    <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Cerrar Sesión
+                </button>
             </div>
         </aside>
 
@@ -163,7 +338,7 @@
             <section id="view-dashboard" class="view">
                 <div class="view-header">
                     <div>
-                        <h2>📊 Dashboard Principal</h2>
+                        <h2>Dashboard Principal</h2>
                         <p class="view-subtitle">Resumen global y métricas clave de tus finanzas</p>
                     </div>
                     <div class="month-selector-wrapper">
@@ -174,22 +349,22 @@
                 <!-- Métricas Principales -->
                 <div class="metrics-grid">
                     <div class="metric-card metric-primary">
-                        <div class="metric-title">💰 Saldo Total</div>
+                        <div class="metric-title">Saldo Total</div>
                         <div class="metric-value" id="dash-saldo">--</div>
                         <div class="metric-delta" id="dash-saldo-delta">--</div>
                     </div>
                     <div class="metric-card metric-income">
-                        <div class="metric-title">📈 Ingresos del Mes</div>
+                        <div class="metric-title">Ingresos del Mes</div>
                         <div class="metric-value" id="dash-ingresos">--</div>
                         <div class="metric-delta delta-positive" id="dash-ingresos-delta">--</div>
                     </div>
                     <div class="metric-card metric-expense">
-                        <div class="metric-title">📉 Gastos del Mes</div>
+                        <div class="metric-title">Gastos del Mes</div>
                         <div class="metric-value" id="dash-gastos">--</div>
                         <div class="metric-delta delta-inverse" id="dash-gastos-delta">--</div>
                     </div>
                     <div class="metric-card metric-neutral">
-                        <div class="metric-title">📋 Transacciones</div>
+                        <div class="metric-title">Total Transacciones</div>
                         <div class="metric-value" id="dash-transacciones">--</div>
                         <div class="metric-delta" id="dash-transacciones-delta">--</div>
                     </div>
@@ -198,13 +373,13 @@
                 <!-- Gráficos y Análisis -->
                 <div class="dashboard-grid">
                     <div class="chart-card">
-                        <h3>📈 Evolución del Saldo</h3>
+                        <h3>Evolución del Saldo</h3>
                         <div class="chart-container" style="position: relative; height:290px;">
                             <canvas id="chart-evolution"></canvas>
                         </div>
                     </div>
                     <div class="chart-card donut-card">
-                        <h3>🍩 Distribución del Mes</h3>
+                        <h3>Distribución del Mes</h3>
                         <div class="chart-container" style="position: relative; height:290px;">
                             <canvas id="chart-donut"></canvas>
                         </div>
@@ -212,7 +387,7 @@
                 </div>
 
                 <div class="chart-card">
-                    <h3>📊 Análisis Financiero</h3>
+                    <h3>Análisis Financiero</h3>
                     <div id="analysis-content" class="analysis-card">
                         <!-- Generado dinámicamente -->
                     </div>
@@ -223,7 +398,7 @@
             <section id="view-registrar" class="view hidden">
                 <div class="view-header">
                     <div>
-                        <h2>✍️ Registrar Transacción</h2>
+                        <h2>Registrar Transacción</h2>
                         <p class="view-subtitle">Añade un ingreso o gasto a tu registro contable</p>
                     </div>
                 </div>
@@ -235,11 +410,15 @@
                                 <label class="label-heading">Tipo de Operación</label>
                                 <div class="type-selector-segmented">
                                     <button type="button" class="type-btn active" data-type="Ingreso" id="btn-type-ingreso">
-                                        <span class="type-icon">📈</span>
+                                        <span class="type-icon">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
+                                        </span>
                                         <span class="type-name">Ingreso</span>
                                     </button>
                                     <button type="button" class="type-btn" data-type="Gasto" id="btn-type-gasto">
-                                        <span class="type-icon">📉</span>
+                                        <span class="type-icon">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 18l-9.5-9.5-5 5L1 6"/><path d="M17 18h6v-6"/></svg>
+                                        </span>
                                         <span class="type-name">Gasto</span>
                                     </button>
                                     <input type="hidden" id="tx-tipo" value="Ingreso">
@@ -265,7 +444,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">
-                                💾 Guardar Transacción en Base de Datos
+                                Guardar Transacción
                             </button>
                         </form>
                     </div>
@@ -276,7 +455,7 @@
             <section id="view-historial" class="view hidden">
                 <div class="view-header">
                     <div>
-                        <h2>📜 Historial de Transacciones</h2>
+                        <h2>Historial de Transacciones</h2>
                         <p class="view-subtitle">Consulta, filtra y administra todas tus operaciones registradas</p>
                     </div>
                 </div>
@@ -284,28 +463,36 @@
                 <!-- Resumen rápido del historial (4 KPIs balanceados) -->
                 <div class="historial-summary-grid">
                     <div class="mini-kpi-card">
-                        <span class="mini-kpi-icon">📋</span>
+                        <span class="mini-kpi-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </span>
                         <div>
                             <div class="mini-kpi-label">Total Operaciones</div>
                             <div class="mini-kpi-val" id="historial-kpi-count">0</div>
                         </div>
                     </div>
                     <div class="mini-kpi-card mini-kpi-income">
-                        <span class="mini-kpi-icon">📈</span>
+                        <span class="mini-kpi-icon text-income">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
+                        </span>
                         <div>
                             <div class="mini-kpi-label">Total Ingresos</div>
                             <div class="mini-kpi-val text-income" id="historial-kpi-ingresos">--</div>
                         </div>
                     </div>
                     <div class="mini-kpi-card mini-kpi-expense">
-                        <span class="mini-kpi-icon">📉</span>
+                        <span class="mini-kpi-icon text-expense">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 18l-9.5-9.5-5 5L1 6"/><path d="M17 18h6v-6"/></svg>
+                        </span>
                         <div>
                             <div class="mini-kpi-label">Total Gastos</div>
                             <div class="mini-kpi-val text-expense" id="historial-kpi-gastos">--</div>
                         </div>
                     </div>
                     <div class="mini-kpi-card mini-kpi-balance">
-                        <span class="mini-kpi-icon">💰</span>
+                        <span class="mini-kpi-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+                        </span>
                         <div>
                             <div class="mini-kpi-label">Balance Neto</div>
                             <div class="mini-kpi-val" id="historial-kpi-balance">--</div>
@@ -317,18 +504,19 @@
                 <div class="card table-card">
                     <div class="table-toolbar">
                         <div class="search-box">
-                            <input type="text" id="historial-search" placeholder="🔍 Buscar por concepto, monto o fecha..." class="input-search">
+                            <input type="text" id="historial-search" placeholder="Buscar por concepto, monto o fecha..." class="input-search">
                         </div>
                         <div class="filter-box">
                             <select id="historial-filter-type" class="input-select-compact">
                                 <option value="ALL">Todas las operaciones</option>
-                                <option value="Ingreso">Solo Ingresos (📈)</option>
-                                <option value="Gasto">Solo Gastos (📉)</option>
+                                <option value="Ingreso">Solo Ingresos</option>
+                                <option value="Gasto">Solo Gastos</option>
                             </select>
                         </div>
                         <div class="toolbar-actions">
                             <button id="btn-delete-selected" class="btn btn-danger btn-compact" disabled title="Selecciona al menos una casilla para eliminar">
-                                🗑️ Eliminar Seleccionados (<span id="delete-count">0</span>)
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                Eliminar Seleccionados (<span id="delete-count">0</span>)
                             </button>
                         </div>
                     </div>
@@ -363,7 +551,7 @@
             <section id="view-resumen" class="view hidden">
                 <div class="view-header">
                     <div>
-                        <h2>📅 Resumen Mensual</h2>
+                        <h2>Resumen Mensual</h2>
                         <p class="view-subtitle">Análisis detallado de distribución y balance del periodo</p>
                     </div>
                     <div class="month-selector-wrapper">
@@ -378,15 +566,15 @@
                     <div class="resumen-left-col">
                         <div class="resumen-metrics-row">
                             <div class="metric-card metric-income">
-                                <div class="metric-title">📈 Ingresos del Mes</div>
+                                <div class="metric-title">Ingresos del Mes</div>
                                 <div class="metric-value" id="resumen-ingresos">--</div>
                             </div>
                             <div class="metric-card metric-expense">
-                                <div class="metric-title">📉 Gastos del Mes</div>
+                                <div class="metric-title">Gastos del Mes</div>
                                 <div class="metric-value" id="resumen-gastos">--</div>
                             </div>
                             <div class="metric-card metric-primary">
-                                <div class="metric-title">💰 Balance Neto</div>
+                                <div class="metric-title">Balance Neto</div>
                                 <div class="metric-value" id="resumen-balance">--</div>
                             </div>
                         </div>
@@ -394,7 +582,7 @@
                         <!-- Card de Diagnóstico y Salud Financiera -->
                         <div class="card diagnostic-card">
                             <div class="card-header-simple">
-                                <h3>📊 Diagnóstico Financiero</h3>
+                                <h3>Diagnóstico Financiero</h3>
                                 <span id="resumen-health-pill" class="health-pill">--</span>
                             </div>
                             
@@ -409,7 +597,9 @@
                             </div>
 
                             <div class="diagnostic-advice-box" id="resumen-advice-box">
-                                <span class="advice-icon">💡</span>
+                                <span class="advice-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                </span>
                                 <span class="advice-text" id="resumen-advice-text">Calculando métricas del mes seleccionado...</span>
                             </div>
                         </div>
@@ -419,7 +609,7 @@
                     <div class="resumen-right-col">
                         <div class="card chart-donut-card">
                             <div class="card-header-simple">
-                                <h3>🍩 Distribución de Gastos vs Ingresos</h3>
+                                <h3>Distribución de Gastos vs Ingresos</h3>
                             </div>
                             <div class="chart-container" style="position: relative; height: 280px;">
                                 <canvas id="chart-resumen-donut"></canvas>
@@ -446,7 +636,7 @@
             <section id="view-graficas" class="view hidden">
                 <div class="view-header">
                     <div>
-                        <h2>📈 Gráficas y Tendencias</h2>
+                        <h2>Gráficas y Tendencias</h2>
                         <p class="view-subtitle">Visualización analítica de evolución, gastos y balance</p>
                     </div>
                 </div>
@@ -454,7 +644,7 @@
                 <!-- Gráfico Principal Evolución -->
                 <div class="card chart-card mb-4">
                     <div class="card-header-simple">
-                        <h3>💰 Evolución Histórica del Saldo</h3>
+                        <h3>Evolución Histórica del Saldo</h3>
                     </div>
                     <div class="chart-container" style="position: relative; height: 320px;">
                         <canvas id="chart-full-evolution"></canvas>
@@ -465,7 +655,7 @@
                 <div class="graficas-grid">
                     <div class="card chart-card">
                         <div class="card-header-simple">
-                            <h3>📊 Ingresos vs Gastos por Mes</h3>
+                            <h3>Ingresos vs Gastos por Mes</h3>
                         </div>
                         <div class="chart-container" style="position: relative; height: 290px;">
                             <canvas id="chart-bars"></canvas>
@@ -474,7 +664,7 @@
 
                     <div class="card chart-card">
                         <div class="card-header-simple">
-                            <h3>📈 Balance Mensual Neto</h3>
+                            <h3>Balance Mensual Neto</h3>
                         </div>
                         <div class="chart-container" style="position: relative; height: 290px;">
                             <canvas id="chart-balance"></canvas>
@@ -485,26 +675,50 @@
 
         </main>
 
-        <!-- Barra de Navegación Móvil Inferior (Bottom Nav) -->
+        <!-- Barra de Navegación Móvil Inferior (Bottom Nav) con Iconos Minimalistas -->
         <nav class="mobile-bottom-nav" aria-label="Navegación Móvil">
             <a href="#dashboard" class="bottom-nav-item active" data-view="dashboard">
-                <span class="bottom-nav-icon">📊</span>
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="9" rx="1"/>
+                    <rect x="14" y="3" width="7" height="5" rx="1"/>
+                    <rect x="14" y="12" width="7" height="9" rx="1"/>
+                    <rect x="3" y="16" width="7" height="5" rx="1"/>
+                </svg>
                 <span class="bottom-nav-label">Dashboard</span>
             </a>
             <a href="#registrar" class="bottom-nav-item" data-view="registrar">
-                <span class="bottom-nav-icon">✍️</span>
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
                 <span class="bottom-nav-label">Registrar</span>
             </a>
             <a href="#historial" class="bottom-nav-item" data-view="historial">
-                <span class="bottom-nav-icon">📜</span>
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
                 <span class="bottom-nav-label">Historial</span>
             </a>
             <a href="#resumen" class="bottom-nav-item" data-view="resumen">
-                <span class="bottom-nav-icon">📅</span>
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
                 <span class="bottom-nav-label">Resumen</span>
             </a>
             <a href="#graficas" class="bottom-nav-item" data-view="graficas">
-                <span class="bottom-nav-icon">📈</span>
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                    <line x1="2" y1="20" x2="22" y2="20"/>
+                </svg>
                 <span class="bottom-nav-label">Gráficas</span>
             </a>
         </nav>
