@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Financiera</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- NOTIFICACIONES (Toast) -->
+    <div id="toast-container"></div>
+
+    <!-- VISTA: AUTENTICACIÓN (Login / Registro) -->
+    <div id="view-auth" class="view view-active">
+        <div class="auth-container">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <h2>Sistema de Gestión Financiera</h2>
+                    <p>Controla tus finanzas personales</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-target="form-login">Iniciar Sesión</button>
+                    <button class="auth-tab" data-target="form-register">Registrar</button>
+                </div>
+
+                <!-- Formulario de Login -->
+                <form id="form-login" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                </form>
+
+                <!-- Formulario de Registro -->
+                <form id="form-register" class="auth-form">
+                    <div class="form-group">
+                        <label for="reg-name">Nombre</label>
+                        <input type="text" id="reg-name" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" placeholder="Mín. 6 caracteres" minlength="6" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                </form>
+            </div>
+            
+            <div class="auth-visual">
+                <div class="auth-visual-content">
+                    <div class="icon-large">💰</div>
+                    <h3>Gestiona tu dinero</h3>
+                    <p>Registra ingresos y gastos, visualiza gráficos interactivos y mantén el control de tus finanzas.</p>
+                    <ul class="auth-features">
+                        <li>✓ Multi-moneda (USD, EUR, PEN, MXN)</li>
+                        <li>✓ Gráficos de evolución</li>
+                        <li>✓ Análisis de salud financiera</li>
+                        <li>✓ Sincronización en tu BD local</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APP PRINCIPAL (Sidebar + Contenido) -->
+    <div id="app-container" class="hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3 id="user-greeting">Hola, Usuario 👋</h3>
+            </div>
+            <hr>
+            <nav class="sidebar-nav">
+                <h4>📌 Navegación</h4>
+                <a href="#dashboard" class="nav-item active" data-view="dashboard">📊 Dashboard</a>
+                <a href="#registrar" class="nav-item" data-view="registrar">✍️ Registrar</a>
+                <a href="#historial" class="nav-item" data-view="historial">📜 Historial</a>
+                <a href="#resumen" class="nav-item" data-view="resumen">📅 Resumen Mensual</a>
+                <a href="#graficas" class="nav-item" data-view="graficas">📈 Gráficas</a>
+            </nav>
+            <hr>
+            <div class="sidebar-settings">
+                <h4>💱 Moneda</h4>
+                <select id="currency-selector" class="input-select">
+                    <option value="USD">Dólar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="PEN">Sol (PEN)</option>
+                    <option value="MXN">Peso Mexicano (MXN)</option>
+                </select>
+            </div>
+            <hr>
+            <button id="btn-logout" class="btn btn-block">🚪 Cerrar Sesión</button>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            
+            <!-- VISTA: DASHBOARD -->
+            <section id="view-dashboard" class="view">
+                <div class="header-row">
+                    <h2>📊 Dashboard</h2>
+                    <div class="month-selector">
+                        <select id="dashboard-month-selector" class="input-select"></select>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Métricas -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">💰 Saldo Total</div>
+                        <div class="metric-value" id="dash-saldo">--</div>
+                        <div class="metric-delta" id="dash-saldo-delta">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">📈 Ingresos (Mes)</div>
+                        <div class="metric-value" id="dash-ingresos">--</div>
+                        <div class="metric-delta delta-positive" id="dash-ingresos-delta">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">📉 Gastos (Mes)</div>
+                        <div class="metric-value" id="dash-gastos">--</div>
+                        <div class="metric-delta delta-inverse" id="dash-gastos-delta">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">📋 Transacciones</div>
+                        <div class="metric-value" id="dash-transacciones">--</div>
+                        <div class="metric-delta" id="dash-transacciones-delta">--</div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Gráficos y Análisis -->
+                <div class="dashboard-grid">
+                    <div class="chart-card">
+                        <h3>📈 Evolución del Saldo</h3>
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="chart-evolution"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card donut-card">
+                        <h3>🍩 Distribución del Mes</h3>
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="chart-donut"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="analysis-section">
+                    <h3>📊 Análisis Financiero</h3>
+                    <div id="analysis-content" class="analysis-card">
+                        <!-- Generado dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: REGISTRAR -->
+            <section id="view-registrar" class="view hidden">
+                <h2>✍️ Registrar Nueva Transacción</h2>
+                <div class="form-card">
+                    <form id="form-transaction">
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="tx-tipo">Tipo</label>
+                                <select id="tx-tipo" required class="input-select">
+                                    <option value="Ingreso">Ingreso</option>
+                                    <option value="Gasto">Gasto</option>
+                                </select>
+                            </div>
+                            <div class="form-group half">
+                                <label for="tx-monto">Monto (<span id="tx-currency-symbol">$</span>)</label>
+                                <input type="number" id="tx-monto" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tx-desc">Descripción</label>
+                            <input type="text" id="tx-desc" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tx-fecha">Fecha</label>
+                            <input type="date" id="tx-fecha" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Registrar Transacción</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VISTA: HISTORIAL -->
+            <section id="view-historial" class="view hidden">
+                <h2>📜 Historial de Transacciones</h2>
+                <div class="table-actions">
+                    <button id="btn-delete-selected" class="btn btn-danger">Eliminar Seleccionados</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>🗑️</th>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historial-tbody">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- VISTA: RESUMEN -->
+            <section id="view-resumen" class="view hidden">
+                <h2>📅 Resumen Mensual</h2>
+                <div class="month-selector mb-4">
+                    <select id="resumen-month-selector" class="input-select"></select>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Ingresos del Mes</div>
+                        <div class="metric-value" id="resumen-ingresos">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Gastos del Mes</div>
+                        <div class="metric-value" id="resumen-gastos">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Balance del Mes</div>
+                        <div class="metric-value" id="resumen-balance">--</div>
+                    </div>
+                </div>
+
+                <div class="chart-card mt-4" style="max-width: 500px; margin: 20px auto;">
+                    <div class="chart-container" style="position: relative; height:400px;">
+                        <canvas id="chart-resumen-donut"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: GRÁFICAS -->
+            <section id="view-graficas" class="view hidden">
+                <h2>📈 Gráficas de Evolución</h2>
+                
+                <div class="chart-card mt-4">
+                    <h3>💰 Evolución del Saldo</h3>
+                    <div class="chart-container" style="position: relative; height:350px;">
+                        <canvas id="chart-full-evolution"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card mt-4">
+                    <h3>📊 Ingresos vs Gastos por Mes</h3>
+                    <div class="chart-container" style="position: relative; height:350px;">
+                        <canvas id="chart-bars"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card mt-4">
+                    <h3>📈 Balance Mensual</h3>
+                    <div class="chart-container" style="position: relative; height:300px;">
+                        <canvas id="chart-balance"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

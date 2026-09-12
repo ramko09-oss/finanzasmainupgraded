@@ -1,0 +1,29 @@
+# render.yaml — Blueprint de Render para deploy automático
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: finanzas-web
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false  # Se configura manualmente en el dashboard
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: finanzas_db
+      - key: DB_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true  # Render genera un secreto seguro

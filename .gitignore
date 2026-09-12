@@ -1,0 +1,33 @@
+# Dependencias
+node_modules/
+backend/node_modules/
+
+# Variables de entorno (contienen contraseñas)
+.env
+backend/.env
+
+# Archivos de sistema Windows
+*.bat
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Base de datos local (SQLite legacy)
+*.sqlite
+*.sqlite3
+
+# Archivos temporales
+'Schemas'
+Tables
