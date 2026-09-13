@@ -1680,40 +1680,46 @@ input:focus, select:focus {
   max-width: 480px;
 }
 
-/* Banner Oficial de Marca SIDAA (Cabecera Superior del Hero) */
+/* Banner Oficial de Marca SIDAA (Cabecera Superior del Hero — Acoplado Naturalmente) */
 .sidaa-banner-container {
   width: 100%;
-  max-width: 440px;
-  margin: 0 0 20px 0;
+  max-width: 420px;
+  margin: 0 auto 16px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidaa-banner-card {
   width: 100%;
-  height: 110px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #092042 0%, #031227 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.45);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 24px rgba(56, 189, 248, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   position: relative;
-  transition: all var(--transition-normal);
+  border-radius: 24px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform var(--transition-normal);
 }
 
 .sidaa-banner-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(56, 189, 248, 0.75);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 32px rgba(56, 189, 248, 0.35);
+  transform: translateY(-3px) scale(1.015);
 }
 
 .sidaa-banner-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
+  max-height: 165px;
+  object-fit: contain;
   display: block;
+  border-radius: 24px;
+  filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 28px rgba(56, 189, 248, 0.3));
+  transition: filter var(--transition-normal);
+}
+
+.sidaa-banner-card:hover .sidaa-banner-image {
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 36px rgba(56, 189, 248, 0.45));
 }
 
 /* Plataformas Compatibles: Web & Móvil (Windows, Mac, Android, iOS) */
@@ -1798,22 +1804,22 @@ input:focus, select:focus {
 .auth-mobile-banner {
   display: none;
   width: 100%;
-  max-width: 340px;
-  height: 95px;
+  max-width: 320px;
+  height: auto;
   margin: 0 auto 20px auto;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-  background: #0a254c;
+  border-radius: 18px;
+  background: transparent;
+  border: none;
 }
 
 .sidaa-banner-image-mobile {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
+  max-height: 110px;
+  object-fit: contain;
   display: block;
+  border-radius: 18px;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(56, 189, 248, 0.3));
 }
 
 .auth-form-header {
