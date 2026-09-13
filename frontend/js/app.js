@@ -58,6 +58,9 @@ formLogin.addEventListener('submit', async (e) => {
   e.preventDefault();
   const emailInput = document.getElementById('login-email');
   const passInput = document.getElementById('login-password');
+  const rememberCheckbox = document.getElementById('login-remember');
+  const rememberMe = rememberCheckbox ? rememberCheckbox.checked : false;
+
   const submitBtn = formLogin.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
 
@@ -65,7 +68,7 @@ formLogin.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Verificando...';
   
   try {
-    const user = await auth.login(emailInput.value, passInput.value);
+    const user = await auth.login(emailInput.value, passInput.value, rememberMe);
     ui.showToast(`¡Bienvenido de nuevo, ${user.username || 'Usuario'}! 👋`);
     initializeApp(user);
   } catch(err) {

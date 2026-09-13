@@ -24,8 +24,14 @@ export function formatCurrency(amountUsd, currencyCode) {
 }
 
 // ─── Helpers de API ────────────────────────────────────────────────────────
+function getActiveStorage() {
+  if (sessionStorage.getItem('finanzas_jwt')) return sessionStorage;
+  if (localStorage.getItem('finanzas_jwt')) return localStorage;
+  return sessionStorage;
+}
+
 function getToken() {
-  return localStorage.getItem('finanzas_jwt');
+  return sessionStorage.getItem('finanzas_jwt') || localStorage.getItem('finanzas_jwt');
 }
 
 async function fetchAPI(endpoint, options = {}) {
@@ -46,6 +52,8 @@ async function fetchAPI(endpoint, options = {}) {
   if (!response.ok) {
     if (response.status === 401 || response.status === 403) {
       // Token expirado o inválido
+      sessionStorage.removeItem('finanzas_jwt');
+      sessionStorage.removeItem('finanzas_user');
       localStorage.removeItem('finanzas_jwt');
       localStorage.removeItem('finanzas_user');
       window.location.hash = '#auth'; // Forzar login
@@ -58,14 +66,25 @@ async function fetchAPI(endpoint, options = {}) {
 
 // ─── Auth ──────────────────────────────────────────────────────────────────
 export const auth = {
-  async login(email, password) {
+  async login(email, password, rememberMe = false) {
     const cleanEmail = email.trim().toLowerCase();
     const data = await fetchAPI('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email: cleanEmail, password })
     });
-    localStorage.setItem('finanzas_jwt', data.token);
-    localStorage.setItem('finanzas_user', JSON.stringify(data.user));
+
+    // Limpiar almacenamiento previo para evitar estados cruzados
+    sessionStorage.removeItem('finanzas_jwt');
+    sessionStorage.removeItem('finanzas_user');
+    localStorage.removeItem('finanzas_jwt');
+    localStorage.removeItem('finanzas_user');
+
+    // Si 'Recordar sesión' está marcado, guardar en localStorage (permanente)
+    // De lo contrario, guardar en sessionStorage (se cierra al salir del navegador)
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem('finanzas_jwt', data.token);
+    storage.setItem('finanzas_user', JSON.stringify(data.user));
+
     return data.user;
   },
 
@@ -84,7 +103,8 @@ export const auth = {
     if (!token) return null;
     try {
       const data = await fetchAPI('/api/auth/me');
-      localStorage.setItem('finanzas_user', JSON.stringify(data.user));
+      const storage = getActiveStorage();
+      storage.setItem('finanzas_user', JSON.stringify(data.user));
       return data.user;
     } catch (e) {
       this.logout();
@@ -93,13 +113,15 @@ export const auth = {
   },
 
   logout() {
+    sessionStorage.removeItem('finanzas_jwt');
+    sessionStorage.removeItem('finanzas_user');
     localStorage.removeItem('finanzas_jwt');
     localStorage.removeItem('finanzas_user');
   },
 
   getCurrentUser() {
     const token = getToken();
-    const userStr = localStorage.getItem('finanzas_user');
+    const userStr = sessionStorage.getItem('finanzas_user') || localStorage.getItem('finanzas_user');
     if (!token || !userStr) return null;
     try {
       return JSON.parse(userStr);
