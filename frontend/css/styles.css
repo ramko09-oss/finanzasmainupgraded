@@ -1114,9 +1114,12 @@ input:focus, select:focus {
   animation: fadeIn 0.25s ease-out;
 }
 
-.view.view-active,
-.view:not(.hidden) {
+.view.view-active:not(.hidden) {
   display: block;
+}
+
+.hidden {
+  display: none !important;
 }
 
 @keyframes fadeIn {
@@ -1132,7 +1135,7 @@ input:focus, select:focus {
 
 /* ─── 10. VISTA DE AUTENTICACIÓN (Split Screen estilo Wallet/BudgetBakers con SIDAA) ─── */
 .auth-split-layout {
-  display: flex !important;
+  display: none;
   min-height: 100vh;
   width: 100%;
   position: fixed;
@@ -1143,6 +1146,16 @@ input:focus, select:focus {
   overflow-y: auto;
   z-index: 1000;
   background-color: var(--background-color);
+}
+
+.auth-split-layout.view-active:not(.hidden),
+#view-auth.view-active:not(.hidden) {
+  display: flex !important;
+}
+
+#view-auth.hidden,
+.auth-split-layout.hidden {
+  display: none !important;
 }
 
 /* Columna Izquierda: Hero de Marca */
@@ -1906,6 +1919,12 @@ input:focus, select:focus {
     position: relative;
     min-height: 100vh;
     height: auto;
+  }
+
+  .auth-split-layout.view-active:not(.hidden),
+  #view-auth.view-active:not(.hidden) {
+    display: flex !important;
+    flex-direction: column;
   }
 
   .auth-hero-panel {

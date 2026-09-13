@@ -169,7 +169,9 @@ export function initUI(user, logoutCb) {
   // Ocultar Auth, Mostrar App
   viewAuth.classList.add('hidden');
   viewAuth.classList.remove('view-active');
+  viewAuth.style.display = 'none';
   appContainer.classList.remove('hidden');
+  appContainer.style.display = 'flex';
 
   // Asegurar listeners de tema activos
   initTheme();
@@ -184,8 +186,10 @@ export function initUI(user, logoutCb) {
 
 export function showAuthView() {
   appContainer.classList.add('hidden');
+  appContainer.style.display = 'none';
   viewAuth.classList.remove('hidden');
   viewAuth.classList.add('view-active');
+  viewAuth.style.display = 'flex';
   window.location.hash = '#auth';
 }
 
