@@ -1439,58 +1439,94 @@ input:focus, select:focus {
   max-width: 480px;
 }
 
-/* Badge Oficial SIDAA */
-.auth-hero-brand {
-  display: inline-flex;
+/* Banner Oficial de Marca SIDAA */
+.sidaa-banner-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 8px 0 20px 0;
+}
+
+.sidaa-banner-card {
+  width: 100%;
+  height: 120px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0a254c 0%, #03152d 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(56, 189, 248, 0.2);
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 18px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--radius-full);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  margin-bottom: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  transition: transform var(--transition-fast);
+  overflow: hidden;
+  position: relative;
+  transition: all var(--transition-normal);
 }
 
-.auth-hero-brand:hover {
+.sidaa-banner-card:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 32px rgba(56, 189, 248, 0.35);
 }
 
-.auth-sidaa-logo-img {
-  height: 48px;
-  width: auto;
-  border-radius: var(--radius-sm);
-  object-fit: contain;
+.sidaa-banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
-.auth-hero-badges {
+/* Plataformas Compatibles: Web & Móvil (Windows, Mac, Android, iOS) */
+.auth-platforms-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.platforms-heading {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.platforms-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-.hero-tech-badge {
+.platform-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 7px;
+  padding: 7px 14px;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-full);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--transition-fast);
 }
 
-.hero-badge-svg {
-  width: 14px;
-  height: 14px;
-  stroke: #38bdf8;
+.platform-badge:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.platform-svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  flex-shrink: 0;
 }
 
 /* Columna Derecha: Formulario */
@@ -1517,17 +1553,26 @@ input:focus, select:focus {
   padding: 24px 0;
 }
 
-.auth-mobile-logo {
+/* Banner de Marca en Móvil */
+.auth-mobile-banner {
   display: none;
-  text-align: center;
-  margin-bottom: 16px;
+  width: 100%;
+  max-width: 340px;
+  height: 95px;
+  margin: 0 auto 20px auto;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  background: #0a254c;
 }
 
-.auth-mobile-logo-img {
-  height: 52px;
-  width: auto;
-  border-radius: var(--radius-sm);
-  object-fit: contain;
+.sidaa-banner-image-mobile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .auth-form-header {
@@ -1576,6 +1621,27 @@ input:focus, select:focus {
   background-color: var(--surface-color);
   color: var(--primary-color);
   box-shadow: var(--shadow-sm);
+}
+
+/* Formularios de Autenticación (Login / Registro mutuamente excluyentes) */
+.auth-form {
+  display: none !important;
+}
+
+.auth-form.active {
+  display: block !important;
+  animation: authFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .input-auth {
@@ -1753,6 +1819,13 @@ input:focus, select:focus {
   gap: var(--space-xs);
 }
 
+.mobile-logo-img {
+  height: 32px;
+  width: auto;
+  border-radius: var(--radius-xs);
+  object-fit: contain;
+}
+
 .mobile-brand-icon {
   font-size: 1.5rem;
 }
@@ -1846,10 +1919,11 @@ input:focus, select:focus {
     justify-content: flex-start;
   }
 
-  .auth-mobile-logo {
-    display: block !important;
-    text-align: center;
-    margin-bottom: 20px;
+  .auth-mobile-banner {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
   }
 
   .auth-form-box {

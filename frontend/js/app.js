@@ -10,20 +10,48 @@ import * as ui from './ui.js';
 const formLogin = document.getElementById('form-login');
 const formRegister = document.getElementById('form-register');
 const authTabs = document.querySelectorAll('.auth-tab');
+const authTitleText = document.getElementById('auth-title-text');
+const authSubtitleText = document.querySelector('.auth-subtitle-text');
 
-// Manejar Tabs de Login/Registro
+// Manejar Tabs de Login/Registro de forma robusta
+export function switchAuthTab(targetId) {
+  authTabs.forEach(tab => {
+    if (tab.dataset.target === targetId) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+
+  document.querySelectorAll('.auth-form').forEach(form => {
+    if (form.id === targetId) {
+      form.classList.add('active');
+      form.style.display = 'block';
+    } else {
+      form.classList.remove('active');
+      form.style.display = 'none';
+    }
+  });
+
+  if (targetId === 'form-login') {
+    if (authTitleText) authTitleText.textContent = 'Iniciar sesión';
+    if (authSubtitleText) authSubtitleText.textContent = 'Ingresa a tu panel financiero en SIDAA';
+  } else {
+    if (authTitleText) authTitleText.textContent = 'Crear cuenta';
+    if (authSubtitleText) authSubtitleText.textContent = 'Comienza a gestionar tus finanzas con SIDAA';
+  }
+}
+
 authTabs.forEach(tab => {
   tab.addEventListener('click', (e) => {
-    // Quitar active de tabs y forms
-    authTabs.forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-    
-    // Activar seleccionada
-    e.target.classList.add('active');
-    const targetForm = document.getElementById(e.target.dataset.target);
-    if (targetForm) targetForm.classList.add('active');
+    e.preventDefault();
+    const targetId = tab.dataset.target || (tab.getAttribute('data-target'));
+    if (targetId) switchAuthTab(targetId);
   });
 });
+
+// Inicializar por defecto en Login ocultando Registro
+switchAuthTab('form-login');
 
 // Submit Login
 formLogin.addEventListener('submit', async (e) => {
@@ -70,8 +98,7 @@ formRegister.addEventListener('submit', async (e) => {
     formRegister.reset();
 
     // Cambiar automáticamente a la pestaña de Login
-    const loginTab = document.querySelector('.auth-tab[data-target="form-login"]');
-    if (loginTab) loginTab.click();
+    switchAuthTab('form-login');
 
     // Pre-llenar el correo en el formulario de Login y enfocar contraseña
     const loginEmail = document.getElementById('login-email');
