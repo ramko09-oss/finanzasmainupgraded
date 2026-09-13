@@ -2288,43 +2288,93 @@ input:focus, select:focus {
   box-shadow: var(--shadow-sm);
 }
 
-.topbar-nav-wrapper {
+.topbar-left-area {
   display: flex;
   align-items: center;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  gap: var(--space-md);
+  flex: 1;
+  min-width: 0;
 }
 
-.topbar-nav-tabs {
+.topbar-breadcrumb {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background-color: var(--surface-alt);
-  padding: 4px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-color);
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-.topbar-tab {
-  padding: 6px 16px;
+.breadcrumb-prefix {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.breadcrumb-divider {
+  color: var(--border-color);
+  font-size: 0.85rem;
+}
+
+.breadcrumb-current-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+}
+
+.breadcrumb-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #10b981;
+}
+
+.breadcrumb-title {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-muted);
-  border-radius: var(--radius-full);
-  text-decoration: none;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.topbar-tab:hover {
   color: var(--text-color);
-  background-color: var(--surface-hover);
 }
 
-.topbar-tab.active {
-  background-color: #10b981;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+.topbar-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  width: 100%;
+  max-width: 260px;
+  transition: all var(--transition-fast);
+}
+
+.topbar-search-box:focus-within {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  background-color: var(--surface-color);
+  max-width: 320px;
+}
+
+.search-box-svg {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.topbar-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  width: 100%;
+}
+
+.topbar-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.82rem;
 }
 
 .topbar-right-actions {

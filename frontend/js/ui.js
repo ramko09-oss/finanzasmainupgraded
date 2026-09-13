@@ -24,7 +24,7 @@ import {
 const appContainer = document.getElementById('app-container');
 const viewAuth = document.getElementById('view-auth');
 const views = document.querySelectorAll('.view');
-const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item, .topbar-tab');
+const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item');
 const currencySelector = document.getElementById('currency-selector');
 const toastContainer = document.getElementById('toast-container');
 
@@ -214,6 +214,42 @@ export function initUI(user, logoutCb) {
     };
   }
 
+  const topbarSearch = document.getElementById('topbar-global-search');
+  if (topbarSearch) {
+    topbarSearch.oninput = (e) => {
+      const val = e.target.value;
+      const currentHash = window.location.hash || '#dashboard';
+      if (currentHash === '#historial') {
+        const filtroBusqueda = document.getElementById('filtro-busqueda');
+        if (filtroBusqueda) {
+          filtroBusqueda.value = val;
+          renderHistorial(allTransactions);
+        }
+      } else if (currentHash === '#analitica') {
+        if (analiticaSearch) {
+          analiticaSearch.value = val;
+          renderAnalitica(allTransactions);
+        }
+      }
+    };
+
+    topbarSearch.onkeydown = (e) => {
+      if (e.key === 'Enter') {
+        const currentHash = window.location.hash || '#dashboard';
+        if (currentHash !== '#historial' && currentHash !== '#analitica') {
+          window.location.hash = '#historial';
+          setTimeout(() => {
+            const filtroBusqueda = document.getElementById('filtro-busqueda');
+            if (filtroBusqueda) {
+              filtroBusqueda.value = topbarSearch.value;
+              renderHistorial(allTransactions);
+            }
+          }, 60);
+        }
+      }
+    };
+  }
+
   // Ocultar Auth, Mostrar App
   viewAuth.classList.add('hidden');
   viewAuth.classList.remove('view-active');
@@ -241,6 +277,44 @@ export function showAuthView() {
   window.location.hash = '#auth';
 }
 
+// ─── Actualizador de Breadcrumbs de la Barra Superior ────────────────────────
+function updateTopbarBreadcrumb(viewName) {
+  const topbarTitle = document.getElementById('topbar-view-title');
+  const topbarIcon = document.getElementById('topbar-view-icon');
+  if (!topbarTitle) return;
+
+  const viewData = {
+    dashboard: {
+      title: 'Dashboard Principal',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>'
+    },
+    registrar: {
+      title: 'Registrar Transacción',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
+    },
+    historial: {
+      title: 'Historial de Registros',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+    },
+    analitica: {
+      title: 'Analítica Comparativa',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>'
+    },
+    resumen: {
+      title: 'Resumen Mensual',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+    },
+    graficas: {
+      title: 'Gráficas y Tendencias',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>'
+    }
+  };
+
+  const current = viewData[viewName] || { title: 'Panel Principal', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/></svg>' };
+  topbarTitle.textContent = current.title;
+  if (topbarIcon) topbarIcon.innerHTML = current.icon;
+}
+
 // ─── Router (Hash Change) ───────────────────────────────────────────────────
 function handleHashChange() {
   const hash = window.location.hash || '#dashboard';
@@ -263,13 +337,16 @@ function handleHashChange() {
     targetView.classList.add('view-active');
   }
 
-  // Actualizar menú activo en sidebar, barra móvil y topbar
-  document.querySelectorAll('.nav-item, .bottom-nav-item, .topbar-tab').forEach(nav => {
+  // Actualizar menú activo en sidebar y barra móvil
+  document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(nav => {
     nav.classList.remove('active');
     if (nav.dataset.view === viewName) {
       nav.classList.add('active');
     }
   });
+
+  // Actualizar breadcrumb en la barra superior
+  updateTopbarBreadcrumb(viewName);
 
   renderActiveView();
 }
