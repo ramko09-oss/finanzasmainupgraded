@@ -2273,3 +2273,434 @@ input:focus, select:focus {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── 14. BARRA SUPERIOR DE APLICACIÓN (Top App Bar estilo Wallet/BudgetBakers) ─── */
+.main-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 10px 18px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar-nav-wrapper {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.topbar-nav-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--surface-alt);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+}
+
+.topbar-tab {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.topbar-tab:hover {
+  color: var(--text-color);
+  background-color: var(--surface-hover);
+}
+
+.topbar-tab.active {
+  background-color: #10b981;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+}
+
+.topbar-right-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
+.btn-topbar-register {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff !important;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.btn-topbar-register:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+}
+
+.topbar-profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+.topbar-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #6366f1 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.topbar-username {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-color);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── 15. VISTA ANALÍTICA (Filtro Lateral + Tabla Comparativa) ──────────── */
+.analitica-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-income);
+  background-color: var(--color-income-bg);
+  border: 1px solid var(--color-income-border);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+}
+
+.status-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-income);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.analitica-container-grid {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Panel Lateral de Filtros */
+.analitica-filters-sidebar {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filters-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.filters-sidebar-header h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.btn-tune-icon,
+.btn-tune-table {
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-tune-icon:hover,
+.btn-tune-table:hover {
+  background: var(--surface-hover);
+  color: var(--text-color);
+}
+
+.filter-field-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-field-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analitica-select,
+.analitica-search-input,
+.analitica-range-input {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.analitica-select:focus,
+.analitica-search-input:focus,
+.analitica-range-input:focus {
+  border-color: var(--primary-color);
+}
+
+.filter-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filter-search-svg {
+  position: absolute;
+  left: 10px;
+  stroke: var(--text-muted);
+  pointer-events: none;
+}
+
+.analitica-search-input {
+  padding-left: 32px;
+}
+
+.filter-label-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-currency-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.range-inputs-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-separator {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.btn-reset-filters-analitica {
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all var(--transition-fast);
+}
+
+.btn-reset-filters-analitica:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-color);
+  border-color: var(--border-hover);
+}
+
+/* Columna Derecha: Tabla Comparativa */
+.analitica-table-container {
+  min-width: 0;
+}
+
+.analitica-table-card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.analitica-table-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background-color: var(--surface-alt);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table-bar-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analitica-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.analitica-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.analitica-table th {
+  padding: 14px 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background-color: var(--surface-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.analitica-table th.th-amount,
+.analitica-table td.td-amount {
+  text-align: right;
+  width: 160px;
+  white-space: nowrap;
+}
+
+.analitica-table tr.row-total-group {
+  background-color: var(--surface-alt);
+  font-weight: 800;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.analitica-table tr.row-total-group td {
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.analitica-table tr.row-cat-item {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color var(--transition-fast);
+}
+
+.analitica-table tr.row-cat-item:hover {
+  background-color: var(--surface-hover);
+}
+
+.analitica-table td {
+  padding: 12px 20px;
+  color: var(--text-color);
+  vertical-align: middle;
+}
+
+.cat-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cat-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.cat-badge-food        { background-color: #ffe4e6; }
+.cat-badge-shopping    { background-color: #e0f2fe; }
+.cat-badge-housing     { background-color: #ffedd5; }
+.cat-badge-transport   { background-color: #f1f5f9; }
+.cat-badge-vehicle     { background-color: #f3e8ff; }
+.cat-badge-life        { background-color: #ecfccb; }
+.cat-badge-pc          { background-color: #cffafe; }
+.cat-badge-finance     { background-color: #ccfbf1; }
+.cat-badge-investment  { background-color: #fce7f3; }
+.cat-badge-income      { background-color: #dcfce7; }
+.cat-badge-others      { background-color: #f3f4f6; }
+
+[data-theme="dark"] .cat-badge-food        { background-color: rgba(244, 63, 94, 0.2); }
+[data-theme="dark"] .cat-badge-shopping    { background-color: rgba(14, 165, 233, 0.2); }
+[data-theme="dark"] .cat-badge-housing     { background-color: rgba(249, 115, 22, 0.2); }
+[data-theme="dark"] .cat-badge-transport   { background-color: rgba(148, 163, 184, 0.2); }
+[data-theme="dark"] .cat-badge-vehicle     { background-color: rgba(168, 85, 247, 0.2); }
+[data-theme="dark"] .cat-badge-life        { background-color: rgba(132, 204, 22, 0.2); }
+[data-theme="dark"] .cat-badge-pc          { background-color: rgba(6, 182, 212, 0.2); }
+[data-theme="dark"] .cat-badge-finance     { background-color: rgba(20, 184, 166, 0.2); }
+[data-theme="dark"] .cat-badge-investment  { background-color: rgba(236, 72, 153, 0.2); }
+[data-theme="dark"] .cat-badge-income      { background-color: rgba(34, 197, 94, 0.2); }
+[data-theme="dark"] .cat-badge-others      { background-color: rgba(100, 116, 139, 0.2); }
+
+.cat-label-text {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+@media (max-width: 1024px) {
+  .analitica-container-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-topbar {
+    display: none !important;
+  }
+}

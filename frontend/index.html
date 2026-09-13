@@ -281,6 +281,16 @@
                     <span class="nav-text">Historial</span>
                 </a>
 
+                <a href="#analitica" class="nav-item" data-view="analitica">
+                    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                        <line x1="2" y1="20" x2="22" y2="20"/>
+                    </svg>
+                    <span class="nav-text">Analítica</span>
+                </a>
+
                 <a href="#resumen" class="nav-item" data-view="resumen">
                     <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -351,6 +361,32 @@
         <!-- Contenido Principal -->
         <main class="main-content">
             
+            <!-- Barra Superior de Navegación Rápida y Perfil (Estilo Wallet / BudgetBakers) -->
+            <header class="main-topbar">
+                <div class="topbar-nav-wrapper">
+                    <nav class="topbar-nav-tabs" aria-label="Navegación Superior">
+                        <a href="#dashboard" class="topbar-tab active" data-view="dashboard">Panel</a>
+                        <a href="#historial" class="topbar-tab" data-view="historial">Registros</a>
+                        <a href="#analitica" class="topbar-tab" data-view="analitica">Analítica</a>
+                        <a href="#resumen" class="topbar-tab" data-view="resumen">Resumen</a>
+                        <a href="#graficas" class="topbar-tab" data-view="graficas">Gráficas</a>
+                    </nav>
+                </div>
+                <div class="topbar-right-actions">
+                    <a href="#registrar" class="btn-topbar-register" title="Registrar Transacción">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>+ Registro</span>
+                    </a>
+                    <div class="topbar-profile-chip" title="Perfil de usuario">
+                        <div class="topbar-avatar" id="topbar-avatar">U</div>
+                        <span class="topbar-username" id="topbar-username">Usuario</span>
+                    </div>
+                </div>
+            </header>
+
             <!-- VISTA: DASHBOARD -->
             <section id="view-dashboard" class="view">
                 <div class="view-header">
@@ -456,8 +492,25 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="tx-categoria">Categoría</label>
+                                <select id="tx-categoria" class="input-lg input-select">
+                                    <option value="Comida y bebidas">🍽️ Comida y bebidas</option>
+                                    <option value="Compras">🛍️ Compras</option>
+                                    <option value="Vivienda">🏠 Vivienda</option>
+                                    <option value="Transporte">🚆 Transporte</option>
+                                    <option value="Vehículo">🚗 Vehículo</option>
+                                    <option value="Vida y entretenimiento">🚶 Vida y entretenimiento</option>
+                                    <option value="Comunicación, PC">💻 Comunicación, PC</option>
+                                    <option value="Gastos financieros">💳 Gastos financieros</option>
+                                    <option value="Inversiones">📈 Inversiones</option>
+                                    <option value="Ingresos">💰 Salario / Ingresos</option>
+                                    <option value="Otros" selected>📄 Otros</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="tx-desc">Descripción o Concepto</label>
-                                <input type="text" id="tx-desc" placeholder="Ej. Sueldo, Almuerzo, Transporte, Servicios" required class="input-lg">
+                                <input type="text" id="tx-desc" placeholder="Ej. Almuerzo ejecutivo, Pago de alquiler, Combustible" required class="input-lg">
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">
@@ -560,6 +613,176 @@
                     <div class="table-footer">
                         <span id="historial-footer-info">Cargando transacciones...</span>
                         <span id="historial-footer-balance" class="footer-balance-badge"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: ANALÍTICA (Estilo BudgetBakers / Wallet con Desglose Comparativo y Filtros) -->
+            <section id="view-analitica" class="view hidden">
+                <div class="view-header">
+                    <div>
+                        <h2>Analítica y Desglose de Gastos</h2>
+                        <p class="view-subtitle">Desglose comparativo por categorías y comportamiento de tus finanzas</p>
+                    </div>
+                    <div class="analitica-header-controls">
+                        <span class="analitica-status-pill">
+                            <span class="status-live-dot"></span> Comparativa Mensual Activa
+                        </span>
+                    </div>
+                </div>
+
+                <div class="analitica-container-grid">
+                    <!-- Columna Izquierda: Panel de Filtros -->
+                    <aside class="analitica-filters-sidebar">
+                        <div class="filters-sidebar-header">
+                            <h3>Analítica</h3>
+                            <button type="button" class="btn-tune-icon" id="btn-analitica-tune" title="Ajustes de filtro" aria-label="Ajustes">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Mi filtro</label>
+                            <select id="analitica-filter-preset" class="analitica-select">
+                                <option value="all">Seleccionar filtro</option>
+                                <option value="current">Mes en curso</option>
+                                <option value="fijos">Gastos esenciales</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Buscar</label>
+                            <div class="filter-search-wrapper">
+                                <svg class="filter-search-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <input type="text" id="analitica-search" placeholder="Buscar concepto..." class="analitica-search-input">
+                            </div>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Cuentas</label>
+                            <select id="analitica-filter-account" class="analitica-select">
+                                <option value="all">Todas las cuentas</option>
+                                <option value="cash">Efectivo / Cartera</option>
+                                <option value="bank">Cuenta Bancaria Principal</option>
+                                <option value="savings">Fondo de Ahorro</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Categorías</label>
+                            <select id="analitica-filter-category" class="analitica-select">
+                                <option value="all">Todas las categorías</option>
+                                <option value="Comida y bebidas">Comida y bebidas</option>
+                                <option value="Compras">Compras</option>
+                                <option value="Vivienda">Vivienda</option>
+                                <option value="Transporte">Transporte</option>
+                                <option value="Vehículo">Vehículo</option>
+                                <option value="Vida y entretenimiento">Vida y entretenimiento</option>
+                                <option value="Comunicación, PC">Comunicación, PC</option>
+                                <option value="Gastos financieros">Gastos financieros</option>
+                                <option value="Inversiones">Inversiones</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Etiquetas</label>
+                            <select id="analitica-filter-tags" class="analitica-select">
+                                <option value="all">All</option>
+                                <option value="fijo">Fijo</option>
+                                <option value="variable">Variable</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Monedas</label>
+                            <select id="analitica-filter-currency" class="analitica-select">
+                                <option value="PEN">Sol (PEN)</option>
+                                <option value="USD">Dólar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="MXN">Peso Mexicano (MXN)</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Tipos de registro</label>
+                            <select id="analitica-filter-type" class="analitica-select">
+                                <option value="all">Todos los tipos de registro</option>
+                                <option value="Gasto">Solo Gastos</option>
+                                <option value="Ingreso">Solo Ingresos</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <div class="filter-label-flex">
+                                <span class="filter-field-label">Rango de cantidad</span>
+                                <span class="filter-currency-tag" id="analitica-currency-label">PEN</span>
+                            </div>
+                            <div class="range-inputs-container">
+                                <input type="number" id="analitica-min-amount" placeholder="0" min="0" class="analitica-range-input">
+                                <span class="range-separator">-</span>
+                                <input type="number" id="analitica-max-amount" placeholder="Sin límite" min="0" class="analitica-range-input">
+                            </div>
+                        </div>
+
+                        <div class="filter-field-block">
+                            <label class="filter-field-label">Transferencias</label>
+                            <select id="analitica-filter-transfers" class="analitica-select">
+                                <option value="all">Incluir transferencias</option>
+                                <option value="exclude">Excluir transferencias</option>
+                            </select>
+                        </div>
+
+                        <button type="button" id="btn-analitica-reset" class="btn btn-block btn-reset-filters-analitica">
+                            Restablecer filtro
+                        </button>
+                    </aside>
+
+                    <!-- Columna Derecha: Tabla Comparativa Mensual por Categorías -->
+                    <div class="analitica-table-container">
+                        <div class="analitica-table-card">
+                            <div class="analitica-table-header-bar">
+                                <div class="table-bar-title">Desglose Analítico por Periodos</div>
+                                <button type="button" class="btn-tune-table" id="btn-analitica-tune-table" title="Configurar periodos">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="analitica-table-wrapper">
+                                <table class="analitica-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-concept">Concepto / Categoría</th>
+                                            <th class="th-amount" id="analitica-col-current">Septiembre 2026</th>
+                                            <th class="th-amount" id="analitica-col-prev">Agosto 2026</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="analitica-table-body">
+                                        <!-- Generado dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -719,6 +942,15 @@
                     <line x1="16" y1="17" x2="8" y2="17"/>
                 </svg>
                 <span class="bottom-nav-label">Historial</span>
+            </a>
+            <a href="#analitica" class="bottom-nav-item" data-view="analitica">
+                <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                    <line x1="2" y1="20" x2="22" y2="20"/>
+                </svg>
+                <span class="bottom-nav-label">Analítica</span>
             </a>
             <a href="#resumen" class="bottom-nav-item" data-view="resumen">
                 <svg class="bottom-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

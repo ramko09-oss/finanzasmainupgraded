@@ -24,7 +24,7 @@ import {
 const appContainer = document.getElementById('app-container');
 const viewAuth = document.getElementById('view-auth');
 const views = document.querySelectorAll('.view');
-const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item');
+const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item, .topbar-tab');
 const currencySelector = document.getElementById('currency-selector');
 const toastContainer = document.getElementById('toast-container');
 
@@ -108,6 +108,15 @@ export function initUI(user, logoutCb) {
     const initial = username.trim().charAt(0).toUpperCase() || '👤';
     avatarEl.textContent = initial;
   }
+
+  const topbarUser = document.getElementById('topbar-username');
+  if (topbarUser) topbarUser.textContent = username;
+
+  const topbarAvatar = document.getElementById('topbar-avatar');
+  if (topbarAvatar) {
+    const initial = username.trim().charAt(0).toUpperCase() || '👤';
+    topbarAvatar.textContent = initial;
+  }
   
   // Configurar Moneda
   currencySelector.value = currentCurrency;
@@ -166,6 +175,45 @@ export function initUI(user, logoutCb) {
     };
   }
 
+  // Controles de filtros en Analítica
+  const analiticaSearch = document.getElementById('analitica-search');
+  if (analiticaSearch) analiticaSearch.oninput = () => renderAnalitica(allTransactions);
+
+  const analiticaCat = document.getElementById('analitica-filter-category');
+  if (analiticaCat) analiticaCat.onchange = () => renderAnalitica(allTransactions);
+
+  const analiticaType = document.getElementById('analitica-filter-type');
+  if (analiticaType) analiticaType.onchange = () => renderAnalitica(allTransactions);
+
+  const analiticaMin = document.getElementById('analitica-min-amount');
+  if (analiticaMin) analiticaMin.oninput = () => renderAnalitica(allTransactions);
+
+  const analiticaMax = document.getElementById('analitica-max-amount');
+  if (analiticaMax) analiticaMax.oninput = () => renderAnalitica(allTransactions);
+
+  const analiticaCur = document.getElementById('analitica-filter-currency');
+  if (analiticaCur) {
+    analiticaCur.value = currentCurrency;
+    analiticaCur.onchange = (e) => {
+      currentCurrency = e.target.value;
+      currencySelector.value = currentCurrency;
+      localStorage.setItem('finanzas_currency', currentCurrency);
+      renderActiveView();
+    };
+  }
+
+  const btnResetAnalitica = document.getElementById('btn-analitica-reset');
+  if (btnResetAnalitica) {
+    btnResetAnalitica.onclick = () => {
+      if (analiticaSearch) analiticaSearch.value = '';
+      if (analiticaCat) analiticaCat.value = 'all';
+      if (analiticaType) analiticaType.value = 'all';
+      if (analiticaMin) analiticaMin.value = '';
+      if (analiticaMax) analiticaMax.value = '';
+      renderAnalitica(allTransactions);
+    };
+  }
+
   // Ocultar Auth, Mostrar App
   viewAuth.classList.add('hidden');
   viewAuth.classList.remove('view-active');
@@ -201,7 +249,7 @@ function handleHashChange() {
   const viewName = hash.replace('#', '');
   
   // Ocultar todas las vistas del main-content
-  views.forEach(v => {
+  document.querySelectorAll('.view').forEach(v => {
     if (v.id !== 'view-auth') {
       v.classList.add('hidden');
       v.classList.remove('view-active');
@@ -215,8 +263,8 @@ function handleHashChange() {
     targetView.classList.add('view-active');
   }
 
-  // Actualizar menú activo
-  navItems.forEach(nav => {
+  // Actualizar menú activo en sidebar, barra móvil y topbar
+  document.querySelectorAll('.nav-item, .bottom-nav-item, .topbar-tab').forEach(nav => {
     nav.classList.remove('active');
     if (nav.dataset.view === viewName) {
       nav.classList.add('active');
@@ -241,6 +289,7 @@ export async function renderActiveView() {
       case '#dashboard': renderDashboard(allTransactions); break;
       case '#registrar': renderRegistrar(); break;
       case '#historial': renderHistorial(allTransactions); break;
+      case '#analitica': renderAnalitica(allTransactions); break;
       case '#resumen':   renderResumen(allTransactions); break;
       case '#graficas':  renderGraficas(allTransactions); break;
     }
@@ -402,12 +451,17 @@ export async function handleTransactionSubmit(e) {
   e.preventDefault();
   const tipo = el('tx-tipo').value;
   const montoLocal = parseFloat(el('tx-monto').value);
-  const descripcion = el('tx-desc').value;
+  const categoria = el('tx-categoria')?.value;
+  let descripcion = (el('tx-desc').value || '').trim();
   const fecha = el('tx-fecha').value;
 
   if (montoLocal <= 0 || !descripcion || !fecha) {
     showToast('Campos inválidos', 'error');
     return;
+  }
+
+  if (categoria && categoria !== 'Otros' && !descripcion.startsWith(`[${categoria}]`)) {
+    descripcion = `[${categoria}] ${descripcion}`;
   }
 
   try {
@@ -417,6 +471,7 @@ export async function handleTransactionSubmit(e) {
     showToast('¡Transacción registrada!');
     el('form-transaction').reset();
     renderRegistrar(); // reset date
+    window.location.hash = '#analitica';
   } catch(err) {
     showToast('Error al guardar: ' + err.message, 'error');
   }
@@ -597,6 +652,189 @@ export async function handleDeleteSelected() {
   } catch(err) {
     showToast('Error al eliminar: ' + err.message, 'error');
   }
+}
+
+// ─── Categorías y Lógica de Analítica ───────────────────────────────────────
+const EXPENSE_CATEGORIES = [
+  { id: 'comida', name: 'Comida y bebidas', icon: '🍽️', badgeClass: 'cat-badge-food' },
+  { id: 'compras', name: 'Compras', icon: '🛍️', badgeClass: 'cat-badge-shopping' },
+  { id: 'vivienda', name: 'Vivienda', icon: '🏠', badgeClass: 'cat-badge-housing' },
+  { id: 'transporte', name: 'Transporte', icon: '🚆', badgeClass: 'cat-badge-transport' },
+  { id: 'vehiculo', name: 'Vehículo', icon: '🚗', badgeClass: 'cat-badge-vehicle' },
+  { id: 'vida', name: 'Vida y entretenimiento', icon: '🚶', badgeClass: 'cat-badge-life' },
+  { id: 'pc', name: 'Comunicación, PC', icon: '💻', badgeClass: 'cat-badge-pc' },
+  { id: 'financiero', name: 'Gastos financieros', icon: '💳', badgeClass: 'cat-badge-finance' },
+  { id: 'inversiones', name: 'Inversiones', icon: '📈', badgeClass: 'cat-badge-investment' },
+  { id: 'otros', name: 'Otros', icon: '📄', badgeClass: 'cat-badge-others' },
+  { id: 'desconocido', name: 'Desconocido', icon: '❓', badgeClass: 'cat-badge-others' }
+];
+
+const INCOME_CATEGORIES = [
+  { id: 'ingresos', name: 'Ingresos', icon: '💰', badgeClass: 'cat-badge-income' }
+];
+
+export function getCategory(tx) {
+  if (tx.tipo === 'Ingreso') return 'Ingresos';
+  const raw = tx.descripcion || '';
+  const match = raw.match(/^\[(.*?)\]/);
+  if (match && match[1]) return match[1];
+
+  const desc = raw.toLowerCase();
+  if (desc.includes('comida') || desc.includes('almuerzo') || desc.includes('cena') || desc.includes('desayuno') || desc.includes('restaurante') || desc.includes('cafe') || desc.includes('supermercado') || desc.includes('mercado') || desc.includes('snack') || desc.includes('bebida')) return 'Comida y bebidas';
+  if (desc.includes('compra') || desc.includes('ropa') || desc.includes('tienda') || desc.includes('zapatillas') || desc.includes('amazon') || desc.includes('regalo') || desc.includes('mall')) return 'Compras';
+  if (desc.includes('vivienda') || desc.includes('alquiler') || desc.includes('luz') || desc.includes('agua') || desc.includes('gas') || desc.includes('departamento') || desc.includes('casa') || desc.includes('mantenimiento')) return 'Vivienda';
+  if (desc.includes('transporte') || desc.includes('bus') || desc.includes('metro') || desc.includes('pasaje') || desc.includes('uber') || desc.includes('taxi') || desc.includes('tren')) return 'Transporte';
+  if (desc.includes('vehiculo') || desc.includes('auto') || desc.includes('carro') || desc.includes('gasolina') || desc.includes('combustible') || desc.includes('taller') || desc.includes('peaje') || desc.includes('mecanico')) return 'Vehículo';
+  if (desc.includes('entretenimiento') || desc.includes('cine') || desc.includes('salida') || desc.includes('fiesta') || desc.includes('bar') || desc.includes('gym') || desc.includes('gimnasio') || desc.includes('juego') || desc.includes('viaje')) return 'Vida y entretenimiento';
+  if (desc.includes('internet') || desc.includes('celular') || desc.includes('telefono') || desc.includes('pc') || desc.includes('computadora') || desc.includes('laptop') || desc.includes('software') || desc.includes('wifi')) return 'Comunicación, PC';
+  if (desc.includes('banco') || desc.includes('comision') || desc.includes('tarjeta') || desc.includes('interes') || desc.includes('seguro') || desc.includes('prestamo')) return 'Gastos financieros';
+  if (desc.includes('inversion') || desc.includes('acciones') || desc.includes('cripto') || desc.includes('fondo') || desc.includes('deposito') || desc.includes('bitcoin')) return 'Inversiones';
+  return 'Otros';
+}
+
+// ─── Render: Analítica ──────────────────────────────────────────────────────
+function renderAnalitica(transactions) {
+  const rate = CURRENCIES[currentCurrency].rate;
+  const fmt = (val) => formatCurrency(val, currentCurrency);
+
+  // Determinar meses para la comparativa (Mes actual y Mes anterior)
+  const now = new Date();
+  let currYear = now.getFullYear();
+  let currMonth = now.getMonth();
+
+  if (transactions.length > 0) {
+    const dates = transactions.map(t => new Date(t.fecha)).filter(d => !isNaN(d.getTime()));
+    if (dates.length > 0) {
+      const maxDate = new Date(Math.max(...dates));
+      currYear = maxDate.getFullYear();
+      currMonth = maxDate.getMonth();
+    }
+  }
+
+  let prevYear = currYear;
+  let prevMonth = currMonth - 1;
+  if (prevMonth < 0) {
+    prevMonth = 11;
+    prevYear--;
+  }
+
+  const monthNames = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+
+  const currMonthLabel = `${monthNames[currMonth]} ${currYear}`;
+  const prevMonthLabel = `${monthNames[prevMonth]} ${prevYear}`;
+
+  const colCurrEl = document.getElementById('analitica-col-current');
+  const colPrevEl = document.getElementById('analitica-col-prev');
+  if (colCurrEl) colCurrEl.textContent = currMonthLabel;
+  if (colPrevEl) colPrevEl.textContent = prevMonthLabel;
+
+  const currTxs = filterByMonth(transactions, currYear, currMonth);
+  const prevTxs = filterByMonth(transactions, prevYear, prevMonth);
+
+  // Leer valores de filtros
+  const searchVal = (document.getElementById('analitica-search')?.value || '').trim().toLowerCase();
+  const catFilter = document.getElementById('analitica-filter-category')?.value || 'all';
+  const typeFilter = document.getElementById('analitica-filter-type')?.value || 'all';
+  const minAmount = parseFloat(document.getElementById('analitica-min-amount')?.value) || 0;
+  const maxAmount = parseFloat(document.getElementById('analitica-max-amount')?.value) || Infinity;
+
+  const applyTxFilter = (tx) => {
+    const desc = (tx.descripcion || '').toLowerCase();
+    const cat = getCategory(tx).toLowerCase();
+    if (searchVal && !desc.includes(searchVal) && !cat.includes(searchVal)) return false;
+    if (catFilter !== 'all' && getCategory(tx) !== catFilter) return false;
+    if (typeFilter !== 'all' && tx.tipo !== typeFilter) return false;
+    const amountInCurr = tx.monto * rate;
+    if (amountInCurr < minAmount || amountInCurr > maxAmount) return false;
+    return true;
+  };
+
+  const filteredCurr = currTxs.filter(applyTxFilter);
+  const filteredPrev = prevTxs.filter(applyTxFilter);
+
+  const totalIngresosCurr = filteredCurr.filter(t => t.tipo === 'Ingreso').reduce((acc, t) => acc + t.monto, 0);
+  const totalIngresosPrev = filteredPrev.filter(t => t.tipo === 'Ingreso').reduce((acc, t) => acc + t.monto, 0);
+
+  const totalGastosCurr = filteredCurr.filter(t => t.tipo === 'Gasto').reduce((acc, t) => acc + t.monto, 0);
+  const totalGastosPrev = filteredPrev.filter(t => t.tipo === 'Gasto').reduce((acc, t) => acc + t.monto, 0);
+
+  const getCategoryTotal = (txList, catName, tipo) => {
+    return txList
+      .filter(t => t.tipo === tipo && getCategory(t) === catName)
+      .reduce((acc, t) => acc + t.monto, 0);
+  };
+
+  let rowsHTML = '';
+
+  // Bloque: Ingreso total
+  if (typeFilter === 'all' || typeFilter === 'Ingreso') {
+    rowsHTML += `
+      <tr class="row-total-group">
+        <td><strong>Ingreso total</strong></td>
+        <td class="td-amount"><strong>${fmt(totalIngresosCurr)}</strong></td>
+        <td class="td-amount"><strong>${fmt(totalIngresosPrev)}</strong></td>
+      </tr>
+    `;
+
+    INCOME_CATEGORIES.forEach(cat => {
+      if (catFilter !== 'all' && catFilter !== cat.name) return;
+      const cVal = getCategoryTotal(filteredCurr, cat.name, 'Ingreso');
+      const pVal = getCategoryTotal(filteredPrev, cat.name, 'Ingreso');
+      rowsHTML += `
+        <tr class="row-cat-item">
+          <td>
+            <div class="cat-item-content">
+              <span class="cat-badge ${cat.badgeClass}">${cat.icon}</span>
+              <span class="cat-label-text">${cat.name}</span>
+            </div>
+          </td>
+          <td class="td-amount">${fmt(cVal)}</td>
+          <td class="td-amount">${fmt(pVal)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // Bloque: Gasto total
+  if (typeFilter === 'all' || typeFilter === 'Gasto') {
+    rowsHTML += `
+      <tr class="row-total-group">
+        <td><strong>Gasto total</strong></td>
+        <td class="td-amount"><strong>${fmt(totalGastosCurr)}</strong></td>
+        <td class="td-amount"><strong>${fmt(totalGastosPrev)}</strong></td>
+      </tr>
+    `;
+
+    EXPENSE_CATEGORIES.forEach(cat => {
+      if (catFilter !== 'all' && catFilter !== cat.name) return;
+      const cVal = getCategoryTotal(filteredCurr, cat.name, 'Gasto');
+      const pVal = getCategoryTotal(filteredPrev, cat.name, 'Gasto');
+      rowsHTML += `
+        <tr class="row-cat-item">
+          <td>
+            <div class="cat-item-content">
+              <span class="cat-badge ${cat.badgeClass}">${cat.icon}</span>
+              <span class="cat-label-text">${cat.name}</span>
+            </div>
+          </td>
+          <td class="td-amount">${fmt(cVal)}</td>
+          <td class="td-amount">${fmt(pVal)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  const tbody = document.getElementById('analitica-table-body');
+  if (tbody) tbody.innerHTML = rowsHTML;
+
+  const currLabel = document.getElementById('analitica-currency-label');
+  if (currLabel) currLabel.textContent = currentCurrency;
+
+  const currencyFilterEl = document.getElementById('analitica-filter-currency');
+  if (currencyFilterEl) currencyFilterEl.value = currentCurrency;
 }
 
 // ─── Render: Resumen ────────────────────────────────────────────────────────
