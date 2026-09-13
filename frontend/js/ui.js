@@ -325,9 +325,42 @@ function renderDashboard(transactions) {
   let analysisHTML = '';
   if (noData) {
     analysisHTML = `
-      <div style="margin-bottom: 15px;">📌 <strong>¡Bienvenido al Sistema!</strong><br>Aún no tienes transacciones. Ve a "Registrar" para comenzar.</div>
-      <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:15px; color:#aab5c9;">
-        <strong>🔵 Salud financiera:</strong> Sin datos
+      <div class="sidaa-welcome-card">
+        <div class="sidaa-welcome-header">
+          <div class="sidaa-welcome-logo-wrap">
+            <img src="img/sidaa-logo.png" alt="SIDAA" class="sidaa-welcome-logo">
+          </div>
+          <div class="sidaa-welcome-titles">
+            <h4 class="sidaa-welcome-title">Bienvenido a SIDAA</h4>
+            <span class="sidaa-welcome-badge">Sistema de Administración &amp; Ahorro</span>
+          </div>
+        </div>
+
+        <div class="sidaa-slogan-banner">
+          <p class="sidaa-slogan-text">
+            “Te demostramos que con una buena gestión de tus finanzas, tus ahorros <span class="sidaa-slogan-punchline">SI DAN!</span>”
+          </p>
+        </div>
+
+        <div class="sidaa-welcome-cta-row">
+          <p class="sidaa-welcome-desc">
+            Aún no tienes transacciones registradas. Ve a "Registrar" para comenzar y activar tu salud financiera en tiempo real.
+          </p>
+          <a href="#registrar" class="btn btn-primary btn-sm sidaa-welcome-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Registrar Transacción
+          </a>
+        </div>
+
+        <div class="sidaa-welcome-footer">
+          <span class="sidaa-health-chip">
+            🔵 <strong>Salud financiera:</strong> Pendiente de tu primer registro
+          </span>
+          <span>SIDAA Finanzas</span>
+        </div>
       </div>
     `;
   } else {

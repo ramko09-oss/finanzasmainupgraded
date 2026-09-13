@@ -617,6 +617,143 @@ p {
   color: var(--text-color);
 }
 
+/* ─── Tarjeta de Bienvenida SIDAA (Estado Inicial sin Transacciones) ────── */
+.sidaa-welcome-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 4px 0;
+}
+
+.sidaa-welcome-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.sidaa-welcome-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-color);
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.sidaa-welcome-logo {
+  height: 38px;
+  width: auto;
+  max-height: 40px;
+  object-fit: contain;
+  display: block;
+}
+
+.sidaa-welcome-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sidaa-welcome-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sidaa-welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sidaa-slogan-banner {
+  background: linear-gradient(135deg, var(--primary-light) 0%, rgba(47, 111, 171, 0.04) 100%);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary-color);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin: 4px 0;
+}
+
+.sidaa-slogan-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.sidaa-slogan-punchline {
+  color: var(--primary-color);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 1px 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border-radius: var(--radius-sm);
+  display: inline-block;
+}
+
+.sidaa-welcome-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: 4px;
+}
+
+.sidaa-welcome-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+.sidaa-welcome-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.sidaa-welcome-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.sidaa-health-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
 /* Tarjeta de Formulario */
 .form-card {
   background-color: var(--surface-color);
