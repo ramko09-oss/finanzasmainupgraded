@@ -214,41 +214,8 @@ export function initUI(user, logoutCb) {
     };
   }
 
-  const topbarSearch = document.getElementById('topbar-global-search');
-  if (topbarSearch) {
-    topbarSearch.oninput = (e) => {
-      const val = e.target.value;
-      const currentHash = window.location.hash || '#dashboard';
-      if (currentHash === '#historial') {
-        const filtroBusqueda = document.getElementById('filtro-busqueda');
-        if (filtroBusqueda) {
-          filtroBusqueda.value = val;
-          renderHistorial(allTransactions);
-        }
-      } else if (currentHash === '#analitica') {
-        if (analiticaSearch) {
-          analiticaSearch.value = val;
-          renderAnalitica(allTransactions);
-        }
-      }
-    };
-
-    topbarSearch.onkeydown = (e) => {
-      if (e.key === 'Enter') {
-        const currentHash = window.location.hash || '#dashboard';
-        if (currentHash !== '#historial' && currentHash !== '#analitica') {
-          window.location.hash = '#historial';
-          setTimeout(() => {
-            const filtroBusqueda = document.getElementById('filtro-busqueda');
-            if (filtroBusqueda) {
-              filtroBusqueda.value = topbarSearch.value;
-              renderHistorial(allTransactions);
-            }
-          }, 60);
-        }
-      }
-    };
-  }
+  // Inicializar buscador inteligente y pestaña de sugerencias de apartados
+  initTopbarSearchSuggestions();
 
   // Ocultar Auth, Mostrar App
   viewAuth.classList.add('hidden');
@@ -313,6 +280,300 @@ function updateTopbarBreadcrumb(viewName) {
   const current = viewData[viewName] || { title: 'Panel Principal', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/></svg>' };
   topbarTitle.textContent = current.title;
   if (topbarIcon) topbarIcon.innerHTML = current.icon;
+}
+
+// ─── Sugerencias de Apartados y Búsqueda Inteligente ────────────────────────
+const AVAILABLE_SECTIONS = [
+  {
+    id: 'dashboard',
+    title: 'Dashboard Principal',
+    shortTitle: 'Dashboard',
+    desc: 'Resumen global, balance total y métricas financieras clave',
+    keywords: ['dashboard', 'panel', 'saldo', 'total', 'metricas', 'inicio', 'balance', 'general'],
+    hash: '#dashboard',
+    badge: 'Apartado',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`
+  },
+  {
+    id: 'registrar',
+    title: 'Registrar Transacción',
+    shortTitle: 'Registrar',
+    desc: 'Crear un nuevo ingreso o gasto monetario',
+    keywords: ['registrar', 'registro', 'nuevo', 'ingreso', 'gasto', 'crear', 'agregar', 'anadir', 'movimiento'],
+    hash: '#registrar',
+    badge: 'Acción',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`
+  },
+  {
+    id: 'historial',
+    title: 'Historial de Registros',
+    shortTitle: 'Historial',
+    desc: 'Tabla completa de movimientos, búsqueda y filtros por fecha',
+    keywords: ['historial', 'registros', 'movimientos', 'transacciones', 'tabla', 'lista', 'buscar', 'recientes'],
+    hash: '#historial',
+    badge: 'Apartado',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`
+  },
+  {
+    id: 'analitica',
+    title: 'Analítica Comparativa',
+    shortTitle: 'Analítica',
+    desc: 'Desglose y comparativa mensual por categorías con filtros avanzados',
+    keywords: ['analitica', 'analisis', 'categorias', 'comparativa', 'periodos', 'comida', 'compras', 'vivienda', 'transporte'],
+    hash: '#analitica',
+    badge: 'Apartado',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`
+  },
+  {
+    id: 'resumen',
+    title: 'Resumen Mensual',
+    shortTitle: 'Resumen',
+    desc: 'Diagnóstico financiero, tasa de ahorro y gráficos donut',
+    keywords: ['resumen', 'resumen mensual', 'ahorro', 'tasa de ahorro', 'diagnostico', 'salud', 'proporcion', 'donut'],
+    hash: '#resumen',
+    badge: 'Apartado',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`
+  },
+  {
+    id: 'graficas',
+    title: 'Gráficas y Tendencias',
+    shortTitle: 'Gráficas',
+    desc: 'Evolución histórica del saldo y comparativa mensual de barras',
+    keywords: ['graficas', 'graficos', 'tendencias', 'evolucion', 'historico', 'barras', 'balance neto'],
+    hash: '#graficas',
+    badge: 'Apartado',
+    iconSvg: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`
+  }
+];
+
+function initTopbarSearchSuggestions() {
+  const searchInput = document.getElementById('topbar-global-search');
+  const searchContainer = document.getElementById('topbar-search-container');
+  const dropdown = document.getElementById('topbar-search-dropdown');
+  if (!searchInput || !dropdown) return;
+
+  let selectedIndex = -1;
+
+  function highlightMatch(text, query) {
+    if (!query) return escapeHtml(text);
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    return escapeHtml(text).replace(regex, '<span class="match-highlight">$1</span>');
+  }
+
+  function renderSuggestions(query = '') {
+    const q = query.trim().toLowerCase();
+
+    // Filtrar apartados disponibles
+    const matchingSections = AVAILABLE_SECTIONS.filter(sec => {
+      if (!q) return true;
+      return sec.title.toLowerCase().includes(q) ||
+             sec.shortTitle.toLowerCase().includes(q) ||
+             sec.desc.toLowerCase().includes(q) ||
+             sec.keywords.some(k => k.includes(q));
+    });
+
+    // Filtrar transacciones coincidentes
+    let matchingTx = [];
+    if (q.length >= 2 && Array.isArray(allTransactions)) {
+      matchingTx = allTransactions.filter(tx => {
+        const desc = (tx.descripcion || '').toLowerCase();
+        return desc.includes(q);
+      }).slice(0, 3);
+    }
+
+    if (matchingSections.length === 0 && matchingTx.length === 0) {
+      dropdown.innerHTML = `
+        <div class="search-dropdown-empty">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+          <div>No se encontraron apartados para "<strong>${escapeHtml(query)}</strong>"</div>
+        </div>
+      `;
+      dropdown.classList.remove('hidden');
+      selectedIndex = -1;
+      return;
+    }
+
+    let html = '';
+
+    if (matchingSections.length > 0) {
+      html += `
+        <div class="search-dropdown-header">
+          <span>Apartados Sugeridos</span>
+          <span>${matchingSections.length} disponibles</span>
+        </div>
+      `;
+      matchingSections.forEach(sec => {
+        const highlightedTitle = highlightMatch(sec.title, q);
+        html += `
+          <div class="search-dropdown-item" data-type="section" data-hash="${sec.hash}" role="option" tabindex="0">
+            <div class="search-item-icon-wrap">
+              ${sec.iconSvg}
+            </div>
+            <div class="search-item-body">
+              <div class="search-item-title">${highlightedTitle}</div>
+              <div class="search-item-desc">${sec.desc}</div>
+            </div>
+            <span class="search-item-badge">${sec.badge}</span>
+          </div>
+        `;
+      });
+    }
+
+    if (matchingTx.length > 0) {
+      html += `
+        <div class="search-dropdown-header" style="margin-top: 6px;">
+          <span>Registros Coincidentes</span>
+          <span>Historial</span>
+        </div>
+      `;
+      matchingTx.forEach(tx => {
+        const isExpense = tx.tipo === 'Gasto';
+        const highlightedDesc = highlightMatch(tx.descripcion, q);
+        const iconSvg = isExpense 
+          ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`
+          : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>`;
+
+        html += `
+          <div class="search-dropdown-item" data-type="tx" data-desc="${escapeHtml(tx.descripcion)}" role="option" tabindex="0">
+            <div class="search-item-icon-wrap" style="background: ${isExpense ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)'}">
+              ${iconSvg}
+            </div>
+            <div class="search-item-body">
+              <div class="search-item-title">${highlightedDesc}</div>
+              <div class="search-item-desc">${tx.fecha} · ${tx.tipo} (${formatCurrency(tx.monto, currentCurrency)})</div>
+            </div>
+            <span class="search-item-badge">Registro</span>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+      <div class="search-dropdown-footer">
+        <span class="search-kbd-hint"><span class="search-kbd">↑</span> <span class="search-kbd">↓</span> navegar</span>
+        <span class="search-kbd-hint"><span class="search-kbd">↵ Enter</span> ir</span>
+        <span class="search-kbd-hint"><span class="search-kbd">Esc</span> cerrar</span>
+      </div>
+    `;
+
+    dropdown.innerHTML = html;
+    dropdown.classList.remove('hidden');
+    selectedIndex = -1;
+
+    dropdown.querySelectorAll('.search-dropdown-item').forEach(item => {
+      item.addEventListener('click', () => {
+        selectItem(item);
+      });
+    });
+  }
+
+  function selectItem(item) {
+    if (!item) return;
+    const type = item.dataset.type;
+    if (type === 'section') {
+      const hash = item.dataset.hash;
+      window.location.hash = hash;
+    } else if (type === 'tx') {
+      const desc = item.dataset.desc;
+      window.location.hash = '#historial';
+      setTimeout(() => {
+        const filtroBusqueda = document.getElementById('filtro-busqueda');
+        if (filtroBusqueda) {
+          filtroBusqueda.value = desc;
+          renderHistorial(allTransactions);
+        }
+      }, 60);
+    }
+    hideDropdown();
+    searchInput.value = '';
+    searchInput.blur();
+  }
+
+  function hideDropdown() {
+    dropdown.classList.add('hidden');
+    selectedIndex = -1;
+  }
+
+  function updateSelection(items) {
+    items.forEach((it, idx) => {
+      if (idx === selectedIndex) {
+        it.classList.add('selected');
+        it.scrollIntoView({ block: 'nearest' });
+      } else {
+        it.classList.remove('selected');
+      }
+    });
+  }
+
+  // Evento focus: mostrar sugerencias de apartados inmediatamente
+  searchInput.addEventListener('focus', () => {
+    renderSuggestions(searchInput.value);
+  });
+
+  // Evento input: buscar y filtrar en tiempo real
+  searchInput.addEventListener('input', (e) => {
+    const val = e.target.value;
+    renderSuggestions(val);
+
+    // Sincronizar filtro en vivo si el usuario ya está en historial o analítica
+    const currentHash = window.location.hash || '#dashboard';
+    if (currentHash === '#historial') {
+      const filtroBusqueda = document.getElementById('filtro-busqueda');
+      if (filtroBusqueda) {
+        filtroBusqueda.value = val;
+        renderHistorial(allTransactions);
+      }
+    } else if (currentHash === '#analitica') {
+      const analiticaSearch = document.getElementById('analitica-search');
+      if (analiticaSearch) {
+        analiticaSearch.value = val;
+        renderAnalitica(allTransactions);
+      }
+    }
+  });
+
+  // Navegación con teclado (Flechas, Enter, Escape)
+  searchInput.addEventListener('keydown', (e) => {
+    const items = dropdown.querySelectorAll('.search-dropdown-item');
+    if (dropdown.classList.contains('hidden') || items.length === 0) {
+      if (e.key === 'Enter') {
+        renderSuggestions(searchInput.value);
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % items.length;
+      updateSelection(items);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+      updateSelection(items);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selectedIndex >= 0 && items[selectedIndex]) {
+        selectItem(items[selectedIndex]);
+      } else if (items.length > 0) {
+        selectItem(items[0]);
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      hideDropdown();
+    }
+  });
+
+  // Cerrar al hacer click fuera del contenedor de búsqueda
+  document.addEventListener('click', (e) => {
+    if (searchContainer && !searchContainer.contains(e.target)) {
+      hideDropdown();
+    }
+  });
 }
 
 // ─── Router (Hash Change) ───────────────────────────────────────────────────
