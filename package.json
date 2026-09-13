@@ -2,6 +2,7 @@
   "name": "finanzas-web",
   "version": "1.0.0",
   "description": "Sistema de Gestion Financiera - Fullstack Web Application",
+  "license": "MIT",
   "type": "module",
   "main": "backend/server.js",
   "scripts": {

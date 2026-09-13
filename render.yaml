@@ -7,6 +7,7 @@ services:
     runtime: node
     region: oregon
     plan: free
+    autoDeploy: true
     rootDir: backend
     buildCommand: npm install
     startCommand: node server.js
