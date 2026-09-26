@@ -35,10 +35,10 @@ export function switchAuthTab(targetId) {
 
   if (targetId === 'form-login') {
     if (authTitleText) authTitleText.textContent = 'Iniciar sesión';
-    if (authSubtitleText) authSubtitleText.textContent = 'Ingresa a tu panel financiero en SIDAA';
+    if (authSubtitleText) authSubtitleText.textContent = 'Ingresa a tu panel financiero en SIDAN';
   } else {
     if (authTitleText) authTitleText.textContent = 'Crear cuenta';
-    if (authSubtitleText) authSubtitleText.textContent = 'Comienza a gestionar tus finanzas con SIDAA';
+    if (authSubtitleText) authSubtitleText.textContent = 'Comienza a gestionar tus finanzas con SIDAN';
   }
 }
 
