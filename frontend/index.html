@@ -23,120 +23,43 @@
     <!-- VISTA: AUTENTICACIÓN (Split Screen estilo Wallet/BudgetBakers con Identidad SIDAA) -->
     <div id="view-auth" class="view view-active auth-split-layout">
         
-        <!-- Columna Izquierda: Hero de Marca SIDAA -->
+        <!-- Columna Izquierda: Carrusel de Marca SIDAN -->
         <div class="auth-hero-panel">
-            <div class="auth-hero-content">
-                
-                <!-- Banner Oficial de Marca SIDAN (Cabecera Superior Prominente) -->
-                <div class="sidaa-banner-container">
-                    <div class="sidaa-banner-card" title="SIDAN - Ahora Los Números Sidan">
-                        <img src="img/sidan-logo.png" alt="SIDAN - Ahora Los Números Sidan" class="sidaa-banner-image">
+            <div class="auth-carousel" id="auth-carousel">
+                <!-- Carousel Track -->
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="img/slide-1-bienvenido.jpg" alt="Bienvenido a SIDAN" class="carousel-img" draggable="false">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/slide-2-desorden.jpg" alt="¿Tus finanzas son un desorden?" class="carousel-img" draggable="false">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/slide-3-simplifica.jpg" alt="SIDAN simplifica. Todo en un solo lugar" class="carousel-img" draggable="false">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/slide-4-crecimiento.jpg" alt="Mira cómo tus números crecen y SIDAN" class="carousel-img" draggable="false">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/slide-5-conectalo.jpg" alt="¡Conéctalo ya y empieza a crecer!" class="carousel-img" draggable="false">
                     </div>
                 </div>
 
-                <h1 class="auth-hero-title">
-                    Tus finanzas<br>
-                    <span class="auth-hero-title-accent">en un solo lugar</span>
-                </h1>
+                <!-- Navigation Arrows -->
+                <button type="button" class="carousel-arrow carousel-arrow-prev" id="carousel-prev" aria-label="Slide anterior">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button type="button" class="carousel-arrow carousel-arrow-next" id="carousel-next" aria-label="Slide siguiente">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
 
-                <!-- Mockup de Dispositivos (Laptop + Smartphone con gráficos) -->
-                <div class="auth-devices-mockup" aria-hidden="true">
-                    <!-- Laptop Mockup -->
-                    <div class="mockup-laptop">
-                        <div class="mockup-laptop-camera"></div>
-                        <div class="mockup-laptop-screen">
-                            <div class="screen-header">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
-                                <span class="screen-title">SIDAN Finanzas • Dashboard</span>
-                            </div>
-                            <div class="screen-body">
-                                <div class="mock-kpi-row">
-                                    <div class="mock-kpi"><span>Saldo Total</span><strong>S/ 12,450</strong></div>
-                                    <div class="mock-kpi green"><span>Ingresos</span><strong>+S/ 4,800</strong></div>
-                                    <div class="mock-kpi red"><span>Gastos</span><strong>-S/ 1,220</strong></div>
-                                </div>
-                                <div class="mock-chart-row">
-                                    <div class="mock-line-chart">
-                                        <svg viewBox="0 0 100 35" class="mock-svg-chart">
-                                            <defs>
-                                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
-                                                    <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
-                                                </linearGradient>
-                                            </defs>
-                                            <path d="M0,28 Q15,22 30,25 T60,12 T85,18 T100,6 L100,35 L0,35 Z" fill="url(#chartGrad)"/>
-                                            <path d="M0,28 Q15,22 30,25 T60,12 T85,18 T100,6" fill="none" stroke="#38bdf8" stroke-width="2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="mock-donut">
-                                        <svg viewBox="0 0 36 36" class="mock-svg-donut">
-                                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3.8"/>
-                                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#10b981" stroke-width="3.8" stroke-dasharray="75, 100"/>
-                                            <path d="M18 33.9155 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f87171" stroke-width="3.8" stroke-dasharray="25, 100"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mockup-laptop-base"></div>
-                    </div>
-
-                    <!-- Smartphone Mockup -->
-                    <div class="mockup-phone">
-                        <div class="mockup-phone-notch"></div>
-                        <div class="mockup-phone-screen">
-                            <div class="phone-app-bar">
-                                <span>SIDAN Mobile</span>
-                                <span class="phone-status-dot"></span>
-                            </div>
-                            <div class="phone-balance">
-                                <small>Balance Total</small>
-                                <strong>S/ 12,450.00</strong>
-                            </div>
-                            <div class="phone-mini-tx">
-                                <div class="tx-row"><span>Sueldo</span><strong class="text-green">+S/ 3,500</strong></div>
-                                <div class="tx-row"><span>Servicios</span><strong class="text-red">-S/ 180</strong></div>
-                                <div class="tx-row"><span>Ahorros</span><strong class="text-green">+S/ 800</strong></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="auth-hero-desc">
-                    Sumérgete en informes, crea presupuestos, sincroniza tus registros en la nube y disfruta del control financiero automatizado.
-                </p>
-
-                <!-- Plataformas Compatibles: Web & Móvil (Windows, Mac, Android, iOS) -->
-                <div class="auth-platforms-wrapper">
-                    <span class="platforms-heading">Web & Móvil</span>
-                    <div class="platforms-grid">
-                        <div class="platform-badge" title="Compatible con Windows">
-                            <svg class="platform-svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
-                            </svg>
-                            <span>Windows</span>
-                        </div>
-                        <div class="platform-badge" title="Compatible con Mac (macOS)">
-                            <svg class="platform-svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.64 1.35-.57.65-1.07 1.72-.94 2.74 1.01.08 2.04-.49 2.66-1.24z"/>
-                            </svg>
-                            <span>Mac</span>
-                        </div>
-                        <div class="platform-badge" title="Compatible con Android">
-                            <svg class="platform-svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4107 13.8533 8.0002 12 8.0002s-3.5902.4105-5.1367.9495L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
-                            </svg>
-                            <span>Android</span>
-                        </div>
-                        <div class="platform-badge" title="Compatible con iOS (iPhone / iPad)">
-                            <svg class="platform-svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.64 1.35-.57.65-1.07 1.72-.94 2.74 1.01.08 2.04-.49 2.66-1.24z"/>
-                            </svg>
-                            <span>iOS</span>
-                        </div>
-                    </div>
+                <!-- Dot Indicators -->
+                <div class="carousel-dots" id="carousel-dots">
+                    <button type="button" class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
+                    <button type="button" class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
+                    <button type="button" class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
+                    <button type="button" class="carousel-dot" data-slide="3" aria-label="Slide 4"></button>
+                    <button type="button" class="carousel-dot" data-slide="4" aria-label="Slide 5"></button>
                 </div>
             </div>
         </div>

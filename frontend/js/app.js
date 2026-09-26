@@ -147,7 +147,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   // 1. Inicializar tema visual guardado
   ui.initTheme();
 
-  // 2. Verificar sesión activa con el backend
+  // 2. Inicializar carrusel del hero panel
+  initCarousel();
+
+  // 3. Verificar sesión activa con el backend
   const user = await auth.verifySession();
   
   if (user) {
@@ -156,3 +159,114 @@ window.addEventListener('DOMContentLoaded', async () => {
     ui.showAuthView();
   }
 });
+
+// ─── Carrusel del Hero Panel ──────────────────────────────────────────────────
+function initCarousel() {
+  const track = document.getElementById('carousel-track');
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+  const dotsContainer = document.getElementById('carousel-dots');
+
+  if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dots = dotsContainer.querySelectorAll('.carousel-dot');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let autoPlayTimer = null;
+  const AUTO_PLAY_INTERVAL = 5000;
+
+  function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    currentSlide = index;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function nextSlide() {
+    goToSlide(currentSlide + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentSlide - 1);
+  }
+
+  // Arrow clicks
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    resetAutoPlay();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    resetAutoPlay();
+  });
+
+  // Dot clicks
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const slideIndex = parseInt(dot.dataset.slide, 10);
+      goToSlide(slideIndex);
+      resetAutoPlay();
+    });
+  });
+
+  // Auto-play
+  function startAutoPlay() {
+    stopAutoPlay();
+    autoPlayTimer = setInterval(nextSlide, AUTO_PLAY_INTERVAL);
+  }
+
+  function stopAutoPlay() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+  }
+
+  function resetAutoPlay() {
+    stopAutoPlay();
+    startAutoPlay();
+  }
+
+  // Pause on hover
+  const carousel = document.getElementById('auth-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+  }
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoPlay();
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+    startAutoPlay();
+  }, { passive: true });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const authView = document.getElementById('view-auth');
+    if (!authView || authView.classList.contains('hidden')) return;
+    if (e.key === 'ArrowRight') { nextSlide(); resetAutoPlay(); }
+    if (e.key === 'ArrowLeft') { prevSlide(); resetAutoPlay(); }
+  });
+
+  // Start
+  startAutoPlay();
+}
