@@ -1389,8 +1389,8 @@ input:focus, select:focus {
 /* Columna Izquierda: Carrusel SIDAN Full-Bleed */
 .auth-hero-panel {
   flex: 1.15;
-  background: #ffffff;
-  color: #0f172a;
+  background: linear-gradient(140deg, #051a36 0%, #082d5a 50%, #020b18 100%);
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1402,10 +1402,10 @@ input:focus, select:focus {
 }
 
 [data-theme="dark"] .auth-hero-panel {
-  background: #0b1329;
+  background: linear-gradient(140deg, #020b18 0%, #051a36 50%, #01060e 100%);
 }
 
-/* ─── Carrusel de Autenticación ────────────────────────────────────────────── */
+/* ─── Carrusel de Autenticación Full-Bleed ─────────────────────────────────── */
 .auth-carousel {
   position: relative;
   width: 100%;
@@ -1439,23 +1439,23 @@ input:focus, select:focus {
   align-items: center;
   padding: 0;
   margin: 0;
-  background: #ffffff;
+  background: #051a36;
 }
 
-/* Capa de fondo ambiental para pantallas anchas (evita cortes y barras vacías) */
+/* Capa de fondo ambiental integrada para transiciones fluidas */
 .carousel-slide-bg {
   position: absolute;
-  inset: -20px;
+  inset: -15px;
   background-size: cover;
   background-position: center;
-  filter: blur(28px) brightness(1.02);
-  opacity: 0.6;
-  transform: scale(1.08);
+  filter: blur(24px) brightness(0.7);
+  opacity: 0.65;
+  transform: scale(1.06);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Imagen principal del carrusel: abarca todo el espacio disponible */
+/* Imagen principal del carrusel: abarca la totalidad del panel sin formato tarjeta */
 .carousel-img {
   position: relative;
   z-index: 2;
@@ -1475,17 +1475,10 @@ input:focus, select:focus {
 
 /* Acercamiento ligero al colocar el cursor por encima */
 .carousel-slide:hover .carousel-img {
-  transform: scale(1.035);
+  transform: scale(1.03);
 }
 
-/* En proporciones cuadradas / apaisadas, mantener contain para máxima legibilidad sin recortar textos */
-@media (min-aspect-ratio: 7/10) {
-  .carousel-img {
-    object-fit: contain;
-  }
-}
-
-/* Navigation Arrows (diseño limpio y con alto contraste sobre los slides) */
+/* Navigation Arrows (diseño glassmorphic de alto contraste con acento naranja SIDAN) */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -1493,11 +1486,11 @@ input:focus, select:focus {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(5, 26, 54, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: #092c57;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1506,8 +1499,8 @@ input:focus, select:focus {
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   padding: 0;
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.12),
-    0 1px 3px rgba(0, 0, 0, 0.06);
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .carousel-arrow svg {
@@ -1517,13 +1510,13 @@ input:focus, select:focus {
 }
 
 .carousel-arrow:hover {
-  background: #ffffff;
-  color: #e8751a;
-  border-color: rgba(232, 117, 26, 0.45);
-  transform: translateY(-50%) scale(1.08);
+  background: #e8751a;
+  color: #ffffff;
+  border-color: rgba(232, 117, 26, 0.85);
+  transform: translateY(-50%) scale(1.1);
   box-shadow:
-    0 8px 24px rgba(232, 117, 26, 0.22),
-    0 2px 6px rgba(0, 0, 0, 0.08);
+    0 8px 24px rgba(232, 117, 26, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .carousel-arrow-prev:hover svg {
@@ -1539,11 +1532,11 @@ input:focus, select:focus {
 }
 
 .carousel-arrow-prev {
-  left: 20px;
+  left: 24px;
 }
 
 .carousel-arrow-next {
-  right: 20px;
+  right: 24px;
 }
 
 /* Dot Indicators */
@@ -1556,15 +1549,15 @@ input:focus, select:focus {
   align-items: center;
   gap: 8px;
   z-index: 20;
-  padding: 7px 14px;
-  background: rgba(255, 255, 255, 0.88);
+  padding: 8px 16px;
+  background: rgba(5, 26, 54, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 20px;
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .carousel-dot {
@@ -1572,22 +1565,22 @@ input:focus, select:focus {
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: rgba(9, 44, 87, 0.25);
+  background: rgba(255, 255, 255, 0.35);
   cursor: pointer;
   padding: 0;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .carousel-dot:hover {
-  background: rgba(232, 117, 26, 0.6);
-  transform: scale(1.2);
+  background: rgba(232, 117, 26, 0.85);
+  transform: scale(1.25);
 }
 
 .carousel-dot.active {
-  width: 22px;
+  width: 24px;
   border-radius: 6px;
   background: #e8751a;
-  box-shadow: 0 2px 8px rgba(232, 117, 26, 0.35);
+  box-shadow: 0 0 14px rgba(232, 117, 26, 0.65);
   transform: none;
 }
 
