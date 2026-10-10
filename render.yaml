@@ -9,11 +9,13 @@ services:
     plan: free
     autoDeploy: true
     rootDir: backend
-    buildCommand: npm install
+    buildCommand: npm install && npm run init-db
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
+      - key: DB_TYPE
+        value: postgres
       - key: DB_HOST
         sync: false  # Se configura manualmente en el dashboard
       - key: DB_PORT
