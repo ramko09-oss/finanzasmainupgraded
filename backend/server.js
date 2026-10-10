@@ -37,7 +37,11 @@ app.get('/api/health', (req, res) => {
 // Fallback: cualquier ruta que no sea /api → sirve index.html
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(FRONTEND_DIR, 'index.html'));
+    res.sendFile(path.join(FRONTEND_DIR, 'index.html'), (err) => {
+      if (err) {
+        res.status(404).send('Frontend no disponible: verifique la carpeta public compilada.');
+      }
+    });
   }
 });
 

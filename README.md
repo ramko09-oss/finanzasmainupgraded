@@ -78,25 +78,41 @@ npm start
 - ✅ Análisis de salud financiera
 - ✅ Diseño responsive y accesible
 
-## ⚛️ Migración a React con Vite (Actividades 1, 2 y 3)
+## ⚛️ Migración a React con Vite (Laboratorio Sesión 05)
 
-Se ha iniciado un proceso de migración de la interfaz estática original hacia una arquitectura moderna basada en componentes utilizando React y Vite en el directorio `mi-primera-app/`.
+Se ha migrado la interfaz estática original hacia una arquitectura modular basada en componentes funcionales utilizando React 19 y Vite dentro de `sidan-frontend/` (configurado internamente como `mi-primera-app`).
 
 ### Actividades implementadas:
-- **Actividad 1:** Inicialización del proyecto React con Vite (template react), instalación de dependencias y configuración del entorno de desarrollo.
-- **Actividad 2:** Definición de una arquitectura de componentes en `src/components`. Migración del diseño HTML a componentes funcionales como `<Card />`, pasando información estructurada mediante `props` (título, descripción, imagen, categoría).
-- **Actividad 3:** Implementación de interactividad local utilizando el hook `useState`. Se crearon componentes dinámicos con renderizado condicional:
-  - `<Counter />`: Sistema de "Likes" con condicionamiento de estilos según el estado.
-  - `<ThemeToggle />`: Alternancia entre modo claro y oscuro interactivo.
-  - `<CurrencySelector />`: Simulador de selector de monedas con cambio visual según el estado.
+- **Actividad 1 (Inicio con Vite):** Proyecto Vite con template React, dependencias configuradas y servidor de desarrollo.
+- **Actividad 2 (Arquitectura de Componentes):** Componentes funcionales modulares en `sidan-frontend/src/components/`:
+  - `<Card />`: Componente reutilizable con `props` (`titulo`, `descripcion`, `imagen`, `categoria`).
+  - `<MetricCard />`: Tarjeta de métricas con `props` de variante y valor.
+  - `<Sidebar />`: Navegación principal con `props` de callback `onNavigate`.
+- **Actividad 3 (Interactividad con `useState`):**
+  - `<Card />`: Sistema de "Likes" interactivo con cambio visual de estado.
+  - `<Counter />`: Contador dinámico (+, -, reset) con estilo condicional dinámico (verde en positivo, rojo en negativo).
+  - `<ThemeToggle />`: Alternancia entre modo claro y modo oscuro en tiempo real.
+  - `<CurrencySelector />`: Selector de moneda (USD, EUR, PEN, MXN) con actualización visual instantánea.
 
-Para correr el entorno de desarrollo en React:
+### 💻 Cómo ejecutar localmente:
 ```bash
-cd mi-primera-app
+# Opción directa desde la raíz:
+npm install
+npm run dev      # Inicia el entorno React + Vite en http://localhost:5173
+
+# O entrando a la carpeta de React:
+cd sidan-frontend
 npm install
 npm run dev
 ```
 
-## 📄 Licencia
+### 🌐 Despliegue en Producción (Render):
+El proyecto compila el frontend React a `backend/public/` para que Express lo sirva de forma unificada:
+```bash
+npm run build    # Compila React y prepara el backend
+npm start        # Inicia el servidor de producción en el puerto 3001
+```
 
-Proyecto académico — Universidad.
+## 📄 Licencia y Entrega
+- **Repositorio:** [https://github.com/ramko09-oss/finanzasmainupgraded](https://github.com/ramko09-oss/finanzasmainupgraded)
+- **Proyecto académico — Universidad Autónoma del Perú.**

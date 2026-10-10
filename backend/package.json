@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "build": "cd ../sidan-frontend && npm install && npm run build",
     "dev": "nodemon server.js",
     "init-db": "node init_postgres_db.js"
   },
