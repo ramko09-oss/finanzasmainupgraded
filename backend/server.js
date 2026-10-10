@@ -13,7 +13,7 @@ const app = express();
 // Ruta al directorio raíz del proyecto (un nivel arriba de /backend)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const FRONTEND_DIR = path.join(__dirname, 'public');
+const FRONTEND_DIR = path.join(__dirname, '..', 'frontend');
 
 // ── Trust proxy (Render, Railway, etc. usan proxy inverso) ──
 app.set('trust proxy', 1);
@@ -37,11 +37,7 @@ app.get('/api/health', (req, res) => {
 // Fallback: cualquier ruta que no sea /api → sirve index.html
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(FRONTEND_DIR, 'index.html'), (err) => {
-      if (err) {
-        res.status(404).send('Frontend no disponible: verifique la carpeta public compilada.');
-      }
-    });
+    res.sendFile(path.join(FRONTEND_DIR, 'index.html'));
   }
 });
 

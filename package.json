@@ -7,9 +7,9 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd sidan-frontend && npm install && npm run build && cd ../backend && npm install",
-    "dev": "cd sidan-frontend && npm run dev",
-    "dev:backend": "cd backend && node server.js",
+    "build": "cd backend && npm install",
+    "dev": "cd backend && node server.js",
+    "dev:react": "cd sidan-frontend && npm run dev",
     "setup-git": "node scripts/setup-git.mjs",
     "auto-push": "node scripts/auto-push.mjs",
     "push": "node scripts/sync-push.mjs"

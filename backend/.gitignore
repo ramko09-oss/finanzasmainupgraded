@@ -1,4 +1,0 @@
-# Ignorar variables locales si existen
-.env
-.env.*
-!.env.example
