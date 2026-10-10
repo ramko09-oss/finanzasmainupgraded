@@ -9,7 +9,7 @@ services:
     plan: free
     autoDeploy: true
     rootDir: backend
-    buildCommand: npm install && npm run init-db
+    buildCommand: npm install && cd ../sidan-frontend && npm install && npm run build && cd ../backend && npm run init-db
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
