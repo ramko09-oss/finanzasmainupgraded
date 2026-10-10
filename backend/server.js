@@ -13,7 +13,7 @@ const app = express();
 // Ruta al directorio raíz del proyecto (un nivel arriba de /backend)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const FRONTEND_DIR = path.join(__dirname, '..', 'sidan-frontend', 'dist');
+const FRONTEND_DIR = path.join(__dirname, 'public');
 
 // ── Trust proxy (Render, Railway, etc. usan proxy inverso) ──
 app.set('trust proxy', 1);
