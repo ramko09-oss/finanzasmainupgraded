@@ -8,7 +8,10 @@
   "scripts": {
     "start": "node backend/server.js",
     "build": "cd backend && npm install",
-    "dev": "cd backend && node server.js"
+    "dev": "cd backend && node server.js",
+    "setup-git": "node scripts/setup-git.mjs",
+    "auto-push": "node scripts/auto-push.mjs",
+    "push": "node scripts/sync-push.mjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

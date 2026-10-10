@@ -1,10 +1,24 @@
 # Dependencias
 node_modules/
 backend/node_modules/
+sidan-frontend/node_modules/
+
+# Builds y paquetes
+dist/
+build/
+sidan-frontend/dist/
+*.zip
+*.tar.gz
+*.rar
+*.7z
 
 # Variables de entorno (contienen contraseñas)
 .env
+.env.*
 backend/.env
+backend/.env.*
+!.env.example
+!backend/.env.example
 
 # Archivos de sistema Windows
 *.bat
