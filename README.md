@@ -8,7 +8,7 @@ Sistema web para gestión de finanzas personales con registro de ingresos y gast
 |---|---|
 | **Frontend** | HTML5, CSS3, JavaScript (ES Modules), Chart.js |
 | **Backend** | Node.js, Express.js |
-| **Base de datos** | MySQL 8.0+ |
+| **Base de datos** | PostgreSQL |
 | **Autenticación** | JWT (JSON Web Tokens) + bcrypt |
 
 ## 📁 Estructura del Proyecto
@@ -25,10 +25,9 @@ finanzas-web/
 │       └── charts.js        # Gráficos Chart.js
 ├── backend/                 # Servidor API
 │   ├── server.js            # Express server
-│   ├── db.js                # Pool MySQL (local/cloud)
+│   ├── db.js                # Pool PostgreSQL
 │   ├── package.json         # Dependencias
-│   ├── init_cloud_db.js     # Inicializador para la nube
-│   ├── schema_completo.sql  # Schema SQL completo
+│   ├── init_postgres_db.js  # Inicializador para la nube (PostgreSQL)
 │   ├── .env.example         # Template de variables
 │   ├── middleware/
 │   │   └── authMiddleware.js
@@ -44,7 +43,7 @@ finanzas-web/
 
 ### Requisitos
 - Node.js >= 18
-- MySQL 8.0+
+- PostgreSQL
 
 ### Pasos
 ```bash
@@ -54,11 +53,10 @@ npm install
 
 # 2. Configurar variables de entorno
 cp .env.example .env
-# Editar .env con tus credenciales MySQL locales
+# Editar .env con tus credenciales PostgreSQL
 
-# 3. Crear base de datos
-mysql -u root -p < schema_completo.sql
-
+# 3. Inicializar esquema
+npm run init-db
 # 4. Iniciar servidor
 npm start
 # → Abre http://localhost:3001
@@ -66,7 +64,7 @@ npm start
 
 ## ☁️ Despliegue en la Nube (Render + Aiven)
 
-1. **Base de datos**: Crear servicio MySQL gratuito en [Aiven](https://aiven.io)
+1. **Base de datos**: Crear servicio PostgreSQL gratuito en [Aiven](https://aiven.io)
 2. **Inicializar schema**: `npm run init-db` con las credenciales de Aiven
 3. **Deploy**: Conectar este repo a [Render](https://render.com) y configurar variables de entorno
 
