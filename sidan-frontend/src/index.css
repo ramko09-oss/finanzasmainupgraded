@@ -719,3 +719,511 @@ body {
     height: 94vh;
   }
 }
+
+/* ========================================================== */
+/* ESTILOS SESIÓN 06: SALUDO, EFECTOS Y CONTADOR ASINCRÓNICO */
+/* ========================================================== */
+
+/* Banner de Saludo */
+.saludo-banner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(47, 111, 171, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border: 1px solid rgba(47, 111, 171, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(8px);
+}
+
+.saludo-avatar-box {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.saludo-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.saludo-status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background: var(--income);
+  border: 2.5px solid var(--bg-card);
+  border-radius: 50%;
+}
+
+.saludo-info {
+  flex: 1;
+}
+
+.saludo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
+.saludo-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.saludo-badge {
+  background: rgba(47, 111, 171, 0.18);
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid rgba(47, 111, 171, 0.3);
+}
+
+.saludo-message {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.45;
+  margin-bottom: 0.6rem;
+}
+
+.saludo-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.saludo-tag {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--income);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Card Carga Asincrónica (AsyncDataLoader) */
+.async-loader-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.async-loader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.async-loader-header h3 {
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.async-loader-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.btn-reload {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-reload:hover:not(:disabled) {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.btn-reload:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.async-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-body);
+  border-radius: var(--radius);
+  margin-bottom: 1.2rem;
+  font-size: 0.82rem;
+}
+
+.status-pill {
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.status-pill.loading {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.status-pill.ready {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--income);
+}
+
+.status-msg {
+  color: var(--text-secondary);
+}
+
+/* Skeleton Loading */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+}
+
+.skeleton-bar {
+  height: 18px;
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg-body) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Métricas del Loader */
+.async-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.async-mini-card {
+  background: var(--bg-body);
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mini-label {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.mini-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.text-primary { color: var(--primary); }
+.text-income { color: var(--income); }
+.text-expense { color: var(--expense); }
+
+/* Tabla Asincrónica */
+.async-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.async-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.86rem;
+}
+
+.async-table th, .async-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.async-table th {
+  background: var(--bg-body);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.async-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Card Contador Automático (AutoRefreshCounter) */
+.interval-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.interval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.interval-header h3 {
+  font-size: 1.15rem;
+  color: var(--text-primary);
+}
+
+.interval-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.ticker-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+}
+
+.ticker-badge.pulse {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--income);
+}
+
+.ticker-badge.pulse .ticker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--income);
+  animation: pulse-dot 1.5s infinite;
+}
+
+.ticker-badge.paused {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--expense);
+}
+
+.ticker-badge.paused .ticker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--expense);
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+.interval-display-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.interval-time-box, .interval-cycle-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.interval-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.interval-clock {
+  font-size: 2.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 2px;
+}
+
+.interval-countdown {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--income);
+}
+
+.interval-subtext {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--income) 100%);
+  transition: width 0.3s ease;
+}
+
+.interval-controls {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.btn-control {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-pause {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.btn-pause:hover {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-resume {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--income);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.btn-resume:hover {
+  background: var(--income);
+  color: white;
+}
+
+.btn-reset {
+  background: var(--bg-body);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.btn-reset:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+/* Banner de Laboratorio */
+.lab-info-banner {
+  background: rgba(47, 111, 171, 0.08);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.4rem;
+  margin-bottom: 1.8rem;
+}
+
+.lab-info-banner h3 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+
+.lab-info-banner p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Botón de retorno al sistema principal en sidebar */
+.btn-back-system {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-back-system:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+}

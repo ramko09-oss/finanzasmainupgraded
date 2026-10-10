@@ -82,25 +82,41 @@ npm start
 - ✅ Análisis de salud financiera
 - ✅ Diseño responsive y accesible
 
-## ⚛️ Complemento: Laboratorio de React con Vite (Actividades 1, 2 y 3)
+## ⚛️ Módulo React Integrado (Sesión 05 y Sesión 06)
 
-Como complemento procedimental al sistema financiero, se implementó en `sidan-frontend/` la arquitectura de componentes y estado en React:
+El proyecto evoluciona incorporando React 19 y Vite de manera integrada en el proyecto existente (sin reemplazar el sistema original, accesible en `/react/` o de forma independiente en `sidan-frontend/`):
 
-### Actividades implementadas:
-- **Actividad 1:** Inicialización del proyecto React con Vite (`mi-primera-app`), dependencias y entorno.
-- **Actividad 2:** Arquitectura en `src/components/` con componente funcional `<Card />` que recibe `props` (título, descripción, imagen, categoría).
-- **Actividad 3:** Interactividad con el hook `useState`:
-  - `<Counter />`: Contador interactivo con color condicionado según el estado (reto completado).
-  - `<ThemeToggle />`: Alternancia entre modo claro y oscuro.
-  - `<CurrencySelector />`: Selector interactivo de monedas.
+### 📋 Requisitos Implementados de la Sesión 06:
+1. **Componente funcional reutilizable:** `<Card />` y `<MetricCard />` estructurados en `src/components/`.
+2. **Componente `Saludo` con `props`:** `<Saludo />` recibe `nombre`, `rol`, `mensaje` y `ultimoAcceso`.
+3. **Estado interno con `useState`:**
+   - `<Counter />`: Conteo interactivo con condicionado dinámico de color.
+   - `<Card />`: Sistema de likes por cada tarjeta.
+   - `<AsyncDataLoader />`: Gestión de estados de carga, datos recibidos y errores.
+   - `<AutoRefreshCounter />`: Estado de segundos transcurridos y estado activo/pausado.
+4. **Eventos de usuario (`onClick`):** Botones de recarga asincrónica, pausar/reanudar temporizador, reiniciar segundero, dar likes y cambio de tema.
+5. **Composición de componentes:** El dashboard principal compone armónicamente `<Saludo />`, `<AutoRefreshCounter />`, `<AsyncDataLoader />`, `<MetricCard />` y la cuadrícula de `<Card />`.
+6. **Efecto con `useEffect` y `setTimeout`:** `<AsyncDataLoader />` simula una petición de red con retraso de 1.8 segundos.
+7. **Contador automático con `setInterval`:** `<AutoRefreshCounter />` actualiza los segundos de sesión activa cada 1000ms.
+8. **Funciones de limpieza implementadas:**
+   - `clearTimeout(timerId)` en `<AsyncDataLoader />` para prevenir fugas si el componente se desmonta antes de finalizar la carga.
+   - `clearInterval(intervalId)` en `<AutoRefreshCounter />` para cancelar el intervalo al pausar o desmontar.
+9. **Presentación visual coherente:** Utiliza la misma paleta y tokens de diseño de SIDAN Finanzas (modo claro y oscuro, soporte 2K).
 
-Para correr el entorno del laboratorio React:
+### 💻 Cómo ejecutar:
 ```bash
+# 1. Sistema Completo Integrado (Backend + Frontend Original en / + Módulo React en /react):
+npm start
+# → Abre http://localhost:3001/ para el sistema principal
+# → Abre http://localhost:3001/react/ para el módulo React
+
+# 2. Entorno de Desarrollo Exclusivo de React (Vite con React DevTools):
 cd sidan-frontend
 npm install
 npm run dev
+# → Abre http://localhost:5173/
 ```
 
 ## 📄 Licencia
 
-Proyecto académico — Universidad.
+Proyecto académico — Universidad Autónoma del Perú.

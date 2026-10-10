@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import './index.css'
 
-// Componentes organizados en src/components
+// Componentes modulares organizados en src/components
 import Sidebar from './components/Sidebar'
+import Saludo from './components/Saludo'
 import Card from './components/Card'
 import MetricCard from './components/MetricCard'
 import ThemeToggle from './components/ThemeToggle'
 import Counter from './components/Counter'
 import CurrencySelector from './components/CurrencySelector'
+import AsyncDataLoader from './components/AsyncDataLoader'
+import AutoRefreshCounter from './components/AutoRefreshCounter'
 
 // Imágenes del proyecto SIDAN original
 import slide1 from './assets/img/slide-1-bienvenido.jpg'
@@ -17,8 +20,8 @@ import slide4 from './assets/img/slide-4-crecimiento.jpg'
 import slide5 from './assets/img/slide-5-conectalo.jpg'
 
 /**
- * Datos de las tarjetas — migradas del prototipo estático SIDAN
- * Cada card usa props: titulo, descripcion, imagen, categoria
+ * Datos para el componente funcional reutilizable <Card />
+ * Demuestra props: titulo, descripcion, imagen, categoria
  */
 const CARDS_DATA = [
   {
@@ -35,7 +38,7 @@ const CARDS_DATA = [
   },
   {
     titulo: 'Simplifica todo en un lugar',
-    descripcion: 'Registra transacciones, visualiza gráficas de evolución, analiza por categorías y obtén diagnósticos financieros automáticos.',
+    descripcion: 'Registra transacciones, visualiza gráficas de evolución, analiza por categorías y obtén diagnósticos automáticos.',
     imagen: slide3,
     categoria: 'ingreso',
   },
@@ -53,65 +56,72 @@ const CARDS_DATA = [
   },
 ]
 
-/**
- * App Principal — Componente raíz
- * Utiliza useState para:
- * 1. Navegación entre vistas (activeView)
- * 2. El tema claro/oscuro se maneja en ThemeToggle
- * 3. Los Likes se manejan dentro de cada Card
- * 4. El contador se maneja en Counter
- * 5. La moneda se maneja en CurrencySelector
- */
 function App() {
   const [activeView, setActiveView] = useState('dashboard')
 
   return (
     <div className="app-layout">
-      {/* Sidebar con props: activeView + onNavigate */}
+      {/* Sidebar modular con props (activeView + onNavigate) */}
       <Sidebar activeView={activeView} onNavigate={setActiveView} />
 
       {/* Contenido Principal */}
       <div className="main-content">
-        {/* Barra Superior */}
+        {/* Barra Superior con ThemeToggle */}
         <header className="topbar">
           <div className="topbar-left">
             <h1>
-              {activeView === 'dashboard' && '📊 Dashboard Principal'}
-              {activeView === 'features' && '⭐ Características SIDAN'}
-              {activeView === 'interacciones' && '🔧 Interacciones con Estado'}
+              {activeView === 'dashboard' && '📊 Dashboard Integrado (React + Efectos)'}
+              {activeView === 'efectos' && '⚡ Sesión 06: useEffect, Asincronía y Limpieza'}
+              {activeView === 'features' && '⭐ Componentes Reutilizables (<Card />)'}
+              {activeView === 'interacciones' && '🔧 Gestión de Estado Interno (useState)'}
             </h1>
             <p>
-              {activeView === 'dashboard' && 'Resumen global y métricas clave de tus finanzas'}
-              {activeView === 'features' && 'Tarjetas reutilizables con componente <Card /> y props'}
-              {activeView === 'interacciones' && 'Componentes interactivos usando useState de React'}
+              {activeView === 'dashboard' && 'Composición de componentes funcionales, props, useState y useEffect'}
+              {activeView === 'efectos' && 'Demostración de setTimeout (clearTimeout) e setInterval (clearInterval)'}
+              {activeView === 'features' && 'Componente funcional reutilizable <Card /> con paso de props estructuradas'}
+              {activeView === 'interacciones' && 'Interacciones dinámicas capturando eventos de usuario como onClick'}
             </p>
           </div>
           <div className="topbar-actions">
-            {/* ThemeToggle — Actividad 3: Selector claro/oscuro con useState */}
             <ThemeToggle />
           </div>
         </header>
 
-        {/* ============================================= */}
-        {/* VISTA: DASHBOARD */}
-        {/* ============================================= */}
+        {/* ======================================================== */}
+        {/* VISTA 1: DASHBOARD COMPUESTO (COMPOSICIÓN DE COMPONENTES) */}
+        {/* ======================================================== */}
         {activeView === 'dashboard' && (
-          <>
-            {/* Métricas — componente MetricCard con props de variante */}
+          <div className="view-container">
+            {/* 1. Componente Saludo con Props */}
+            <Saludo
+              nombre="Kevyo Ramirez"
+              rol="Administrador de Finanzas"
+              mensaje="Panel interactivo de SIDAN evolucionado con React 19, componentes modulares y hooks avanzados."
+              ultimoAcceso="10 de Octubre de 2026, 16:15"
+            />
+
+            {/* 2. Composición: Temporizador de Intervalo en Vivo */}
+            <AutoRefreshCounter />
+
+            {/* 3. Composición: Carga Asincrónica con setTimeout */}
+            <AsyncDataLoader />
+
+            {/* 4. Métricas Rápidas con <MetricCard /> */}
+            <h2 className="section-title">Indicadores Clave</h2>
             <div className="metrics-grid">
-              <MetricCard titulo="Saldo Total" valor="$12,580.00" variante="primary" />
-              <MetricCard titulo="Ingresos del Mes" valor="$4,200.00" variante="income" />
-              <MetricCard titulo="Gastos del Mes" valor="$1,850.00" variante="expense" />
-              <MetricCard titulo="Transacciones" valor="34" variante="neutral" />
+              <MetricCard titulo="Saldo Disponible" valor="$14,850.50" variante="primary" />
+              <MetricCard titulo="Ingresos Acumulados" valor="$5,200.00" variante="income" />
+              <MetricCard titulo="Gastos Totales" valor="$2,150.00" variante="expense" />
+              <MetricCard titulo="Balance Neto" valor="+$3,050.50" variante="neutral" />
             </div>
 
-            {/* Cards destacadas — Componente <Card /> con props */}
+            {/* 5. Composición: Galería de Tarjetas <Card /> */}
             <section className="features-section">
-              <h2>Características Destacadas</h2>
+              <h2 className="section-title">Tarjetas Reutilizables con Props</h2>
               <div className="cards-grid">
-                {CARDS_DATA.slice(0, 3).map((card, index) => (
+                {CARDS_DATA.slice(0, 3).map((card, idx) => (
                   <Card
-                    key={index}
+                    key={idx}
                     titulo={card.titulo}
                     descripcion={card.descripcion}
                     imagen={card.imagen}
@@ -120,28 +130,44 @@ function App() {
                 ))}
               </div>
             </section>
-
-            {/* Interacciones rápidas */}
-            <section className="interactions-section">
-              <h2>Interacciones Dinámicas</h2>
-              <div className="interactions-grid">
-                <Counter />
-                <CurrencySelector />
-              </div>
-            </section>
-          </>
+          </div>
         )}
 
-        {/* ============================================= */}
-        {/* VISTA: CARACTERÍSTICAS (todas las cards)      */}
-        {/* ============================================= */}
+        {/* ======================================================== */}
+        {/* VISTA 2: SESIÓN 06 - EFECTOS, ASINCRONÍA Y LIMPIEZA       */}
+        {/* ======================================================== */}
+        {activeView === 'efectos' && (
+          <div className="view-container">
+            <div className="lab-info-banner">
+              <h3>🎯 Laboratorio Sesión 06: Efectos Secundarios y Limpieza</h3>
+              <p>
+                Esta vista demuestra directamente los requerimientos de la sesión:
+                gestión de efectos secundarios con <code>useEffect</code>, simulación de carga asincrónica con <code>setTimeout</code>,
+                actualización cíclica con <code>setInterval</code> y funciones de limpieza correspondientes (<code>clearTimeout</code> y <code>clearInterval</code>).
+              </p>
+            </div>
+
+            {/* Demostración 1: Contador automático con setInterval + clearInterval */}
+            <AutoRefreshCounter />
+
+            {/* Demostración 2: Simulación asincrónica con setTimeout + clearTimeout */}
+            <AsyncDataLoader />
+          </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* VISTA 3: CARACTERÍSTICAS (<Card /> y Props)              */}
+        {/* ======================================================== */}
         {activeView === 'features' && (
-          <section className="features-section">
-            <h2>Todas las Características de SIDAN</h2>
+          <div className="view-container">
+            <h2 className="section-title">Todas las Tarjetas de SIDAN (Componente &lt;Card /&gt;)</h2>
+            <p className="section-subtitle">
+              Cada tarjeta es una instancia del mismo componente funcional reutilizable que recibe información mediante props.
+            </p>
             <div className="cards-grid">
-              {CARDS_DATA.map((card, index) => (
+              {CARDS_DATA.map((card, idx) => (
                 <Card
-                  key={index}
+                  key={idx}
                   titulo={card.titulo}
                   descripcion={card.descripcion}
                   imagen={card.imagen}
@@ -149,32 +175,28 @@ function App() {
                 />
               ))}
             </div>
-          </section>
+          </div>
         )}
 
-        {/* ============================================= */}
-        {/* VISTA: INTERACCIONES CON ESTADO               */}
-        {/* ============================================= */}
+        {/* ======================================================== */}
+        {/* VISTA 4: INTERACCIONES CON USESTATE                      */}
+        {/* ======================================================== */}
         {activeView === 'interacciones' && (
-          <section className="interactions-section">
-            <h2>Componentes Interactivos con useState</h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.92rem' }}>
-              Cada componente mantiene su propio estado interno usando el hook <code>useState</code>.
-              Los cambios se reflejan en tiempo real y pueden verificarse con React DevTools.
+          <div className="view-container">
+            <h2 className="section-title">Componentes con Estado Interno (useState)</h2>
+            <p className="section-subtitle">
+              Demostración del hook <code>useState</code> capturando eventos <code>onClick</code> y cambiando estilos dinámicamente.
             </p>
             <div className="interactions-grid">
               <Counter />
               <CurrencySelector />
             </div>
 
-            <h2 style={{ marginTop: '2rem' }}>Cards con Sistema de Likes</h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.92rem' }}>
-              Cada <code>&lt;Card /&gt;</code> gestiona su estado de &quot;likes&quot; de manera independiente.
-            </p>
+            <h2 className="section-title" style={{ marginTop: '2rem' }}>Interacciones en Tarjetas (Sistema de Likes)</h2>
             <div className="cards-grid">
-              {CARDS_DATA.slice(0, 2).map((card, index) => (
+              {CARDS_DATA.slice(0, 2).map((card, idx) => (
                 <Card
-                  key={index}
+                  key={idx}
                   titulo={card.titulo}
                   descripcion={card.descripcion}
                   imagen={card.imagen}
@@ -182,12 +204,13 @@ function App() {
                 />
               ))}
             </div>
-          </section>
+          </div>
         )}
 
         {/* Footer */}
         <footer className="app-footer">
-          SIDAN Finanzas — Migrado a React + Vite | Sesión 05 — Componentes, Props y useState
+          <span>SIDAN Finanzas — Proyecto Evolucionado a React 19 + Vite</span>
+          <span>Sesión 06: Componentes, Props, useState, useEffect y Funciones de Limpieza</span>
         </footer>
       </div>
     </div>

@@ -20,8 +20,17 @@ const NAV_ITEMS = [
     ),
   },
   {
+    id: 'efectos',
+    label: '⚡ Efectos (Sesión 06)',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+  {
     id: 'features',
-    label: 'Características',
+    label: 'Características (<Card />)',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -30,7 +39,7 @@ const NAV_ITEMS = [
   },
   {
     id: 'interacciones',
-    label: 'Interacciones',
+    label: 'Interacciones (useState)',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
@@ -47,12 +56,12 @@ function Sidebar({ activeView, onNavigate }) {
         <img src={sidaaLogo} alt="SIDAN" />
         <div className="sidebar-brand-info">
           <span className="sidebar-brand-name">SIDAN</span>
-          <span className="sidebar-brand-sub">Finanzas</span>
+          <span className="sidebar-brand-sub">React Laboratorio</span>
         </div>
       </div>
 
       {/* Navegación */}
-      <div className="sidebar-section-title">Menú Principal</div>
+      <div className="sidebar-section-title">Menú React</div>
       <nav className="sidebar-nav">
         {NAV_ITEMS.map((item) => (
           <button
@@ -66,10 +75,14 @@ function Sidebar({ activeView, onNavigate }) {
         ))}
       </nav>
 
-      {/* Footer */}
+      {/* Enlace al sistema original para no perder la integración */}
       <div className="sidebar-footer">
-        <div style={{ fontSize: '0.72rem', color: '#64748b', textAlign: 'center' }}>
-          Migrado a React + Vite
+        <a href="/" className="btn-back-system" title="Volver al Sistema Financiero Principal">
+          <span>🏛️</span>
+          <span>Sistema Principal</span>
+        </a>
+        <div style={{ fontSize: '0.70rem', color: '#64748b', textAlign: 'center', marginTop: '8px' }}>
+          Sesión 06 — React + useEffect
         </div>
       </div>
     </aside>
