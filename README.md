@@ -80,6 +80,25 @@ npm start
 - ✅ Análisis de salud financiera
 - ✅ Diseño responsive y accesible
 
+## ⚛️ Migración a React con Vite (Actividades 1, 2 y 3)
+
+Se ha iniciado un proceso de migración de la interfaz estática original hacia una arquitectura moderna basada en componentes utilizando React y Vite en el directorio `mi-primera-app/`.
+
+### Actividades implementadas:
+- **Actividad 1:** Inicialización del proyecto React con Vite (template react), instalación de dependencias y configuración del entorno de desarrollo.
+- **Actividad 2:** Definición de una arquitectura de componentes en `src/components`. Migración del diseño HTML a componentes funcionales como `<Card />`, pasando información estructurada mediante `props` (título, descripción, imagen, categoría).
+- **Actividad 3:** Implementación de interactividad local utilizando el hook `useState`. Se crearon componentes dinámicos con renderizado condicional:
+  - `<Counter />`: Sistema de "Likes" con condicionamiento de estilos según el estado.
+  - `<ThemeToggle />`: Alternancia entre modo claro y oscuro interactivo.
+  - `<CurrencySelector />`: Simulador de selector de monedas con cambio visual según el estado.
+
+Para correr el entorno de desarrollo en React:
+```bash
+cd mi-primera-app
+npm install
+npm run dev
+```
+
 ## 📄 Licencia
 
 Proyecto académico — Universidad.
