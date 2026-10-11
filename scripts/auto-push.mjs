@@ -105,7 +105,7 @@ async function runAutoSync() {
         if (!hasRemoteOrigin()) {
           console.warn(`[${getTimestamp()}] ⚠️ Commit local creado, pero no hay un remoto 'origin' configurado.`);
           console.warn(`👉 Para conectar tu GitHub ejecuta: git remote add origin <URL-de-tu-repo>`);
-          console.warn(`   O ejecuta el asistente: npm run setup-git\n`);
+          console.warn(`   O ejecuta la configuración: npm run setup-git\n`);
         } else {
           console.log(`[${getTimestamp()}] 🚀 Subiendo a GitHub (rama: ${branch})...`);
           const pushResult = execWithOutput(`git push origin ${branch}`);

@@ -6,7 +6,22 @@ Aplicación para registrar ingresos y gastos, consultar el historial y analizar 
 
 La interfaz completa utiliza React + Vite y Chart.js. Express proporciona la API, con PostgreSQL y autenticación JWT.
 
+```text
+finanzasmainupgraded/
+├── backend/               API, autenticación y acceso a la base de datos
+├── sidan-frontend/        Aplicación React + Vite y recursos visuales
+├── tests/                 Pruebas de regresión
+├── scripts/               Publicación, configuración y comprobación local
+├── tools/react-inspector/ Inspector local de componentes
+├── docs/                  Documentación y evidencias técnicas
+├── .github/workflows/     Despliegue automático en Render
+├── package.json           Comandos de la aplicación integrada
+├── render.yaml            Configuración de referencia para Render
+└── DEPLOYMENT.md           Procedimiento de publicación
+```
+
 - `sidan-frontend/src/views/`: acceso, navegación, dashboard, registro, historial, analítica, resumen mensual y gráficas.
+- `sidan-frontend/src/components/`: elementos reutilizables, como `Card`.
 - `sidan-frontend/src/api.js`: sesión, cliente API, conversión de moneda y cálculos financieros.
 - `sidan-frontend/src/styles.css`: diseño original, tarjetas, navegación responsive y temas.
 - `sidan-frontend/public/img/`: identidad visual y carrusel de acceso.
@@ -15,7 +30,9 @@ La interfaz completa utiliza React + Vite y Chart.js. Express proporciona la API
 
 ## Ejecutar localmente
 
-Configura las variables de `backend/.env.example` en un archivo `.env` local. Para una base de datos nueva, instala las dependencias de backend y ejecuta su comando `npm run init-db`.
+Para compilar el frontend, utiliza una versión de Node compatible con Vite: Node 20.19 o superior en la rama 20, o Node 22.12 o superior.
+
+Configura las variables de `backend/.env.example` en un archivo `.env` en la raíz del repositorio cuando ejecutes los comandos de la aplicación integrada. No lo subas a Git. Para una base de datos nueva, instala las dependencias de backend y ejecuta `node backend/init_postgres_db.js` desde la raíz. La inicialización es un paso de configuración, no se ejecuta en cada despliegue.
 
 Desde la raíz:
 
@@ -53,6 +70,10 @@ El flujo de commit, push a GitHub y despliegue único en Render está descrito e
 
 El componente reutilizable `Card` y las capturas reales de React DevTools se
 documentan en [Componentes y estado de la interfaz](docs/REACT-VERIFICATION.md).
+El inspector y el servidor con datos ficticios son herramientas de desarrollo;
+no forman parte de la interfaz ni de los servicios publicados en producción.
+El repositorio conserva código fuente, pruebas, documentación y configuración.
+Dependencias instaladas, builds, archivos privados y paquetes ZIP quedan fuera de Git.
 
 ## Licencia
 

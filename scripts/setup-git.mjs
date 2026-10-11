@@ -84,7 +84,8 @@ async function main() {
     console.log('========================================');
     console.log('✨ Configuración completa. Listo para usar:');
     console.log('   npm run auto-push  -> Sincronización automática continua');
-    console.log('   npm run push       -> Subir cambios inmediatamente');
+    console.log('   npm run push -- --check -> Comprobar configuración y cambios');
+    console.log('   npm run push -- "mensaje" archivo1 archivo2 -> Publicar archivos revisados');
     console.log('========================================\n');
   } finally {
     rl.close();

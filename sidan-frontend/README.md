@@ -1,16 +1,31 @@
-# React + Vite
+# Frontend de SIDAA Finanzas
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Interfaz React + Vite de la aplicación financiera. Mantiene la navegación, tarjetas y temas del sistema, y obtiene los datos mediante la API de Express.
 
-Currently, two official plugins are available:
+## Organización
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `src/components/`: componentes compartidos, como `Card`.
+- `src/views/`: formularios, pantallas y sus estructuras visuales.
+- `src/hooks/`: sesión, sincronización de datos y preferencias.
+- `src/api.js`: peticiones HTTP, autenticación y cálculos financieros compartidos.
+- `src/finance.js`: filtros, categorías y periodos.
+- `src/charts.js`: gráficos y liberación de sus instancias.
+- `src/styles.css` y `src/App.css`: sistema visual y ajustes de la aplicación.
+- `public/img/`: logotipos e imágenes de acceso.
 
-## React Compiler
+## Comandos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Desde esta carpeta:
 
-## Expanding the Oxlint configuration
+```powershell
+npm ci
+npm run dev
+npm run build
+npm run lint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+El servidor Vite usa normalmente el puerto 5173 y redirige `/api` al backend del puerto 3001. Para ejecutar la aplicación integrada, usa `npm run build` y `npm start` desde la raíz.
+
+El build se genera en `dist/`, que está excluido de Git. Express lo sirve desde `/`; no existe una segunda aplicación pública.
+
+Las instrucciones de configuración, pruebas y publicación están en el [README principal](../README.md) y en [DEPLOYMENT.md](../DEPLOYMENT.md).

@@ -1,16 +1,15 @@
-# render.yaml — Blueprint de Render para deploy automático
+# Blueprint de referencia: el servicio existente se publica mediante GitHub Actions.
 # https://render.com/docs/blueprint-spec
 
 services:
   - type: web
-    name: finanzas-web
+    name: finanzasmainupgraded
     runtime: node
     region: oregon
     plan: free
     autoDeploy: false  # GitHub Actions solicita un único deploy mediante el hook
-    rootDir: backend
-    buildCommand: npm install && cd ../sidan-frontend && npm install --include=dev && npm run build && cd ../backend && (npm run init-db || true)
-    startCommand: node server.js
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -25,7 +24,7 @@ services:
       - key: DB_PASSWORD
         sync: false
       - key: DB_NAME
-        value: finanzas_db
+        sync: false
       - key: DB_SSL
         value: "true"
       - key: JWT_SECRET
