@@ -15,6 +15,7 @@ async function main() {
   }
   const branch = git('branch', '--show-current');
   if (!branch) throw new Error('HEAD separado: selecciona la rama de despliegue.');
+  if (branch !== 'main') throw new Error('La rama de producción verificada es main. Integra los cambios allí antes de publicar.');
   if (!git('config', 'user.name') || !git('config', 'user.email')) throw new Error('Configura la identidad Git.');
   if (process.argv[2] === '--check') {
     console.log(`Git configurado. Rama: ${branch}. Acceso remoto y Render aún requieren verificación.`);

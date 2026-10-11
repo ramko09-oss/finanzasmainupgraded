@@ -3,18 +3,24 @@
 Repositorio: https://github.com/ramko09-oss/finanzasmainupgraded
 Web: https://finanzasmainupgraded.onrender.com
 
-La descarga ZIP inicialmente no tenía `.git`. Recuperar el historial existente
-antes de publicar; no crear un historial independiente ni usar force push.
+La carpeta ya tiene el historial de GitHub y `origin/main` como upstream.
+No crear un historial independiente ni usar force push.
 Autenticar Git mediante Git Credential Manager o SSH; nunca versionar tokens.
 
-En el servicio existente de Render, confirmar repositorio, rama y auto-deploy.
-`render.yaml` declara autoDeploy, pero no demuestra su configuración real.
-Preferir On Commit, o After CI Checks Pass si hay CI configurado.
+## Configuración verificada el 11 de octubre de 2026
 
-Alternativa: guardar el deploy hook en el secreto GitHub Actions
-`RENDER_DEPLOY_HOOK_URL` y usar `.github/workflows/deploy.yml`. Desactivar
-auto-deploy en Render en ese caso para evitar despliegues duplicados. Ajustar el
-filtro del workflow si la rama desplegada no es main. No guardar el hook en código.
+- Servicio existente: `srv-daist77qj5pc73beopqg` (finanzasmainupgraded).
+- Rama: `main`; Root Directory vacío (raíz del repositorio).
+- Build Command: `npm run build`; Start Command: `npm start`.
+- Auto-Deploy: Off, autorizado explícitamente por el usuario.
+- `.github/workflows/deploy.yml` despliega con el secreto existente
+  `RENDER_DEPLOY_HOOK_URL`. El hook funcionó y desplegó `a16a9bd` en estado live.
+- No disparar un hook local adicional; cada push debe generar un solo despliegue.
+
+`render.yaml` es un blueprint alternativo que usa `backend` como raíz; no está
+sincronizado con todos los ajustes del servicio existente. No crear ni recrear
+el servicio desde ese archivo para publicar cambios. El servicio existente
+usa los ajustes indicados arriba. Nunca guardar el deploy hook en código.
 
 Después de validar cada solicitud y revisar el diff:
 

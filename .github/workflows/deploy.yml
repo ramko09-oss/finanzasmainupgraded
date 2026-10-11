@@ -20,6 +20,6 @@ jobs:
             curl --silent --fail --connect-timeout 15 --max-time 60 -X POST "$RENDER_DEPLOY_HOOK_URL" -o /dev/null
             echo "Solicitud aceptada. Confirmar el commit en estado live en Render."
           else
-            echo "Nota: RENDER_DEPLOY_HOOK_URL no esta configurado en GitHub Secrets."
-            echo "Si conectaste tu cuenta de GitHub directamente en Render, el auto-deploy se gestiona via webhook nativo."
+            echo "Error: falta RENDER_DEPLOY_HOOK_URL en GitHub Secrets; no se solicitó despliegue."
+            exit 1
           fi

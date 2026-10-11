@@ -6,7 +6,10 @@ confirmación rutinaria para publicar el trabajo terminado.
 
 - GitHub: https://github.com/ramko09-oss/finanzasmainupgraded
 - Web: https://finanzasmainupgraded.onrender.com
-- Confirmar la rama conectada al servicio antes de publicar.
+- Rama de producción verificada: `main`.
+- Servicio Render: `srv-daist77qj5pc73beopqg`.
+- Publicación: GitHub Actions llama al deploy hook; Auto-Deploy está Off.
+- Render usa la raíz del repositorio, build `npm run build` y start `npm start`.
 
 ## Flujo obligatorio
 
@@ -15,8 +18,9 @@ confirmación rutinaria para publicar el trabajo terminado.
    secretos, dependencias, builds y cambios ajenos.
 3. Crear un commit descriptivo y hacer push a la rama conectada a Render.
    Usar `npm run push -- "mensaje" ruta1 ruta2` o comandos Git equivalentes.
-4. Render despliega desde GitHub. Usar auto-deploy o un único deploy hook,
-   evitando dos despliegues por el mismo cambio. Seguir `DEPLOYMENT.md`.
+4. Render despliega desde GitHub mediante `.github/workflows/deploy.yml` y el
+   secreto `RENDER_DEPLOY_HOOK_URL`. No disparar otro hook local ni reactivar
+   Auto-Deploy: el usuario autorizó el mecanismo único. Seguir `DEPLOYMENT.md`.
 5. Confirmar que el commit publicado esté `live` en Render y consultar `/api/health`.
    La aceptación de un hook o una web saludable no prueba por sí sola que el nuevo
    commit esté desplegado.
