@@ -7,7 +7,7 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd backend && npm install && cd ../sidan-frontend && npm install && npm run build",
+    "build": "cd backend && npm install && cd ../sidan-frontend && npm install --include=dev && npm run build",
     "dev": "node backend/server.js",
     "dev:react": "cd sidan-frontend && npm run dev",
     "setup-git": "node scripts/setup-git.mjs",

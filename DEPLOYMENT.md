@@ -13,8 +13,10 @@ Autenticar Git mediante Git Credential Manager o SSH; nunca versionar tokens.
 - Rama: `main`; Root Directory vacío (raíz del repositorio).
 - Build Command: `npm run build`; Start Command: `npm start`.
 - Auto-Deploy: Off, autorizado explícitamente por el usuario.
-- `.github/workflows/deploy.yml` despliega con el secreto existente
-  `RENDER_DEPLOY_HOOK_URL`. El hook funcionó y desplegó `a16a9bd` en estado live.
+- `.github/workflows/deploy.yml` despliega con el secreto
+  `RENDER_DEPLOY_HOOK_URL`, creado en GitHub Actions con autorización explícita.
+- El build instala dependencias de desarrollo del frontend con `--include=dev`
+  para disponer de Vite aunque Render tenga `NODE_ENV=production`.
 - No disparar un hook local adicional; cada push debe generar un solo despliegue.
 
 `render.yaml` es un blueprint alternativo que usa `backend` como raíz; no está

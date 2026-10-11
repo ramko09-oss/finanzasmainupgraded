@@ -9,7 +9,7 @@ services:
     plan: free
     autoDeploy: false  # GitHub Actions solicita un único deploy mediante el hook
     rootDir: backend
-    buildCommand: npm install && cd ../sidan-frontend && npm install && npm run build && cd ../backend && (npm run init-db || true)
+    buildCommand: npm install && cd ../sidan-frontend && npm install --include=dev && npm run build && cd ../backend && (npm run init-db || true)
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
