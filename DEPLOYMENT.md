@@ -18,6 +18,8 @@ Autenticar Git mediante Git Credential Manager o SSH; nunca versionar tokens.
 - El build instala dependencias de desarrollo del frontend con `--include=dev`
   para disponer de Vite aunque Render tenga `NODE_ENV=production`.
 - No disparar un hook local adicional; cada push debe generar un solo despliegue.
+- Webhook directo de GitHub `678441791`: desactivado reversiblemente para evitar
+  que duplique el despliegue de Actions. No reactivarlo mientras se use el workflow.
 
 `render.yaml` es un blueprint alternativo que usa `backend` como raíz; no está
 sincronizado con todos los ajustes del servicio existente. No crear ni recrear
