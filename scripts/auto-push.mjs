@@ -51,7 +51,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function runAutoSync() {
   console.log('\n==========================================================');
-  console.log('🤖 AGENTE DE AUTO-PUSH A GITHUB INICIADO');
+  console.log('MONITOR DE PUBLICACIÓN AUTOMÁTICA A GITHUB INICIADO');
   console.log('==========================================================');
   console.log(`⏱️  Monitoreando cambios cada ${POLL_INTERVAL_MS / 1000}s`);
   console.log('🛑 Presiona Ctrl+C en cualquier momento para detenerlo.');

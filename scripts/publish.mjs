@@ -11,7 +11,7 @@ async function main() {
   catch { throw new Error('Esta carpeta no es un repositorio Git. Recupera el historial existente según DEPLOYMENT.md.'); }
   const remote = git('remote', 'get-url', 'origin');
   if (!/^(https:\/\/github\.com\/ramko09-oss\/finanzasmainupgraded(?:\.git)?|git@github\.com:ramko09-oss\/finanzasmainupgraded(?:\.git)?)$/.test(remote)) {
-    throw new Error('origin no coincide con el repositorio confirmado en AGENTS.md.');
+    throw new Error('origin no coincide con el repositorio de producción documentado en DEPLOYMENT.md.');
   }
   const branch = git('branch', '--show-current');
   if (!branch) throw new Error('HEAD separado: selecciona la rama de despliegue.');
