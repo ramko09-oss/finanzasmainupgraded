@@ -35,6 +35,13 @@ const resumenMonthSelector = document.getElementById('resumen-month-selector');
 // Estado local de la UI
 let currentCurrency = localStorage.getItem('finanzas_currency') || 'USD';
 let allTransactions = [];
+// React y los gráficos originales muestran la misma actualización de datos.
+window.addEventListener('finanzas:dashboard-data', event => {
+  if (!Array.isArray(event.detail)) return;
+  allTransactions = event.detail;
+  populateMonthSelectors(allTransactions);
+  if (window.location.hash === '#dashboard') renderDashboard(allTransactions);
+});
 
 // ─── Modo Oscuro / Tema ─────────────────────────────────────────────────────
 export function initTheme() {
@@ -54,6 +61,7 @@ export function toggleTheme() {
   const newTheme = current === 'dark' ? 'light' : 'dark';
   applyTheme(newTheme);
   localStorage.setItem('finanzas_theme', newTheme);
+  window.dispatchEvent(new Event('finanzas:preferences'));
   
   // Si estamos en vistas con gráficos, redibujar con los colores del tema
   const hash = window.location.hash || '#dashboard';
@@ -123,6 +131,7 @@ export function initUI(user, logoutCb) {
   currencySelector.addEventListener('change', (e) => {
     currentCurrency = e.target.value;
     localStorage.setItem('finanzas_currency', currentCurrency);
+    window.dispatchEvent(new Event('finanzas:preferences'));
     renderActiveView(); // Re-renderizar todo
   });
 
@@ -198,6 +207,7 @@ export function initUI(user, logoutCb) {
       currentCurrency = e.target.value;
       currencySelector.value = currentCurrency;
       localStorage.setItem('finanzas_currency', currentCurrency);
+      window.dispatchEvent(new Event('finanzas:preferences'));
       renderActiveView();
     };
   }
@@ -617,6 +627,7 @@ export async function renderActiveView() {
   try {
     // Siempre obtener data fresca al cambiar de vista o moneda
     allTransactions = await db.getTransactions();
+    window.dispatchEvent(new Event('finanzas:transactions'));
     
     // Poblar selectores de mes si cambiaron las transacciones
     populateMonthSelectors(allTransactions);

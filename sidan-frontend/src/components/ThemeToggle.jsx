@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useTheme } from '../hooks/usePreferences'
 
 /**
  * Componente <ThemeToggle />
@@ -6,19 +7,21 @@ import { useState } from 'react'
  * Cambia el atributo data-theme en el <html> y condiciona clases CSS
  */
 function ThemeToggle() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [theme, setTheme] = useTheme()
+  const darkMode = theme === 'dark'
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   const toggleTheme = () => {
-    const newMode = !darkMode
-    setDarkMode(newMode)
-    document.documentElement.setAttribute('data-theme', newMode ? 'dark' : 'light')
+    setTheme(darkMode ? 'light' : 'dark')
   }
 
   return (
     <button className="theme-toggle-btn" onClick={toggleTheme}>
       {darkMode ? (
         // Icono de Sol (Modo claro)
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg className="theme-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="5" />
           <line x1="12" y1="1" x2="12" y2="3" />
           <line x1="12" y1="21" x2="12" y2="23" />
@@ -31,7 +34,7 @@ function ThemeToggle() {
         </svg>
       ) : (
         // Icono de Luna (Modo oscuro)
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg className="theme-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       )}

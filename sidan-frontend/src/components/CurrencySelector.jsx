@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCurrency } from '../hooks/usePreferences'
 
 /**
  * Componente <CurrencySelector />
@@ -14,7 +14,7 @@ const CURRENCIES = {
 }
 
 function CurrencySelector() {
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useCurrency()
 
   const current = CURRENCIES[currency]
 

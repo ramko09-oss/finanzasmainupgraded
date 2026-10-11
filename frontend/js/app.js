@@ -3,6 +3,7 @@
 // ============================================================
 
 import { auth } from './api.js';
+import { mountReactDashboard } from './react-dashboard.js';
 import * as ui from './ui.js';
 
 // ─── Eventos de Autenticación (Login / Registro) ────────────────────────────
@@ -126,6 +127,15 @@ async function handleLogout() {
   ui.showToast('Has cerrado sesión correctamente');
 }
 
+// La expiración de sesión en cualquier panel también oculta la interfaz original.
+const syncSession = () => {
+  if (!auth.getCurrentUser()) ui.showAuthView();
+};
+window.addEventListener('finanzas:session', syncSession);
+window.addEventListener('storage', event => {
+  if (!event.key || ['finanzas_jwt', 'finanzas_user'].includes(event.key)) syncSession();
+});
+
 
 // ─── Eventos de la App Principal ─────────────────────────────────────────────
 
@@ -138,6 +148,7 @@ document.getElementById('btn-delete-selected').addEventListener('click', ui.hand
 
 // ─── Flujo de Inicio ────────────────────────────────────────────────────────
 function initializeApp(user) {
+  mountReactDashboard();
   // Configurar UI con el usuario logueado e iniciar router
   ui.initUI(user, handleLogout);
 }

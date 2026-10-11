@@ -1,5 +1,10 @@
 # Publicación autorizada
 
+Conservar el estilo visual previo a la migración: reutilizar
+`frontend/css/styles.css`, sus tokens, tarjetas, navegación y temas claro/oscuro.
+Presentar las mejoras como funciones del producto, con datos reales y textos
+orientados a la gestión financiera. Evitar contenido de demostración en la interfaz.
+
 El usuario autoriza commit, push a GitHub y despliegue en Render tras cada mejora,
 implementación o cambio solicitado, incluidos los preparativos. No pedir otra
 confirmación rutinaria para publicar el trabajo terminado.

@@ -30,20 +30,21 @@ function getActiveStorage() {
   return sessionStorage;
 }
 
-function getToken() {
+export function getToken() {
   return sessionStorage.getItem('finanzas_jwt') || localStorage.getItem('finanzas_jwt');
 }
 
-async function fetchAPI(endpoint, options = {}) {
+export async function fetchAPI(endpoint, options = {}) {
+  const { redirectOnAuthError = true, ...requestOptions } = options;
   const token = getToken();
   const headers = {
     'Content-Type': 'application/json',
     ...(token && { 'Authorization': `Bearer ${token}` }),
-    ...options.headers
+    ...requestOptions.headers
   };
 
   const response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
+    ...requestOptions,
     headers
   });
 
@@ -56,9 +57,12 @@ async function fetchAPI(endpoint, options = {}) {
       sessionStorage.removeItem('finanzas_user');
       localStorage.removeItem('finanzas_jwt');
       localStorage.removeItem('finanzas_user');
-      window.location.hash = '#auth'; // Forzar login
+      window.dispatchEvent(new Event('finanzas:session'));
+      if (redirectOnAuthError) window.location.hash = '#auth';
     }
-    throw new Error(data.error || 'Error en la petición');
+    const error = new Error(data.error || 'Error en la petición');
+    error.status = response.status;
+    throw error;
   }
 
   return data;
@@ -84,6 +88,7 @@ export const auth = {
     const storage = rememberMe ? localStorage : sessionStorage;
     storage.setItem('finanzas_jwt', data.token);
     storage.setItem('finanzas_user', JSON.stringify(data.user));
+    window.dispatchEvent(new Event('finanzas:session'));
 
     return data.user;
   },
@@ -117,6 +122,7 @@ export const auth = {
     sessionStorage.removeItem('finanzas_user');
     localStorage.removeItem('finanzas_jwt');
     localStorage.removeItem('finanzas_user');
+    window.dispatchEvent(new Event('finanzas:session'));
   },
 
   getCurrentUser() {
@@ -135,12 +141,7 @@ export const auth = {
 export const db = {
   async getTransactions() {
     const data = await fetchAPI('/api/transactions');
-    // Mapear al formato que espera el frontend (convertir fechas y strings a números)
-    return data.map(t => ({
-      ...t,
-      fecha: new Date(t.fecha),
-      monto: Number(t.monto)
-    }));
+    return normalizeTransactions(data);
   },
 
   async addTransaction({ tipo, montoLocal, descripcion, fecha, currencyCode }) {
@@ -166,6 +167,20 @@ export const db = {
 };
 
 // ─── Utilidades Analíticas (movidas desde el anterior db.js) ────────────────
+export function normalizeTransactions(rows) {
+  if (!Array.isArray(rows)) throw new Error('La respuesta de transacciones no es válida.');
+  return rows.map(row => {
+    const monto = Number(row.monto);
+    const date = String(row.fecha).slice(0, 10);
+    const fecha = new Date(`${date}T12:00:00`);
+    const [year, month, day] = date.split('-').map(Number);
+    if (!Number.isFinite(monto) || !/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(fecha.getTime()) || fecha.getFullYear() !== year || fecha.getMonth() + 1 !== month || fecha.getDate() !== day) {
+      throw new Error('Hay una transacción con importe o fecha inválidos.');
+    }
+    return { ...row, monto, fecha };
+  });
+}
+
 export function calcMetrics(transactions) {
   const totalIngresos = transactions.filter(t => t.tipo === "Ingreso").reduce((s, t) => s + t.monto, 0);
   const totalGastos = transactions.filter(t => t.tipo === "Gasto").reduce((s, t) => s + t.monto, 0);
