@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CURRENCIES } from '../../../frontend/js/api.js'
+import { CURRENCIES } from '../api.js'
 
 export function usePreference(key, fallback, valid) {
   const [value, setValue] = useState(() => readPreference(key, fallback, valid))

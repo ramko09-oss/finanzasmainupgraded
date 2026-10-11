@@ -2,13 +2,20 @@
 // charts.js — Configuración y renderizado con Chart.js
 // ============================================================
 
-// Variables globales para mantener instancias y poder destruirlas
+import Chart from 'chart.js/auto';
+
+// Instancias del componente activo, liberadas al cambiar de vista o desmontarlo.
 let donutChartInst = null;
 let resumenDonutChartInst = null;
 let evoChartInst = null;
 let dashEvoChartInst = null;
 let barsChartInst = null;
 let balanceChartInst = null;
+
+export function destroyCharts() {
+  for (const chart of [donutChartInst, resumenDonutChartInst, evoChartInst, dashEvoChartInst, barsChartInst, balanceChartInst]) chart?.destroy();
+  donutChartInst = resumenDonutChartInst = evoChartInst = dashEvoChartInst = barsChartInst = balanceChartInst = null;
+}
 
 // Helper para obtener colores según el tema actual (Claro u Oscuro)
 function getThemeColors() {

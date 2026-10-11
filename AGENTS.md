@@ -1,7 +1,9 @@
 # Publicación autorizada
 
 Conservar el estilo visual previo a la migración: reutilizar
-`frontend/css/styles.css`, sus tokens, tarjetas, navegación y temas claro/oscuro.
+`sidan-frontend/src/styles.css`, sus tokens, tarjetas, navegación y temas claro/oscuro.
+Mantener una única aplicación React + Vite servida desde `/`. No crear otro panel
+paralelo ni presentar la migración como un «panel ampliado».
 Presentar las mejoras como funciones del producto, con datos reales y textos
 orientados a la gestión financiera. Evitar contenido de demostración en la interfaz.
 

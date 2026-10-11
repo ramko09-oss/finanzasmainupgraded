@@ -24,12 +24,6 @@ export function formatCurrency(amountUsd, currencyCode) {
 }
 
 // ─── Helpers de API ────────────────────────────────────────────────────────
-function getActiveStorage() {
-  if (sessionStorage.getItem('finanzas_jwt')) return sessionStorage;
-  if (localStorage.getItem('finanzas_jwt')) return localStorage;
-  return sessionStorage;
-}
-
 export function getToken() {
   return sessionStorage.getItem('finanzas_jwt') || localStorage.getItem('finanzas_jwt');
 }
@@ -103,20 +97,6 @@ export const auth = {
     return data;
   },
 
-  async verifySession() {
-    const token = getToken();
-    if (!token) return null;
-    try {
-      const data = await fetchAPI('/api/auth/me');
-      const storage = getActiveStorage();
-      storage.setItem('finanzas_user', JSON.stringify(data.user));
-      return data.user;
-    } catch (e) {
-      this.logout();
-      return null;
-    }
-  },
-
   logout() {
     sessionStorage.removeItem('finanzas_jwt');
     sessionStorage.removeItem('finanzas_user');
@@ -131,7 +111,7 @@ export const auth = {
     if (!token || !userStr) return null;
     try {
       return JSON.parse(userStr);
-    } catch (e) {
+    } catch {
       return null;
     }
   }
