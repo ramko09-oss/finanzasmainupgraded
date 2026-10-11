@@ -1,6 +1,7 @@
 name: Deploy to Render
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -16,8 +17,8 @@ jobs:
         run: |
           if [ -n "$RENDER_DEPLOY_HOOK_URL" ]; then
             echo "Enviando señal de despliegue a Render..."
-            curl -s -f -X POST "$RENDER_DEPLOY_HOOK_URL"
-            echo "¡Despliegue disparado exitosamente en Render!"
+            curl --silent --fail --connect-timeout 15 --max-time 60 -X POST "$RENDER_DEPLOY_HOOK_URL" -o /dev/null
+            echo "Solicitud aceptada. Confirmar el commit en estado live en Render."
           else
             echo "Nota: RENDER_DEPLOY_HOOK_URL no esta configurado en GitHub Secrets."
             echo "Si conectaste tu cuenta de GitHub directamente en Render, el auto-deploy se gestiona via webhook nativo."

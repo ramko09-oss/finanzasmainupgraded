@@ -12,7 +12,7 @@
     "dev:react": "cd sidan-frontend && npm run dev",
     "setup-git": "node scripts/setup-git.mjs",
     "auto-push": "node scripts/auto-push.mjs",
-    "push": "node scripts/sync-push.mjs"
+    "push": "node scripts/publish.mjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
