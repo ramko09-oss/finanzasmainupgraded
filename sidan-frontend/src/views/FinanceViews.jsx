@@ -8,6 +8,7 @@ import HistoryLayout from './HistoryLayout.jsx'
 import AnalyticsLayout from './AnalyticsLayout.jsx'
 import SummaryLayout from './SummaryLayout.jsx'
 import ChartsLayout from './ChartsLayout.jsx'
+import Card from '../components/Card.jsx'
 
 export default function FinanceViews(props) {
   const [month, setMonth] = useState(currentMonth)
@@ -52,7 +53,7 @@ function Dashboard({ rows, fmt, month, setMonth }) {
       <div className="analysis-item"><div className="analysis-icon">💸</div><div className="analysis-text">Gastos: <strong>{fmt(now.totalGastos)}</strong></div></div>
       <div className="analysis-item"><div className="analysis-icon">📈</div><div className="analysis-text">Tasa de ahorro: <strong>{health.savingsRate.toFixed(1)}%</strong></div></div>
       <div className={`health-${health.color}`}><strong>{health.icon} Salud financiera: {health.text}</strong><p>{health.msg}</p></div>
-    </> : <div className="sidaa-welcome-card"><h4 className="sidaa-welcome-title">Bienvenido a SIDAA</h4><p>Aún no tienes transacciones registradas. Registra tu primer ingreso o gasto para comenzar.</p><a className="btn btn-primary" href="#registrar">Registrar Transacción</a></div>,
+    </> : <Card titulo="Bienvenido a SIDAA" descripcion="Aún no tienes transacciones registradas. Registra tu primer ingreso o gasto para comenzar." imagen="/img/sidaa-logo.png" imagenAlt="SIDAA Finanzas" className="sidaa-welcome-card" titleClassName="sidaa-welcome-title" descriptionClassName="sidaa-welcome-desc" footer={<a className="btn btn-primary" href="#registrar">Registrar Transacción</a>} />,
   }} />
 }
 

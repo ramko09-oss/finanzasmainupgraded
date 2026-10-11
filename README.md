@@ -51,6 +51,9 @@ El servidor de comprobación abre `http://127.0.0.1:3002` con datos locales de p
 
 El flujo de commit, push a GitHub y despliegue único en Render está descrito en `DEPLOYMENT.md`.
 
+El componente reutilizable `Card` y las capturas reales de React DevTools se
+documentan en [Componentes y estado de la interfaz](docs/REACT-VERIFICATION.md).
+
 ## Licencia
 
 MIT.

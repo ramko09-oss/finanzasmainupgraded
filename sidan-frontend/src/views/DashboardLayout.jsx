@@ -1,4 +1,5 @@
 // Estructura visual original; React controla datos, eventos y navegación.
+import Card from '../components/Card.jsx'
 export default function DashboardLayout({ bindings = {}, content = {} }) {
 return (
 <section id="view-dashboard" className="view view-active" {...bindings["view-dashboard"]}>
@@ -21,66 +22,34 @@ return (
 </div>
 </div>
 <div className="metrics-grid">
-<div className="metric-card metric-primary">
-<div className="metric-title">
-{"Saldo Total"}
-</div>
+<Card titulo="Saldo Total" descripcion={content['dash-saldo-delta'] ?? '--'} descriptionId="dash-saldo-delta" className="metric-card metric-primary">
 <div className="metric-value" id="dash-saldo" {...bindings["dash-saldo"]}>
 {content["dash-saldo"] ?? <>
 {"--"}
 </>}
 </div>
-<div className="metric-delta" id="dash-saldo-delta" {...bindings["dash-saldo-delta"]}>
-{content["dash-saldo-delta"] ?? <>
-{"--"}
-</>}
-</div>
-</div>
-<div className="metric-card metric-income">
-<div className="metric-title">
-{"Ingresos del Mes"}
-</div>
+</Card>
+<Card titulo="Ingresos del Mes" descripcion={content['dash-ingresos-delta'] ?? '--'} descriptionId="dash-ingresos-delta" descriptionClassName="metric-delta delta-positive" className="metric-card metric-income">
 <div className="metric-value" id="dash-ingresos" {...bindings["dash-ingresos"]}>
 {content["dash-ingresos"] ?? <>
 {"--"}
 </>}
 </div>
-<div className="metric-delta delta-positive" id="dash-ingresos-delta" {...bindings["dash-ingresos-delta"]}>
-{content["dash-ingresos-delta"] ?? <>
-{"--"}
-</>}
-</div>
-</div>
-<div className="metric-card metric-expense">
-<div className="metric-title">
-{"Gastos del Mes"}
-</div>
+</Card>
+<Card titulo="Gastos del Mes" descripcion={content['dash-gastos-delta'] ?? '--'} descriptionId="dash-gastos-delta" descriptionClassName="metric-delta delta-inverse" className="metric-card metric-expense">
 <div className="metric-value" id="dash-gastos" {...bindings["dash-gastos"]}>
 {content["dash-gastos"] ?? <>
 {"--"}
 </>}
 </div>
-<div className="metric-delta delta-inverse" id="dash-gastos-delta" {...bindings["dash-gastos-delta"]}>
-{content["dash-gastos-delta"] ?? <>
-{"--"}
-</>}
-</div>
-</div>
-<div className="metric-card metric-neutral">
-<div className="metric-title">
-{"Total Transacciones"}
-</div>
+</Card>
+<Card titulo="Total Transacciones" descripcion={content['dash-transacciones-delta'] ?? '--'} descriptionId="dash-transacciones-delta" className="metric-card metric-neutral">
 <div className="metric-value" id="dash-transacciones" {...bindings["dash-transacciones"]}>
 {content["dash-transacciones"] ?? <>
 {"--"}
 </>}
 </div>
-<div className="metric-delta" id="dash-transacciones-delta" {...bindings["dash-transacciones-delta"]}>
-{content["dash-transacciones-delta"] ?? <>
-{"--"}
-</>}
-</div>
-</div>
+</Card>
 </div>
 <div className="dashboard-grid">
 <div className="chart-card">
