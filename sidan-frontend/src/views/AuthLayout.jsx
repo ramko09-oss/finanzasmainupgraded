@@ -1,5 +1,5 @@
 // Estructura visual original; React controla datos, eventos y navegación.
-export default function AuthLayout({ bindings = {}, content = {}, tabs = {}, dots = [] }) {
+export default function AuthLayout({ activeForm = 'form-login', bindings = {}, content = {}, tabs = {}, dots = [] }) {
 return (
 <div id="view-auth" className="view view-active auth-split-layout" {...bindings["view-auth"]}>
 {content["view-auth"] ?? <>
@@ -116,7 +116,7 @@ return (
 {"Crear Cuenta"}
 </button>
 </div>
-<form id="form-login" className="auth-form active" {...bindings["form-login"]}>
+{activeForm === 'form-login' && <form id="form-login" className="auth-form active" {...bindings["form-login"]}>
 {content["form-login"] ?? <>
 <div className="form-group">
 <label htmlFor="login-email">
@@ -142,8 +142,8 @@ return (
 {"Iniciar sesión"}
 </button>
 </>}
-</form>
-<form id="form-register" className="auth-form" {...bindings["form-register"]}>
+</form>}
+{activeForm === 'form-register' && <form id="form-register" className="auth-form active" {...bindings["form-register"]}>
 {content["form-register"] ?? <>
 <div className="form-group">
 <label htmlFor="reg-name">
@@ -163,11 +163,11 @@ return (
 </label>
 <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" minLength="6" required autoComplete="new-password" className="input-auth" {...bindings["reg-password"]} />
 </div>
-<button type="submit" className="btn btn-auth-primary btn-block" disabled={bindings["form-login"]?.["aria-busy"]}>
+<button type="submit" className="btn btn-auth-primary btn-block" disabled={bindings["form-register"]?.["aria-busy"]}>
 {"Crear cuenta en SIDAN"}
 </button>
 </>}
-</form>
+</form>}
 <p className="auth-legal-notice">
 {"Al registrarte o iniciar sesión aceptas nuestros Términos de servicio y reconoces nuestra Política de privacidad para el manejo seguro de tus datos financieros."}
 </p>

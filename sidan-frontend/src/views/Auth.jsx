@@ -41,9 +41,9 @@ export default function Auth({ toggleTheme, notify }) {
     finally { setBusy(false) }
   }
   const tabs = Object.fromEntries(['form-login', 'form-register'].map(id => [id, { className: `auth-tab auth-tab-pill ${tab === id ? 'active' : ''}`, onClick: () => setTab(id), disabled: busy }]))
-  return <AuthLayout tabs={tabs} dots={Array.from({ length: 5 }, (_, index) => ({ className: `carousel-dot ${slide === index ? 'active' : ''}`, onClick: () => setSlide(index) }))} bindings={{
-    'form-login': { onSubmit: submit, 'aria-busy': busy, style: { display: tab === 'form-login' ? 'block' : 'none' }, className: 'auth-form active' },
-    'form-register': { onSubmit: submit, 'aria-busy': busy, style: { display: tab === 'form-register' ? 'block' : 'none' }, className: 'auth-form active' },
+  return <AuthLayout activeForm={tab} tabs={tabs} dots={Array.from({ length: 5 }, (_, index) => ({ className: `carousel-dot ${slide === index ? 'active' : ''}`, onClick: () => setSlide(index) }))} bindings={{
+    'form-login': { onSubmit: submit, 'aria-busy': busy },
+    'form-register': { onSubmit: submit, 'aria-busy': busy },
     'login-email': { value: email, onChange: e => setEmail(e.target.value) },
     'theme-toggle-auth': { onClick: toggleTheme },
     'auth-carousel': { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false) },
