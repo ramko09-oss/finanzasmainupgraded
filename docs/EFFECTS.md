@@ -9,6 +9,8 @@ con dependencias explícitas y una limpieza asociada a cada montaje.
 | `useViewport` | `[]` | Se instala un único listener `resize` por instancia. El manejador consulta el tamaño actual de `window` y actualiza el estado; no lee un estado anterior de tamaño. La limpieza remueve exactamente ese mismo manejador. |
 | `useDocumentTitle` | `[title, enabled]` | El documento solo se modifica cuando cambia el título derivado del estado o su activación. La limpieza restaura el título anterior. No se incluyen búsquedas u otros estados que no forman parte del título. |
 | `UserList` | `[]` | La URL externa es una constante de módulo y se consulta una vez por montaje. Se utiliza `AbortController`; al desmontar se cancela la solicitud y se descartan respuestas o errores posteriores a la cancelación. |
+| Estado del directorio | `[onStateChange, status, users.length, visible.length]` | Comunica al contenedor carga, error y cantidades recibidas o filtradas. No vuelve a consultar la API al escribir en la búsqueda. |
+| Segundos del temporizador | `[onTick, seconds]` | Comunica los segundos al contenedor para sincronizar el título sin recrear el intervalo. La función del padre es un setter estable de React. |
 | Preferencias visuales | `[theme]` | El atributo del documento se sincroniza cuando cambia el tema, sin volver a ejecutarse por cada cambio de una vista. |
 
 ## Uso en la aplicación
@@ -22,9 +24,17 @@ guarda en estado y determina la variante compacta o amplia del contenedor.
 
 `UserList` utiliza [JSONPlaceholder](https://jsonplaceholder.typicode.com/),
 una API pública de referencia. Presenta carga, errores HTTP o de formato y los
-usuarios recibidos. No envía credenciales de SIDAA. Como sus datos son ficticios,
-se muestra únicamente en la herramienta local de inspección, no en la web de
-producción ni como si se tratara de cuentas registradas.
+usuarios recibidos. No envía credenciales de SIDAA. Se integra en la aplicación
+publicada, en **Directorio**, y también puede abrirse sin iniciar sesión mediante
+el enlace del acceso o `/#directorio`. Sus datos se identifican como referencias
+ficticias externas, separadas de las cuentas registradas y de los movimientos.
+Si la fuente tarda más de 20 segundos, se cancela la petición y se muestra un
+mensaje que permite volver a intentarlo; ese plazo también se limpia al desmontar.
+
+En el directorio se pueden buscar usuarios, recargar la fuente, mostrar u ocultar
+la lista y activar o detener el temporizador. El título refleja el estado de carga,
+la cantidad visible, los segundos y el ancho de pantalla. El diseño utiliza las
+tarjetas y temas existentes y adapta su cuadrícula a móvil y escritorio.
 
 ## Verificación y evidencias
 
@@ -54,6 +64,14 @@ Estas comprobaciones acreditan la limpieza de los recursos probados; no son una
 garantía de ausencia de cualquier fuga de memoria en todo el programa.
 
 ## Reproducir
+
+En la web publicada abre `https://finanzasmainupgraded.onrender.com/#directorio`.
+Comprueba la carga, busca un nombre, oculta y muestra el directorio, recarga la
+fuente y muestra u oculta el temporizador. Cambia el tamaño del navegador y
+observa el ancho visible y el título. Al salir de la sección se cancela su solicitud
+y se retira su temporizador; el listener global de tamaño pertenece a `App` y se
+retira al desmontar la aplicación. La consola nativa se consulta en las herramientas
+del navegador, pestaña Console.
 
 Sigue la instalación y los tres servidores descritos en
 [Componentes y estado](REACT-VERIFICATION.md). En el inspector abre

@@ -52,6 +52,7 @@ Abre `http://localhost:3001`. Para desarrollar con recarga de Vite, deja el back
 - Analítica por categorías con periodo, búsqueda, tipo e intervalos de importe.
 - Resumen mensual y gráficas de evolución, ingresos, gastos y balance.
 - Monedas USD, EUR, PEN y MXN; tema claro u oscuro y navegación móvil.
+- [Directorio de referencia](https://finanzasmainupgraded.onrender.com/#directorio) con fuente externa, búsqueda, recarga, temporizador y adaptación de pantalla; accesible también sin iniciar sesión.
 
 Hay una sola aplicación, servida desde `/`. Los enlaces antiguos `/react/` redirigen a esa misma aplicación. No se carga ninguna interfaz paralela ni se necesita un script externo de Chart.js.
 

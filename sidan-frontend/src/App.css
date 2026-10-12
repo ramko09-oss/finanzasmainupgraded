@@ -1,5 +1,20 @@
 .sync-status { display:flex; align-items:center; justify-content:flex-end; gap:8px; color:var(--text-muted); font-size:0.75rem; margin-bottom:12px; }
 .view-time-controls { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:12px; color:var(--text-muted); font-size:0.75rem; }
+.public-directory { max-width:1100px; margin:auto; padding:24px; }
+.public-directory > img { width:72px; margin-bottom:20px; }
+.directory-controls,.directory-content { padding:20px; margin-bottom:20px; }
+.directory-controls,.directory-content,.directory-user { background:var(--surface-color); border:1px solid var(--border-color); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); }
+.directory-toolbar,.directory-meta { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+.directory-meta { margin-top:16px; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); }
+.directory-users { list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:16px; }
+.directory-user { padding:16px; display:flex; align-items:center; gap:12px; min-width:0; }
+.directory-user > div { min-width:0; }
+.directory-user .user-avatar { flex-shrink:0; }
+.directory-user p { overflow-wrap:anywhere; margin-top:4px; color:var(--text-muted); font-size:0.85rem; }
+.directory-search { display:flex; flex-direction:column; gap:8px; margin-top:16px; max-width:460px; }
+.directory-spinner { display:inline-block; width:14px; height:14px; border:2px solid var(--border-color); border-top-color:var(--primary-color); border-radius:50%; animation:directory-spin 0.8s linear infinite; }
+@keyframes directory-spin { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .directory-spinner { animation:none; } }
 .sync-error { padding:16px; margin-bottom:16px; border:1px solid var(--color-expense); border-radius:12px; }
 .session-loading { margin:10vh auto; max-width:420px; padding:24px; }
 .search-suggestion-item { display:block; padding:12px; color:var(--text-main); text-decoration:none; }

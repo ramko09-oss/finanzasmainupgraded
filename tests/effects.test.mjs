@@ -101,3 +101,26 @@ test('UserList presenta errores HTTP y no actualiza una vista desmontada con una
   assert.ok(requests.every(request => request.options.signal.aborted));
   assert.equal(f.container.textContent, '');
 });
+
+test('UserList termina una espera excesiva y limpia el plazo al desmontarse', async t => {
+  const deadlines = new Map(), requests = [];
+  let nextId = 0;
+  const originalSet = globalThis.setTimeout, originalClear = globalThis.clearTimeout;
+  t.mock.method(globalThis, 'setTimeout', (callback, delay, ...args) => {
+    if (delay !== 20000) return originalSet(callback, delay, ...args);
+    const id = ++nextId;
+    deadlines.set(id, () => { deadlines.delete(id); callback(); });
+    return id;
+  });
+  t.mock.method(globalThis, 'clearTimeout', id => { if (!deadlines.delete(id)) originalClear(id); });
+  t.mock.method(globalThis, 'fetch', (url, options) => { requests.push(options.signal); return new Promise(() => {}); });
+  const f = fixture();
+  try {
+    await f.render(React.createElement(UserList));
+    assert.equal(deadlines.size, 1);
+    await act(() => { for (const callback of [...deadlines.values()]) callback(); });
+    assert.match(f.container.querySelector('[role="alert"]').textContent, /tardando demasiado/);
+    assert.ok(requests.every(signal => signal.aborted));
+  } finally { await f.dispose(); }
+  assert.equal(deadlines.size, 0);
+});

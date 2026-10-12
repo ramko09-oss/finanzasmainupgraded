@@ -169,6 +169,7 @@ return (
 </>}
 </form>}
 <p className="auth-legal-notice">
+<a href="#directorio">Consultar directorio de referencia</a><br />
 {"Al registrarte o iniciar sesión aceptas nuestros Términos de servicio y reconoces nuestra Política de privacidad para el manejo seguro de tus datos financieros."}
 </p>
 </div>

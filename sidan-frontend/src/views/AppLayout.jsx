@@ -11,6 +11,7 @@ return (
 </span>
 </div>
 <div className="mobile-actions">
+<a className="btn btn-sm" href="#directorio" aria-label="Directorio de referencia">Directorio</a>
 <button type="button" id="theme-toggle-mobile" className="theme-toggle-btn-compact" title="Cambiar tema" aria-label="Cambiar tema" {...bindings["theme-toggle-mobile"]}>
 {content["theme-toggle-mobile"] ?? <>
 <span className="theme-icon-slot">
@@ -187,6 +188,7 @@ return (
 </span>
 </a>
 
+<a href="#directorio" className={'nav-item' + (view === 'directorio' ? ' active' : '')}><svg className="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="8" r="3" /><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 5h4M17 9h4M17 13h4" /></svg><span className="nav-text">Directorio</span></a>
 </nav>
 <div className="sidebar-footer-card">
 <div className="sidebar-control-group">

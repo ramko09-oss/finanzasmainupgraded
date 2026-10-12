@@ -10,10 +10,11 @@ import { formatCurrency } from './api.js'
 import Timer from './components/Timer.jsx'
 import useViewport from './hooks/useViewport.js'
 import useDocumentTitle from './hooks/useDocumentTitle.js'
+import DirectoryView from './views/DirectoryView.jsx'
 
-const destinations = { dashboard: 'Dashboard Principal', registrar: 'Registrar Transacción', historial: 'Historial de Transacciones', analitica: 'Analítica', resumen: 'Resumen Mensual', graficas: 'Gráficas y Tendencias' }
+const destinations = { dashboard: 'Dashboard Principal', registrar: 'Registrar Transacción', historial: 'Historial de Transacciones', analitica: 'Analítica', resumen: 'Resumen Mensual', graficas: 'Gráficas y Tendencias', directorio: 'Directorio de referencia' }
 const FinanceViews = lazy(() => import('./views/FinanceViews.jsx'))
-const keywords = { dashboard: 'saldo inicio métricas', registrar: 'añadir ingresos gastos movimiento', historial: 'buscar operaciones registros', analitica: 'categorías desglose gastos', resumen: 'balance mensual ahorro', graficas: 'gráficos evolución tendencias histórico barras' }
+const keywords = { dashboard: 'saldo inicio métricas', registrar: 'añadir ingresos gastos movimiento', historial: 'buscar operaciones registros', analitica: 'categorías desglose gastos', resumen: 'balance mensual ahorro', graficas: 'gráficos evolución tendencias histórico barras', directorio: 'usuarios fuente externa contactos referencia' }
 const fold = text => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 const getRoute = () => Object.hasOwn(destinations, window.location.hash.slice(1)) ? window.location.hash.slice(1) : 'dashboard'
 export default function App() {
@@ -27,8 +28,8 @@ export default function App() {
   const [historySearch, setHistorySearch] = useState('')
   const [toast, setToast] = useState(null)
   const [showTimer, setShowTimer] = useState(false)
-  const { width } = useViewport()
-  useDocumentTitle(`${destinations[view]} · ${session.rows.length} movimientos | SIDAA Finanzas`, Boolean(session.user))
+  const { width, height } = useViewport()
+  useDocumentTitle(`${destinations[view]} · ${session.rows.length} movimientos | SIDAA Finanzas`, Boolean(session.user) && view !== 'directorio')
   const toastTimer = useRef(null)
   useEffect(() => {
     const route = () => { setView(getRoute()); setSearch(''); setSearchOpen(false) }
@@ -64,7 +65,7 @@ export default function App() {
   }
   return <>
     <div id="toast-container" aria-live="polite">{toast && <div className={`toast ${toast.type}`}>{toast.message}</div>}</div>
-    {session.user === undefined ? <div className="session-loading card" role="status">{session.error || 'Comprobando sesión…'}{session.error && <button className="btn btn-primary" onClick={session.verify}>Reintentar</button>}</div> : !session.user ? <Auth toggleTheme={toggleTheme} notify={notify} /> :
+    {session.user === undefined ? <div className="session-loading card" role="status">{session.error || 'Comprobando sesión…'}{session.error && <button className="btn btn-primary" onClick={session.verify}>Reintentar</button>}</div> : !session.user ? view === 'directorio' ? <main className="public-directory"><img className="sidebar-brand-logo" src="/img/sidaa-logo.png" alt="SIDAA Finanzas" /><DirectoryView width={width} height={height} /></main> : <Auth toggleTheme={toggleTheme} notify={notify} /> :
       <AppLayout view={view} bindings={{
         'app-container': { className: width < 768 ? 'layout-compact' : 'layout-wide' },
         'currency-selector': { value: currency, onChange: e => setCurrency(e.target.value) },
@@ -80,9 +81,9 @@ export default function App() {
         'topbar-search-dropdown': suggestions.length ? suggestions.map((item, index) => <button type="button" role="option" aria-selected={index === searchIndex} className={`search-dropdown-item ${index === searchIndex ? 'selected' : ''}`} key={item.id} onClick={() => choose(item)}><div className="search-item-body"><div className="search-item-title">{item.label}</div>{item.description && <div className="search-item-desc">{item.description}</div>}</div><span className="search-item-badge">{item.query ? 'Registro' : 'Apartado'}</span></button>) : <div className="search-dropdown-empty">Sin coincidencias</div>,
       }}>
         <div className="sync-status" role="status">{session.loading ? 'Actualizando…' : session.updatedAt ? `Actualizado ${session.updatedAt.toLocaleTimeString('es-ES')}` : 'Cargando movimientos…'} <button type="button" className="btn btn-sm" disabled={session.loading} onClick={session.refresh}>Actualizar</button></div>
-        <div className="view-time-controls"><button type="button" className="btn btn-sm" aria-pressed={showTimer} onClick={() => setShowTimer(value => !value)}>{showTimer ? 'Ocultar tiempo' : 'Mostrar tiempo'}</button>{showTimer && <Timer key={view} />}</div>
+        {view !== 'directorio' && <div className="view-time-controls"><button type="button" className="btn btn-sm" aria-pressed={showTimer} onClick={() => setShowTimer(value => !value)}>{showTimer ? 'Ocultar tiempo' : 'Mostrar tiempo'}</button>{showTimer && <Timer key={view} />}</div>}
         {session.error && <div className="sync-error" role="alert">{session.error}. {session.updatedAt ? 'Se muestran los últimos datos disponibles.' : 'No se han podido cargar los movimientos.'} <button className="btn btn-sm" onClick={session.refresh}>Reintentar</button></div>}
-        {session.updatedAt && <Suspense fallback={<p role="status">Cargando vista…</p>}><FinanceViews key={view} view={view} rows={session.rows} currency={currency} setCurrency={setCurrency} theme={theme} refresh={session.refresh} notify={notify} historySearch={historySearch} setHistorySearch={setHistorySearch} /></Suspense>}
+        {view === 'directorio' ? <DirectoryView width={width} height={height} signedIn /> : session.updatedAt && <Suspense fallback={<p role="status">Cargando vista…</p>}><FinanceViews key={view} view={view} rows={session.rows} currency={currency} setCurrency={setCurrency} theme={theme} refresh={session.refresh} notify={notify} historySearch={historySearch} setHistorySearch={setHistorySearch} /></Suspense>}
       </AppLayout>}
   </>
 }
