@@ -43,8 +43,10 @@ datos ficticios y no verifica credenciales contra una base de datos.
 
 El inspector tiene dependencias propias: el runtime experimental que exige
 DevTools se utiliza en su panel, mientras la aplicación se carga desde su
-servidor Vite habitual. No se instala en el frontend de producción, no se
-importa desde la aplicación y no se incluye en el build ni en la web publicada.
+servidor Vite habitual. El backend del inspector se ejecuta en la ventana de
+la aplicación y comparte su React estable. Los módulos `inspection-backend.js`
+y `effects-preview.jsx` son entradas locales de desarrollo; no se importan
+desde `main.jsx` ni se incluyen en el build o la web publicada.
 
 ## Comprobaciones
 

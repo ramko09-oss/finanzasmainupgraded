@@ -1,0 +1,8 @@
+{
+  "page": "http://127.0.0.1:3002/#historial",
+  "levels": [
+    "error",
+    "warn"
+  ],
+  "messages": []
+}

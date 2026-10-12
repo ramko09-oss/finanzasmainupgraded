@@ -1,4 +1,5 @@
 .sync-status { display:flex; align-items:center; justify-content:flex-end; gap:8px; color:var(--text-muted); font-size:0.75rem; margin-bottom:12px; }
+.view-time-controls { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:12px; color:var(--text-muted); font-size:0.75rem; }
 .sync-error { padding:16px; margin-bottom:16px; border:1px solid var(--color-expense); border-radius:12px; }
 .session-loading { margin:10vh auto; max-width:420px; padding:24px; }
 .search-suggestion-item { display:block; padding:12px; color:var(--text-main); text-decoration:none; }

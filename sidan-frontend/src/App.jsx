@@ -7,6 +7,9 @@ import useFinanceSession from './hooks/useFinanceSession.js'
 import { useCurrency, useTheme } from './hooks/usePreferences.js'
 import { filterHistory } from './finance.js'
 import { formatCurrency } from './api.js'
+import Timer from './components/Timer.jsx'
+import useViewport from './hooks/useViewport.js'
+import useDocumentTitle from './hooks/useDocumentTitle.js'
 
 const destinations = { dashboard: 'Dashboard Principal', registrar: 'Registrar Transacción', historial: 'Historial de Transacciones', analitica: 'Analítica', resumen: 'Resumen Mensual', graficas: 'Gráficas y Tendencias' }
 const FinanceViews = lazy(() => import('./views/FinanceViews.jsx'))
@@ -23,6 +26,9 @@ export default function App() {
   const [searchIndex, setSearchIndex] = useState(0)
   const [historySearch, setHistorySearch] = useState('')
   const [toast, setToast] = useState(null)
+  const [showTimer, setShowTimer] = useState(false)
+  const { width } = useViewport()
+  useDocumentTitle(`${destinations[view]} · ${session.rows.length} movimientos | SIDAA Finanzas`, Boolean(session.user))
   const toastTimer = useRef(null)
   useEffect(() => {
     const route = () => { setView(getRoute()); setSearch(''); setSearchOpen(false) }
@@ -60,6 +66,7 @@ export default function App() {
     <div id="toast-container" aria-live="polite">{toast && <div className={`toast ${toast.type}`}>{toast.message}</div>}</div>
     {session.user === undefined ? <div className="session-loading card" role="status">{session.error || 'Comprobando sesión…'}{session.error && <button className="btn btn-primary" onClick={session.verify}>Reintentar</button>}</div> : !session.user ? <Auth toggleTheme={toggleTheme} notify={notify} /> :
       <AppLayout view={view} bindings={{
+        'app-container': { className: width < 768 ? 'layout-compact' : 'layout-wide' },
         'currency-selector': { value: currency, onChange: e => setCurrency(e.target.value) },
         'theme-toggle-sidebar': { onClick: toggleTheme }, 'theme-toggle-mobile': { onClick: toggleTheme },
         'btn-logout': { onClick: session.logout }, 'btn-logout-mobile': { onClick: session.logout },
@@ -73,6 +80,7 @@ export default function App() {
         'topbar-search-dropdown': suggestions.length ? suggestions.map((item, index) => <button type="button" role="option" aria-selected={index === searchIndex} className={`search-dropdown-item ${index === searchIndex ? 'selected' : ''}`} key={item.id} onClick={() => choose(item)}><div className="search-item-body"><div className="search-item-title">{item.label}</div>{item.description && <div className="search-item-desc">{item.description}</div>}</div><span className="search-item-badge">{item.query ? 'Registro' : 'Apartado'}</span></button>) : <div className="search-dropdown-empty">Sin coincidencias</div>,
       }}>
         <div className="sync-status" role="status">{session.loading ? 'Actualizando…' : session.updatedAt ? `Actualizado ${session.updatedAt.toLocaleTimeString('es-ES')}` : 'Cargando movimientos…'} <button type="button" className="btn btn-sm" disabled={session.loading} onClick={session.refresh}>Actualizar</button></div>
+        <div className="view-time-controls"><button type="button" className="btn btn-sm" aria-pressed={showTimer} onClick={() => setShowTimer(value => !value)}>{showTimer ? 'Ocultar tiempo' : 'Mostrar tiempo'}</button>{showTimer && <Timer key={view} />}</div>
         {session.error && <div className="sync-error" role="alert">{session.error}. {session.updatedAt ? 'Se muestran los últimos datos disponibles.' : 'No se han podido cargar los movimientos.'} <button className="btn btn-sm" onClick={session.refresh}>Reintentar</button></div>}
         {session.updatedAt && <Suspense fallback={<p role="status">Cargando vista…</p>}><FinanceViews key={view} view={view} rows={session.rows} currency={currency} setCurrency={setCurrency} theme={theme} refresh={session.refresh} notify={notify} historySearch={historySearch} setHistorySearch={setHistorySearch} /></Suspense>}
       </AppLayout>}

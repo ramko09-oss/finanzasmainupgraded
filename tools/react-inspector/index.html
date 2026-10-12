@@ -5,4 +5,6 @@ html,body{margin:0;height:100%;font-family:system-ui;background:#111827;color:#f
 header{height:48px;box-sizing:border-box;padding:12px 20px;font-size:14px}
 main{display:grid;grid-template-columns:52% 48%;height:calc(100% - 48px)}
 iframe{border:0;width:100%;height:100%;background:#111827}#inspector{min-width:0;height:100%;background:#fff;color:#111}
-</style></head><body><header>SIDAA Finanzas · Inspección local con React DevTools</header><main><iframe id="application" title="Aplicación SIDAA"></iframe><div id="inspector"></div></main><script type="module" src="/inspect.jsx"></script></body></html>
+.inspection-panel{display:grid;grid-template-rows:minmax(0,1fr) 148px;min-width:0;overflow:hidden}
+#runtime-monitor{white-space:pre-wrap;font:12px/1.5 monospace;margin:0;padding:10px;background:#111827;color:#e2e8f0;overflow:auto}
+</style></head><body><header>SIDAA Finanzas · Inspección local con React DevTools</header><main><iframe id="application" title="Aplicación SIDAA"></iframe><div class="inspection-panel"><div id="inspector"></div><pre id="runtime-monitor" aria-label="Registro de consola y recursos"></pre></div></main><script type="module" src="/inspect.jsx"></script></body></html>

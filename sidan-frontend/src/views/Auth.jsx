@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { auth } from '../api.js'
 import AuthLayout from './AuthLayout.jsx'
+import useDocumentTitle from '../hooks/useDocumentTitle.js'
 
 export default function Auth({ toggleTheme, notify }) {
   const [tab, setTab] = useState('form-login')
@@ -8,6 +9,7 @@ export default function Auth({ toggleTheme, notify }) {
   const [email, setEmail] = useState('')
   const [slide, setSlide] = useState(0)
   const [paused, setPaused] = useState(false)
+  useDocumentTitle(`${tab === 'form-login' ? 'Iniciar sesión' : 'Crear cuenta'} | SIDAA Finanzas`)
   useEffect(() => {
     if (paused) return
     const timer = setInterval(() => setSlide(index => (index + 1) % 5), 5000)

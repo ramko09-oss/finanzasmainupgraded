@@ -70,6 +70,8 @@ El flujo de commit, push a GitHub y despliegue único en Render está descrito e
 
 El componente reutilizable `Card` y las capturas reales de React DevTools se
 documentan en [Componentes y estado de la interfaz](docs/REACT-VERIFICATION.md).
+La gestión de temporizadores, eventos, título y solicitudes asíncronas se explica
+en [Efectos y ciclo de vida](docs/EFFECTS.md), con dependencias, limpieza y evidencias.
 El inspector y el servidor con datos ficticios son herramientas de desarrollo;
 no forman parte de la interfaz ni de los servicios publicados en producción.
 El repositorio conserva código fuente, pruebas, documentación y configuración.
