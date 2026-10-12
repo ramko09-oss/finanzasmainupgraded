@@ -7,6 +7,7 @@ export default function monitorRuntime(target, output) {
   let oneSecondTicks = 0
   let started = 0
   let cleared = 0
+  let stopped = false
   const original = {
     setInterval: target.setInterval.bind(target), clearInterval: target.clearInterval.bind(target),
     add: target.addEventListener.bind(target), remove: target.removeEventListener.bind(target),
@@ -35,6 +36,8 @@ export default function monitorRuntime(target, output) {
   titleObserver.observe(target.document.head, { childList: true, subtree: true, characterData: true })
   update()
   return () => {
+    if (stopped) return
+    stopped = true
     titleObserver.disconnect(); original.remove('error', onError); original.remove('unhandledrejection', onRejection)
     target.setInterval = original.setInterval; target.clearInterval = original.clearInterval
     target.addEventListener = original.add; target.removeEventListener = original.remove
