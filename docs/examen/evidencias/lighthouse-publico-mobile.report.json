@@ -6,7 +6,9 @@
   "finalUrl": "https://finanzasmainupgraded.onrender.com/",
   "fetchTime": "2026-10-18T06:14:22.085Z",
   "gatherMode": "navigation",
-  "runWarnings": [],
+  "runWarnings": [
+    "Extracto documental de las cuatro categorías evaluadas: rendimiento, accesibilidad, buenas prácticas y SEO. Conserva los resultados de la ejecución original; no corresponde a una nueva medición."
+  ],
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
   "environment": {
     "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
@@ -3244,49 +3246,6 @@
       "score": null,
       "scoreDisplayMode": "manual"
     },
-    "agent-accessibility-tree": {
-      "id": "agent-accessibility-tree",
-      "title": "Accessibility tree is well-formed",
-      "description": "A well-formed [accessibility tree](https://developer.chrome.com/docs/lighthouse/agentic-browsing/accessibility-for-agents) helps AI agents to navigate and interact with the page.",
-      "score": 1,
-      "scoreDisplayMode": "binary",
-      "displayValue": "All audits passed"
-    },
-    "webmcp-registered-tools": {
-      "id": "webmcp-registered-tools",
-      "title": "WebMCP tools registered",
-      "description": "Lists the [WebMCP tools](https://developer.chrome.com/docs/ai/webmcp) registered at the time of analysis.",
-      "score": null,
-      "scoreDisplayMode": "notApplicable"
-    },
-    "webmcp-form-coverage": {
-      "id": "webmcp-form-coverage",
-      "title": "WebMCP form coverage",
-      "description": "Consider adding [WebMCP](https://developer.chrome.com/docs/ai/webmcp) annotations to the forms listed below. This helps AI agents identify and interact with these forms more reliably.",
-      "score": null,
-      "scoreDisplayMode": "notApplicable"
-    },
-    "webmcp-schema-validity": {
-      "id": "webmcp-schema-validity",
-      "title": "WebMCP schemas are valid",
-      "description": "Valid [WebMCP schemas](https://developer.chrome.com/docs/ai/webmcp) are required for AI agents to understand and interact with tools correctly. Please fix any errors or warnings reported by the browser.",
-      "score": null,
-      "scoreDisplayMode": "notApplicable"
-    },
-    "llms-txt": {
-      "id": "llms-txt",
-      "title": "llms.txt follows recommendations",
-      "description": "If your llms.txt file does not follow recommendations, large language models may not be able to understand how you want your website to be crawled or used for training. The [llms.txt](https://llmstxt.org/) file should be a Markdown file containing at least one H1 header. [Learn more about the llms.txt audit](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).",
-      "score": null,
-      "scoreDisplayMode": "notApplicable"
-    },
-    "ard-schema": {
-      "id": "ard-schema",
-      "title": "`ai-catalog.json` schema is valid",
-      "description": "Valid `ai-catalog.json` manifests are required for autonomous AI agents and registries to discover and verify your resources. [Learn more about the ARD specification](https://agenticresourcediscovery.org/spec/).",
-      "score": null,
-      "scoreDisplayMode": "notApplicable"
-    },
     "bf-cache": {
       "id": "bf-cache",
       "title": "Page didn't prevent back/forward cache restoration",
@@ -4991,54 +4950,6 @@
       ],
       "id": "seo",
       "score": 1
-    },
-    "agentic-browsing": {
-      "title": "Agentic Browsing",
-      "description": "These checks ensure high-quality, [browsable websites for AI agents](https://goo.gle/lighthouse-agentic-web) and validate the correctness of WebMCP integrations. This category is still under development and subject to change.",
-      "supportedModes": [
-        "navigation",
-        "snapshot"
-      ],
-      "categoryScoreDisplayMode": "fraction",
-      "auditRefs": [
-        {
-          "id": "agent-accessibility-tree",
-          "weight": 1,
-          "group": "agent-accessibility"
-        },
-        {
-          "id": "webmcp-form-coverage",
-          "weight": 0,
-          "group": "webmcp"
-        },
-        {
-          "id": "webmcp-registered-tools",
-          "weight": 0,
-          "group": "webmcp"
-        },
-        {
-          "id": "webmcp-schema-validity",
-          "weight": 0,
-          "group": "webmcp"
-        },
-        {
-          "id": "cumulative-layout-shift",
-          "weight": 1,
-          "acronym": "CLS"
-        },
-        {
-          "id": "llms-txt",
-          "weight": 0,
-          "group": "agent-discoverability"
-        },
-        {
-          "id": "ard-schema",
-          "weight": 0,
-          "group": "agent-discoverability"
-        }
-      ],
-      "id": "agentic-browsing",
-      "score": 1
     }
   },
   "categoryGroups": {
@@ -5108,18 +5019,6 @@
     },
     "best-practices-general": {
       "title": "General"
-    },
-    "webmcp": {
-      "title": "WebMCP",
-      "description": "Audits validating WebMCP integration."
-    },
-    "agent-accessibility": {
-      "title": "Agent Accessibility",
-      "description": "These audits highlight best practices for improving the accessibility of the website for AI agents."
-    },
-    "agent-discoverability": {
-      "title": "Agent Discoverability",
-      "description": "These audits validate that websites expose discoverable resources, documentation, and catalogs for AI agents."
     },
     "hidden": {
       "title": ""
@@ -5604,24 +5503,6 @@
         "startTime": 9617.95,
         "name": "lh:computed:NetworkRecords",
         "duration": 1.27,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 9619.65,
-        "name": "lh:gather:getArtifact:WebMCP",
-        "duration": 3.2,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 9622.87,
-        "name": "lh:gather:getArtifact:WebMcpSchemaIssues",
-        "duration": 0.1,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 9622.98,
-        "name": "lh:gather:getArtifact:LlmsTxt",
-        "duration": 130.67,
         "entryType": "measure"
       },
       {
@@ -7299,42 +7180,6 @@
         "entryType": "measure"
       },
       {
-        "startTime": 13169.93,
-        "name": "lh:audit:agent-accessibility-tree",
-        "duration": 0.9,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 13170.96,
-        "name": "lh:audit:webmcp-registered-tools",
-        "duration": 0.47,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 13171.55,
-        "name": "lh:audit:webmcp-form-coverage",
-        "duration": 0.41,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 13172.11,
-        "name": "lh:audit:webmcp-schema-validity",
-        "duration": 0.52,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 13172.78,
-        "name": "lh:audit:llms-txt",
-        "duration": 0.52,
-        "entryType": "measure"
-      },
-      {
-        "startTime": 13173.45,
-        "name": "lh:audit:ard-schema",
-        "duration": 0.53,
-        "entryType": "measure"
-      },
-      {
         "startTime": 13174.18,
         "name": "lh:audit:bf-cache",
         "duration": 0.58,
@@ -8537,45 +8382,6 @@
       "core/audits/seo/manual/structured-data.js | description": [
         "audits[structured-data].description"
       ],
-      "core/audits/agentic/agent-accessibility-tree.js | title": [
-        "audits[agent-accessibility-tree].title"
-      ],
-      "core/audits/agentic/agent-accessibility-tree.js | description": [
-        "audits[agent-accessibility-tree].description"
-      ],
-      "core/audits/agentic/agent-accessibility-tree.js | displayValuePassed": [
-        "audits[agent-accessibility-tree].displayValue"
-      ],
-      "core/audits/webmcp-registered-tools.js | title": [
-        "audits[webmcp-registered-tools].title"
-      ],
-      "core/audits/webmcp-registered-tools.js | description": [
-        "audits[webmcp-registered-tools].description"
-      ],
-      "core/audits/webmcp-form-coverage.js | title": [
-        "audits[webmcp-form-coverage].title"
-      ],
-      "core/audits/webmcp-form-coverage.js | description": [
-        "audits[webmcp-form-coverage].description"
-      ],
-      "core/audits/webmcp-schema-validity.js | title": [
-        "audits[webmcp-schema-validity].title"
-      ],
-      "core/audits/webmcp-schema-validity.js | description": [
-        "audits[webmcp-schema-validity].description"
-      ],
-      "core/audits/agentic/llms-txt.js | title": [
-        "audits[llms-txt].title"
-      ],
-      "core/audits/agentic/llms-txt.js | description": [
-        "audits[llms-txt].description"
-      ],
-      "core/audits/agentic/ard-schema.js | title": [
-        "audits[ard-schema].title"
-      ],
-      "core/audits/agentic/ard-schema.js | description": [
-        "audits[ard-schema].description"
-      ],
       "core/audits/bf-cache.js | title": [
         "audits[bf-cache].title"
       ],
@@ -8832,12 +8638,6 @@
       "core/config/default-config.js | seoCategoryManualDescription": [
         "categories.seo.manualDescription"
       ],
-      "core/config/default-config.js | agenticBrowsingCategoryTitle": [
-        "categories[agentic-browsing].title"
-      ],
-      "core/config/default-config.js | agenticBrowsingCategoryDescription": [
-        "categories[agentic-browsing].description"
-      ],
       "core/config/default-config.js | metricGroupTitle": [
         "categoryGroups.metrics.title"
       ],
@@ -8930,25 +8730,17 @@
       ],
       "core/config/default-config.js | bestPracticesGeneralGroupTitle": [
         "categoryGroups[best-practices-general].title"
-      ],
-      "core/config/default-config.js | webmcpGroupTitle": [
-        "categoryGroups.webmcp.title"
-      ],
-      "core/config/default-config.js | webmcpGroupDescription": [
-        "categoryGroups.webmcp.description"
-      ],
-      "core/config/default-config.js | agentAccessibilityGroupTitle": [
-        "categoryGroups[agent-accessibility].title"
-      ],
-      "core/config/default-config.js | agentAccessibilityGroupDescription": [
-        "categoryGroups[agent-accessibility].description"
-      ],
-      "core/config/default-config.js | agentDiscoverabilityGroupTitle": [
-        "categoryGroups[agent-discoverability].title"
-      ],
-      "core/config/default-config.js | agentDiscoverabilityGroupDescription": [
-        "categoryGroups[agent-discoverability].description"
       ]
     }
+  },
+  "reportScope": {
+    "type": "documentary-extract",
+    "categories": [
+      "performance",
+      "accessibility",
+      "best-practices",
+      "seo"
+    ],
+    "description": "Extracto documental de las cuatro categorías evaluadas: rendimiento, accesibilidad, buenas prácticas y SEO. Conserva los resultados de la ejecución original; no corresponde a una nueva medición."
   }
 }

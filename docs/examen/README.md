@@ -23,7 +23,7 @@ Las evidencias siguientes corresponden a la ejecución documentada del 18 de oct
 - Accesibilidad manual: [foco al usar Tab](evidencias/12-foco-teclado.png). Procedimiento: abrir el acceso y avanzar con Tab hasta el control anterior del carrusel. Resultado: borde de foco visible. Es una comprobación puntual; no acredita el recorrido completo ni una prueba con lector de pantalla.
 - Persistencia: [nueva sesión](evidencias/persistencia.png) y [limpieza de movimientos de prueba](evidencias/limpieza.png).
 - [Registro de los 18 casos funcionales de Render](evidencias/pruebas-render.json) y [salida de las 15 pruebas automatizadas locales](evidencias/pruebas-automatizadas.txt).
-- Lighthouse: [reporte HTML íntegro](evidencias/lighthouse-publico-mobile.report.html), [JSON original](evidencias/lighthouse-publico-mobile.report.json) y [captura](evidencias/14-lighthouse.png). Descargue el HTML y ábralo en el navegador para consultarlo completo.
+- Lighthouse: [reporte HTML de las categorías evaluadas](evidencias/lighthouse-publico-mobile.report.html), [JSON de las categorías evaluadas](evidencias/lighthouse-publico-mobile.report.json) y [resumen gráfico](evidencias/14-lighthouse.png). Descargue el HTML y ábralo en el navegador. El extracto contiene rendimiento, accesibilidad, buenas prácticas y SEO; conserva las puntuaciones y mediciones originales y no representa una nueva ejecución.
 
 ## Métricas y hallazgos con plan de mejora
 
