@@ -2,6 +2,14 @@
 
 Aplicación para registrar ingresos y gastos, consultar el historial y analizar las finanzas personales.
 
+## Entrega del examen
+
+- **Aplicación desplegada:** https://finanzasmainupgraded.onrender.com/
+- **Rama:** `main`. **Commit de la aplicación evaluada:** `f736e2eaf5acad9194d0135eb8b2261534ee3139`.
+- **[Informe técnico y evidencias organizadas](docs/examen/README.md)**: informe grupal, capturas, accesibilidad manual, pruebas y reporte Lighthouse completo.
+- **[Video grupal de exposición](https://youtu.be/FHAjr41D-Qc)**.
+- **[Instrucciones de instalación y ejecución local](docs/examen/INSTALACION.md)**.
+
 ## Tecnologías y estructura
 
 La interfaz completa utiliza React + Vite y Chart.js. Express proporciona la API, con PostgreSQL y autenticación JWT.
@@ -30,18 +38,15 @@ finanzasmainupgraded/
 
 ## Ejecutar localmente
 
-Para compilar el frontend, utiliza una versión de Node compatible con Vite: Node 20.19 o superior en la rama 20, o Node 22.12 o superior.
-
-Configura las variables de `backend/.env.example` en un archivo `.env` en la raíz del repositorio cuando ejecutes los comandos de la aplicación integrada. No lo subas a Git. Para una base de datos nueva, instala las dependencias de backend y ejecuta `node backend/init_postgres_db.js` desde la raíz. La inicialización es un paso de configuración, no se ejecuta en cada despliegue.
-
-Desde la raíz:
+Sigue la [guía de instalación](docs/examen/INSTALACION.md). Requiere Git, Node.js 22.12+ de la rama 22 o Node.js 24, npm y una base PostgreSQL de pruebas accesible con SSL. El archivo `.env` se configura en la **raíz** del repositorio. `backend/.env.example` contiene valores heredados de MySQL: utiliza los valores PostgreSQL de la guía para reproducir la configuración evaluada.
 
 ```powershell
 npm run build
+node backend/init_postgres_db.js
 npm start
 ```
 
-Abre `http://localhost:3001`. Para desarrollar con recarga de Vite, deja el backend iniciado y ejecuta `npm run dev:react` en otra terminal. Vite redirige las peticiones `/api` al puerto 3001.
+La inicialización se necesita para preparar las tablas de una base nueva; no se ejecuta como parte de cada despliegue. Abre `http://localhost:3001`. Para desarrollar la interfaz, deja el backend iniciado y ejecuta `npm run dev:react` en otra terminal.
 
 ## Funciones
 

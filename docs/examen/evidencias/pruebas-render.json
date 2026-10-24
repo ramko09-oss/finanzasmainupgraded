@@ -1,0 +1,572 @@
+{
+  "start": "2026-10-18T06:40:21.138Z",
+  "url": "https://finanzasmainupgraded.onrender.com",
+  "environment": "Render HTTPS real, sin interceptación ni API simulada",
+  "account": {
+    "email": "validacion.s8.1792305590956@example.invalid",
+    "tag": "S8-RENDER-1792305590956"
+  },
+  "cases": [
+    {
+      "id": "PR-03",
+      "name": "Registro real de cuenta de prueba",
+      "actual": {
+        "status": 201,
+        "message": "Usuario registrado exitosamente"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:39:57.673Z"
+    },
+    {
+      "id": "PR-01",
+      "name": "Acceso público y salud del servidor",
+      "actual": {
+        "root": 200,
+        "health": 200,
+        "body": {
+          "status": "ok",
+          "message": "API Finanzas corriendo",
+          "environment": "production"
+        }
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:22.373Z"
+    },
+    {
+      "id": "PR-02",
+      "name": "Cambio entre formularios",
+      "actual": {
+        "register": 1,
+        "login": 0
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:24.564Z"
+    },
+    {
+      "id": "PR-04",
+      "name": "Rechazo de contraseña incorrecta",
+      "actual": {
+        "status": 401,
+        "formVisible": true
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:26.019Z"
+    },
+    {
+      "id": "PR-05",
+      "name": "Tema y conservación tras recarga",
+      "actual": {
+        "before": "light",
+        "after": "dark",
+        "reload": "dark"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:31.834Z"
+    },
+    {
+      "id": "PR-06",
+      "name": "Acceso y cuenta nueva vacía",
+      "actual": {
+        "status": 200,
+        "initial": {
+          "status": 200,
+          "rows": []
+        }
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:33.862Z"
+    },
+    {
+      "id": "PR-07",
+      "name": "Alta real de Ingreso",
+      "actual": {
+        "status": 201,
+        "message": "Transacción creada",
+        "id": 11,
+        "monto": 1000,
+        "fecha": "2026-10-18"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:35.487Z"
+    },
+    {
+      "id": "PR-08",
+      "name": "Alta real de Gasto",
+      "actual": {
+        "status": 201,
+        "message": "Transacción creada",
+        "id": 12,
+        "monto": 250,
+        "fecha": "2026-10-18"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:37.263Z"
+    },
+    {
+      "id": "PR-09",
+      "name": "Cálculos del dashboard",
+      "actual": {
+        "saldo": "$750.00",
+        "ingresos": "$1,000.00",
+        "gastos": "$250.00",
+        "count": "2"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:38.001Z"
+    },
+    {
+      "id": "PR-10",
+      "name": "Persistencia tras recarga y nuevo navegador sin almacenamiento",
+      "actual": {
+        "reloadStatus": 200,
+        "reloadCount": 2,
+        "freshStatus": 200,
+        "freshRows": [
+          {
+            "id": 12,
+            "tipo": "Gasto",
+            "monto": "250.00",
+            "descripcion": "S8-RENDER-1792305590956 Gasto",
+            "fecha": "2026-10-18"
+          },
+          {
+            "id": 11,
+            "tipo": "Ingreso",
+            "monto": "1000.00",
+            "descripcion": "S8-RENDER-1792305590956 Ingreso",
+            "fecha": "2026-10-18"
+          }
+        ],
+        "saldo": "$750.00"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:42.033Z"
+    },
+    {
+      "id": "PR-11",
+      "name": "Filtro y búsqueda sobre datos persistidos",
+      "actual": [
+        "18/10/2026S8-RENDER-1792305590956 GastoGasto- $250.00"
+      ],
+      "passed": true,
+      "time": "2026-10-18T06:40:43.430Z"
+    },
+    {
+      "id": "PR-12",
+      "name": "Conversión de referencia USD a PEN",
+      "actual": {
+        "saldo": "S/2,790.00",
+        "factor": 3.72
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:44.744Z"
+    },
+    {
+      "id": "PR-13",
+      "name": "Resumen mensual",
+      "actual": {
+        "income": "$1,000.00",
+        "expense": "$250.00",
+        "balance": "$750.00",
+        "savings": "75.0%"
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:45.291Z"
+    },
+    {
+      "id": "PR-14",
+      "name": "Diseño adaptable en nueve combinaciones",
+      "actual": [
+        {
+          "label": "movil",
+          "route": "dashboard",
+          "width": 390,
+          "scrollWidth": 390,
+          "bodyWidth": 390,
+          "layout": "layout-compact"
+        },
+        {
+          "label": "movil",
+          "route": "historial",
+          "width": 390,
+          "scrollWidth": 390,
+          "bodyWidth": 390,
+          "layout": "layout-compact"
+        },
+        {
+          "label": "movil",
+          "route": "registrar",
+          "width": 390,
+          "scrollWidth": 390,
+          "bodyWidth": 390,
+          "layout": "layout-compact"
+        },
+        {
+          "label": "tableta",
+          "route": "dashboard",
+          "width": 768,
+          "scrollWidth": 768,
+          "bodyWidth": 768,
+          "layout": "layout-wide"
+        },
+        {
+          "label": "tableta",
+          "route": "historial",
+          "width": 768,
+          "scrollWidth": 768,
+          "bodyWidth": 768,
+          "layout": "layout-wide"
+        },
+        {
+          "label": "tableta",
+          "route": "registrar",
+          "width": 768,
+          "scrollWidth": 768,
+          "bodyWidth": 768,
+          "layout": "layout-wide"
+        },
+        {
+          "label": "escritorio",
+          "route": "dashboard",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "bodyWidth": 1440,
+          "layout": "layout-wide"
+        },
+        {
+          "label": "escritorio",
+          "route": "historial",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "bodyWidth": 1440,
+          "layout": "layout-wide"
+        },
+        {
+          "label": "escritorio",
+          "route": "registrar",
+          "width": 1440,
+          "scrollWidth": 1440,
+          "bodyWidth": 1440,
+          "layout": "layout-wide"
+        }
+      ],
+      "passed": true,
+      "time": "2026-10-18T06:40:58.028Z"
+    },
+    {
+      "id": "PR-15",
+      "name": "Consulta externa y filtro de usuarios",
+      "actual": {
+        "received": 10,
+        "filtered": 1
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:59.147Z"
+    },
+    {
+      "id": "PR-16",
+      "name": "Montaje y desmontaje visible de Timer y UserList",
+      "actual": {
+        "hidden": 0,
+        "timer": "Tiempo en esta vista: 0 s",
+        "lists": 0
+      },
+      "passed": true,
+      "time": "2026-10-18T06:40:59.411Z"
+    },
+    {
+      "id": "PR-17",
+      "name": "Eliminación confirmada y persistida de los dos movimientos propios",
+      "actual": {
+        "rows": [],
+        "status": 200,
+        "deleteRequests": [
+          {
+            "time": "2026-10-18T06:41:00.777Z",
+            "method": "DELETE",
+            "path": "/api/transactions/12",
+            "status": 200
+          },
+          {
+            "time": "2026-10-18T06:41:00.971Z",
+            "method": "DELETE",
+            "path": "/api/transactions/11",
+            "status": 200
+          }
+        ]
+      },
+      "passed": true,
+      "time": "2026-10-18T06:41:02.689Z"
+    },
+    {
+      "id": "PR-18",
+      "name": "Cierre de sesión y rechazo de API sin token",
+      "actual": {
+        "loginVisible": true,
+        "dashboardCount": 0,
+        "apiStatus": 401
+      },
+      "passed": true,
+      "time": "2026-10-18T06:41:04.183Z"
+    }
+  ],
+  "network": [
+    {
+      "time": "2026-10-18T06:39:57.190Z",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 201
+    },
+    {
+      "time": "2026-10-18T06:40:26.008Z",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 401
+    },
+    {
+      "time": "2026-10-18T06:40:32.813Z",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:32.996Z",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:33.223Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:33.861Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:35.483Z",
+      "method": "POST",
+      "path": "/api/transactions",
+      "status": 201
+    },
+    {
+      "time": "2026-10-18T06:40:35.671Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:37.260Z",
+      "method": "POST",
+      "path": "/api/transactions",
+      "status": 201
+    },
+    {
+      "time": "2026-10-18T06:40:37.443Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:38.440Z",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:38.639Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:39.295Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:41.010Z",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:41.190Z",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:41.413Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:40:42.030Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:00.544Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:00.777Z",
+      "method": "DELETE",
+      "path": "/api/transactions/12",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:00.971Z",
+      "method": "DELETE",
+      "path": "/api/transactions/11",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:01.158Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:01.849Z",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:02.046Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    },
+    {
+      "time": "2026-10-18T06:41:02.689Z",
+      "method": "GET",
+      "path": "/api/transactions",
+      "status": 200
+    }
+  ],
+  "responsive": [
+    {
+      "label": "movil",
+      "route": "dashboard",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "layout": "layout-compact"
+    },
+    {
+      "label": "movil",
+      "route": "historial",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "layout": "layout-compact"
+    },
+    {
+      "label": "movil",
+      "route": "registrar",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "layout": "layout-compact"
+    },
+    {
+      "label": "tableta",
+      "route": "dashboard",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "layout": "layout-wide"
+    },
+    {
+      "label": "tableta",
+      "route": "historial",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "layout": "layout-wide"
+    },
+    {
+      "label": "tableta",
+      "route": "registrar",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "layout": "layout-wide"
+    },
+    {
+      "label": "escritorio",
+      "route": "dashboard",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "layout": "layout-wide"
+    },
+    {
+      "label": "escritorio",
+      "route": "historial",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "layout": "layout-wide"
+    },
+    {
+      "label": "escritorio",
+      "route": "registrar",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "layout": "layout-wide"
+    }
+  ],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 ()"
+    }
+  ],
+  "created": [
+    {
+      "id": 11,
+      "tipo": "Ingreso",
+      "monto": 1000
+    },
+    {
+      "id": 12,
+      "tipo": "Gasto",
+      "monto": 250
+    }
+  ],
+  "runnerNote": "Se corrigió r.status() por r.status en el arnés Fetch; se reutilizó el registro real del primer intento, sin crear otra cuenta.",
+  "browser": "155.0.8059.82",
+  "health": {
+    "status": "ok",
+    "message": "API Finanzas corriendo",
+    "environment": "production"
+  },
+  "focus": {
+    "id": "carousel-prev",
+    "label": "Slide anterior",
+    "outline": "rgb(255, 255, 255) auto 3px"
+  },
+  "registrationReused": true,
+  "summaryWidth": {
+    "clientWidth": 105,
+    "scrollWidth": 147,
+    "text": "$1,000.00"
+  },
+  "cleanup": "Se eliminaron ambos movimientos creados; la cuenta de prueba queda vacía. No existe eliminación de cuentas en la API.",
+  "finished": true,
+  "end": "2026-10-18T06:41:04.183Z"
+}

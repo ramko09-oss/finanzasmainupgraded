@@ -1,0 +1,27 @@
+
+> finanzas-web@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ Timer limpia cada intervalo de StrictMode y comienza desde cero al volver a montarse (286.9297ms)
+✔ resize sincroniza el estado y elimina el mismo listener al desmontarse (4.1489ms)
+✔ el título responde a sus dependencias y restaura el documento al desmontarse (3.4635ms)
+✔ UserList muestra carga, datos externos y aborta las peticiones de sus montajes (8.3327ms)
+✔ UserList presenta errores HTTP y no actualiza una vista desmontada con una respuesta tardía (11.8997ms)
+✔ UserList termina una espera excesiva y limpia el plazo al desmontarse (3.5845ms)
+✔ la comparación de enero usa diciembre del año anterior y conserva el saldo acumulado (1.2079ms)
+✔ la búsqueda del historial combina tipo, concepto y fecha sin modificar los registros (74.6457ms)
+✔ los filtros analíticos comparan importes en la moneda seleccionada e interpretan categorías existentes (0.594ms)
+✔ Express sirve React desde la raíz y los enlaces antiguos redirigen sin crear otra interfaz (212.0772ms)
+✔ el acceso conserva las sesiones temporales y recordadas sin mezclar almacenamientos (62.2125ms)
+✔ los nuevos movimientos conservan su fecha y se almacenan en USD desde la moneda elegida (0.6202ms)
+✔ un token expirado limpia ambas sesiones y permite a React mostrar su acceso sin cambiar la ruta (0.8451ms)
+✔ un error transitorio conserva la sesión y se propaga con su estado HTTP (0.5199ms)
+✔ las fechas del primer día permanecen en el mes correcto y los importes usan los cálculos originales (22.9333ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19360.6554
